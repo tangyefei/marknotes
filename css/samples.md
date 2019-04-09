@@ -31,17 +31,22 @@ min-width:320px;
 
 ### 3.1 display
 
-`inline` vs `inline-block` vs `block` vs `-webkit-box`
-
-通过设置position: absolute可以让inline类型的DOM的width height可以设置了?
+- what's difference between `inline` and `inline-block` 
 
 
-line-height仅对block和inline-block适用，同理会有哪些属性同样适用于同样的规则
+	Elements with display:inline-block are like display:inline elements, but they can have a width and a height. That means that you can use an inline-block element as a block while flowing it within text or other elements.
 
-怎么理解如下这段代码：
 
-```
+	Difference of supported styles as summary:
 
+	- inline: only margin-left, margin-right, padding-left, padding-right
+	- inline-block: margin, padding, height, width
+
+
+- what' does `-webkit-box` used for and how to explain blow codes: 
+
+
+	```
  .guilin-page .pnl_userInfo .user_info {
 	float: left;
 	-webkit-box-sizing: border-box;
@@ -51,6 +56,15 @@ line-height仅对block和inline-block适用，同理会有哪些属性同样适�
   	box-sizing: border-box;
 }  
 ```
+
+
+	[something-about-display-webkit-box-webkit-box-flex1](https://stackoverflow.com/questions/6673555/something-about-display-webkit-box-webkit-box-flex1)
+
+
+- `position: absolute` would make `inline` element's width/height configurable?
+
+	For `block` type `position: absolute` would make it's default `width` lost, you need to set it seperately. Same to `inline` it would break origin flow, and the `width` and `height` can be configured.
+
 
 ### 3.2 line-height
 
@@ -67,5 +81,9 @@ line-height仅对block和inline-block适用，同理会有哪些属性同样适�
 
 ### 3.5 box-size
 
-width height 默认是包含padding，box-size: border-box是连同border在内，box-size: content-box是只包含内容区域不包含padding
+设置了width和height以后
+
+- 默认是包含padding在内的
+- box-size: border-box是连同padding+border在内
+- box-size: content-box是只包含内容区域，不包含padding的
 

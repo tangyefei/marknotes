@@ -3,6 +3,7 @@
 The blog is mixed from nice pages on website, write it is just for self's understand. The refrence include: 
 
 - [浏览器同源政策及其规避方法](www.ruanyifeng.com/blog/2016/04/same-origin-policy.html)
+- [跨域资源共享 CORS 详解](http://www.ruanyifeng.com/blog/2016/04/cors.html)
 
 ## same-origin-policy
 
@@ -65,3 +66,23 @@ def admin_jsonp_test(request):
 ```
 
 actually we may get the callback methods foo through reqeust and format response, then the web page receive response and execute syntax in it's environment.
+
+### 3. websocket
+
+In websocket request's head there is an attribute named `origin`, the server can used it to judge whether the `origin` is added to white-list to allow commmunication.
+
+### 4. CORS
+
+
+Cross-Origin Resource Sharing is a W3C standard designed to slove cross-origin Ajax request. Compared with JSONP can only use GET methods, CORS
+support any methods。
+
+[跨域资源共享 CORS 详解](http://www.ruanyifeng.com/blog/2016/04/cors.html) already explain about the theory, there are two questions when try to assure it: 
+
+- simple request, in test request we can see header like `Referre` on the request head, but browser also handle it like simple request, why?
+
+- in our simple request, as the server not add client into whitelist, error would occur on the browser's console, but the server django code not judge whether satisified whitelist and return the response, then the browser's network can still on see the return value, so the question is should server control return by self based on the `Origin` judge passed, why not browser mask the return?
+
+TODO: After solve above questions, remember finish this article.
+
+
