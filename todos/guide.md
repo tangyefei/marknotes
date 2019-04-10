@@ -24,5 +24,7 @@
 - [Python] 为什么无法使用 `if request_body['target']:`这样的判断
 - [Vue原理] `[Vue warn]: You are using the runtime-only build of Vue`，参见[这里](https://github.com/vuejs-templates/webpack/issues/215)
 - [Angular] Obeservable接口有什么用
-
+- [Shell] 为什么`mv ./dist /srv/marketing` 会把dist下的内容移动到marketing下，而不是整个dist文件夹移动到marketing下面
+- [CI] 为什么gitlab的runner状态不可用？
+- [D3] d3的投影是怎么做的。
 
