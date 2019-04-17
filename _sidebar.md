@@ -20,6 +20,7 @@
 * [JavaScript](/javascript/)
 	* [Event-Loop](/javascript/event-loop.md)
 * [Module](/module/)
+	* [History](/module/module-development.md)
 	* [Webpack](/module/webpack.md)
 * [Tool](/tool/)
 	* [Node/Npm](tool/node.md)
