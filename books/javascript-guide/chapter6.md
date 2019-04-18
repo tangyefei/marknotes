@@ -62,7 +62,7 @@ TODO 插入代码示例
 每个JavaScript对象都和另一个对象（原型）关联，并从中继承属性：
 
 - 使用对象直接量创建的对象具有同一个原型对象，可以通过Object.prototype获取到对它的引用。
-- 使用关键字new和构造函数促进的对象原型就是构造函数的prototype属性的值。
+- 使用关键字new和构造函数创建的对象原型就是构造函数的prototype属性的值。
 
 原型的对象都是普通对象，普通对象又具有原型，比如 new Date()创建的对象date，原型是Date.prototype，它又继承自Object.prototype，因此date同时继承了Date.protype和Object.prototype，这种链接的原型对象就是所谓的”原型链“。
 
@@ -102,14 +102,14 @@ function  inherit(p) {
 
 在后续部分会介绍Object.create()还可以传入第二个参数，用于对对象的属性进行进一步的描述。
 
-#### d. 总结
+#### d. 自总结
 
-对象实例可以访问到原型上的值，但它原型是通过对象的构造函数来指定的，如果你通过 var o = {}; o.prototype={x:1}; 只是给o下面挂了一个对象，想通过o.x访问到数值是undefinfed，正确的做法是o.constructor.prototype.x=1来指定，但是会导致所有的对象实例都有指定的值，所以合理的做法是通过提供自己的构造函数，然后给构造函数制定原型，通过构造函数得到的对象就继承了原型的属性。
+对象实例可以访问到原型上的值，但它原型是通过对象的构造函数来指定的，如果你通过 var o = {}; o.prototype={x:1}; 只是给o下面挂了一个对象，想通过o.x访问到数值是undefinfed，正确的做法是o.constructor.prototype.x=1来指定，这是一个不妥当的例子，因为是会导致所有的对象实例都有指定的值x。
 
 
 #### e. 疑问
 
-如下代码的undefiend怎么解释?
+如下代码的undefined怎么解释?
 
 ```
 function F(){}
@@ -117,6 +117,8 @@ F.prototype ={x:1};
 var f = new F();
 f.constructor.prototype.x // undefined;
 ```
+第二行代码修改了F的原型对象，原型对象默认construct是指向构造函数的，修改后只想到了Object，因此会发现prototype上找不到x。
+
 
 ## 6.2 属性的查询和设置
 
@@ -141,8 +143,43 @@ unitcircle.r;   //  =>  1，原型对象没有修改
 
 
 ## 6.3 属性的删除
+
+delete 可以删除自有属性，不可以删除继承属性
+delete 删除成功或者没有任何副作用都会返回true
+delete 不能删除那些可配置型为false的属性
+
+关于delete有一些注意事项，一些内置对象的属性是不可配置的，通过变量申明或函数声明创建的全局对象也是如此。如下为ES3中非严格模式下：
+
+```
+delete Object.prototype; //不能删除，属性不可配置
+var x = 1; // 声明一个全局变量 
+delete this. x; // 不能删除这个属性 
+function f() {} // 声明一个全局函数 
+delete this. f; // 也不能删除全局函数
+```
+
 ## 6.4 检测属性
+
+判断一个属性是否在对象中，可以通过 `in` 运算符，hasOwnProperty(), propertyIsEnumerable() 方法来完成，甚至仅通过属性检查也可以做到这一点。
+
+- `in` 自有属性或者继承属性包含时返回`true`，这个循环遍历`for in`不是一回事
+- `hasOwnProperty` 仅在自有属性时返回`true`
+- `propertyIsEnumerable` 仅在自有属性并且可枚举时返回`true`
+- `o.attribute !== undefined` 也可以简单判定属性是否存在，但无法处理属性存在值为`undefined`的特例
+
+
 ## 6.5 属性的枚举
+
+某些内置属性是不可枚举的，比如
+
+```
+Object.prototype.propertyisEnumerable("toString") // false 
+```
+
+- `for in`遍历可枚举的属性，包括自有的和继承的
+- `Object.keys()`列举所有可枚举的自有属性
+- `Object.getOwnPropertyNames()`获取所有自有属性而不管它是不是可枚举的
+
 ## 6.6 属性的getter和setter
 ## 6.7 属性的特性
 ## 6.8 对象的三个属性
@@ -157,10 +194,10 @@ unitcircle.r;   //  =>  1，原型对象没有修改
 
 ECAMScript 5可以将对象作为参数传入Object.getPrototypeOf()中查询它的原型。
 
-在ECAMScript 5中没有与之等价的函数，常使用表达式 o.constructor.prototype来检测一个对象的原型。
+在ECAMScript 3中没有与之等价的函数，常使用表达式 o.constructor.prototype来检测一个对象的原型。
 
-- new表达式创建的对象，继承一个construct属性，这个属性指向这个对象的构造函数。不适合用上述的方法进行检测对象原型，9.2节会提到原因。
-- 通过对象直接量或Object.create()创建的对象包含一个名为constructor的属性指代Object()这个- 构造函数。对象直接量的真正原型是constructor.prototype，但Object.create()创建的对象往往不是这样（是传入的对象）。
+- new表达式创建的对象，继承一个construct属性，这个属性指向这个对象的构造函数。不适合用上述的方法进行检测对象原型，如下示例会展示原因。
+- 通过对象直接量或Object.create()创建的对象包含一个名为constructor的属性指代Object()这个构造函数。对象直接量的真正原型是constructor.prototype，但Object.create()创建的对象往往不是这样（是传入的对象）。
 
 
 ```
@@ -186,7 +223,7 @@ p.isPrototypeOf(o3); // true
 
 ### b. 类属性
 
-通过toString方法可以获取到对象的类相关的信息，形如 `[object String]`，因此通常截取 [8, -1]位置的字符串得到类信息。
+通过toString方法可以获取到对象的类相关的信息，形如 `[object String]`，因此通常截取`Class.prototype.toString()` 的 [8, -1]位置的字符串得到类信息。
 
 因为某些对象比如Date已经重写了这个方法，需要使用 `Object.prototype.toString.call(o).slice(8, -1)` 的方式来得到类。
 
