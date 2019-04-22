@@ -1,13 +1,13 @@
 # JavaScript权威指南-第6版
 
-## 第6章 对象
+# 第6章 对象
 
 
 原型式继承是JavaScript的核心特征，即JavaScript对象除了保持自有的属性，还可以从一个被称为原型的对象继承属性，对象的方法通常都是继承的属性。
 
 本章会讲述对象的基础操作（包括 create, set, query, delete, test, enumerate 它的属性），然后讲述来自ECMAScript 5的高级主题。
 
-属性包括名字和值，值得可以是任意JavaScript值，也可以是（ECMAScript 5定义）一个getter或setter函数（或两者都有）。除了名字和值之外，每个属性还有一个与之相关的值，成为属性特性（property attribute）：
+属性包括名字和值，名字可以是字符串或Symbol对象，值得可以是任意JavaScript值，也可以是（ECMAScript 5定义）一个getter或setter函数（或两者都有）。除了名字和值之外，每个属性还有一个与之相关的值，成为属性特性（property attribute）：
 
 - writable attribute：是否可以设置该属性的值
 - enumerable attribute：是否可以通过for/in循环返回该属性
@@ -32,7 +32,7 @@
 - 自有属性，直接在对象中定义的
 - 继承属性，在对象的原型对象中定义的
 
-### 6.1 创建对象
+## 6.1 创建对象
 
 可以通过如下三种方式来创建对象：
 
@@ -181,6 +181,37 @@ Object.prototype.propertyisEnumerable("toString") // false
 - `Object.getOwnPropertyNames()`获取所有自有属性而不管它是不是可枚举的
 
 ## 6.6 属性的getter和setter
+
+对象由名字、值和一组特性（attributes）组成，在ES5中属性值可以用一个或两个方法代替（getter和setter），用这样的方式定义的属性叫做存取器属性（accessor property）。和数据属性不同，存储器属性不具有writable attribute，加上没有 value attribute，存储器属性包含四个特性：
+
+- getter
+- setter
+- enumerable
+- configurable
+
+我们可以使用Object.getOwnPropertyDescriptor(o, propertyName)方法来获取到属性特性的描述对象。
+
+```
+var o = {
+	x: 1.0,
+	get location() {},
+	set location(value) {},
+}
+Object.getOwnPropertyDescriptor(o, 'location') // {get: ƒ, set: ƒ, enumerable: true, configurable: true}
+```
+
+定义存取器属性的方法如下：
+
+```
+var o = {
+	x: 1.0,
+	get location() {},
+	set location(value) {},
+}
+```
+
+和数据属性一样，存储器属性是可以继承的；另外如果对象中定义了重复的值的属性和存储器属性，在定义的顺序上后出现的覆盖前出现的。
+
 ## 6.7 属性的特性
 ## 6.8 对象的三个属性
 

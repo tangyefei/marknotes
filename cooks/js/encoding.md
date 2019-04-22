@@ -8,7 +8,7 @@
 代码：
 
 ```
-var s = "你好,Señorita";
+var s = "你好,**Señorita";
 for(var i = 0; i < s.length; i++) {console.log(s.charCodeAt(i).toString(16));}
 
 // 4f60 3

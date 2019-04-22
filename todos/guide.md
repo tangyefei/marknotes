@@ -1,4 +1,5 @@
 > 需要学习和掌握的知识点
+
 - [HTML] DOCTYPE是用来做什么的。 - 面
 - [Vue] $watch 和 $computed 的差别是什么。 - 面
 - [ES6] 解释Promise的用途是什么。   - 面
@@ -92,8 +93,20 @@
 - [js] eval如何防止修改dom
 - [ES6]es6中的set map weakset weakmap
 - [ES6]webpack会配置多少个入口
+- [EventLoop] 时间的捕获和冒泡，代理，事件的处理是在什么阶段
+- [storage] sessionStorage和localStorage有什么区别
+- [开发](`$container.on('click', '.article', function(evt)` relearnFE的renderDetail中为什么点击子元素无法触发)
+- [Linux] python/node中后台运行server的方式，以及如何查找到正在运行的实例，并且kill它们
+- [CSS] 为什么 footer 放在很高的容器外部进行 position: absolute; top: 100 会无效，参考 manage.html 页面
+- [DOM] 为什么在 template 的getArticle中直接通过template来查找到textarea为null？
+- [DOM] nextElementSibling  和  nextSiblig 有什么区别？
+- [重构] 基于所有sibligs进行removeClass的方法进行重构。
+- [安全] node.js基于本地配置去读取token而非写死在代码中。
+- [mysql] 使用mysql进行的安装过程中进行深入理解每一步骤到底做了什么
+- [nginx] 对常用的操作命令进行进行总结。
 
 > 已经学习的知识点
+
 - ~~[JS] 20+"20" - 面~~
 - ~~[JS] Function/Object原型上定义了方法，问function和用new function创建的对象能否访问到这两个方法 - 面~~
 - ~~[Vue] Vue的生命周期是什么样的。 - 面~~
