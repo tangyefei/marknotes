@@ -5,7 +5,7 @@
 
 - [DOM] 为什么在 template 的getArticle中直接通过template来查找到textarea为null？
 - [DOM] nextElementSibling  和  nextSiblig 有什么区别？
-- [DOM](`$container.on('click', '.article', function(evt)` relearnFE的renderDetail中为什么点击子元素无法触发)
+- [DOM] 创建的fragement被append到document以后，通过fragament来查询其中dom无法查到，需要通过document才可以
 
 - [CSS] 实现左右固定中间动态变化的三栏布局。 - 面
 - [CSS] 实现九宫格悬浮边框颜色改变。- 面
@@ -19,8 +19,7 @@
 - [CSS] rem和em的理解，rem又跟什么有关系 - 面
 - [CSS] 怎么处理响应式的 - 面
 - [CSS] 如何解决网页的首次加载的白屏幕问题 - 面
-- [CSS] 首页白屏的问题是如何解决的
-- [CSS] 为什么 footer 放在很高的容器外部进行 position: absolute; top: 100 会无效，参考 manage.html 页面
+
 - [CSS] 个人blog首次加载的时候白屏的问题。
 - [CSS] 用css实现一个三角形。- 面 
 
@@ -45,6 +44,7 @@
 - [JS] eval如何防止修改dom
 - [JS] 时间的捕获和冒泡，代理，事件的处理是在什么阶段
 - [JS] sessionStorage和localStorage有什么区别
+- [JS] 什么操作会导致this的指向变更。
 
 - [ES6] 解释Promise的用途是什么。   - 面
 - [ES6] 会使用ES6中的什么特性。- 面
@@ -146,3 +146,5 @@
 - [ES6] 使用function定义的类和ES6中的Class有什么不同。 - 面 ~
 - [Vue] Vue的生命周期是什么样的。 - 面
 - [Vue] ajax的数据调用是在Vue的哪个阶段做的。 - 面
+- [CSS] 个人博客为什么 `footer { position: absolute; top: 100%};` 会无效，因为所在父容器没有设置 `position: relative;`
+- [DOM] 个人博客 `$container.on('click', '.article', function(evt)` 当点击的是 `.article`的子元素时候无法触发点击，因为自己实现的`delegate`是通过比较`event.target` 和 `document.querySelector('.article')` 是都相等的，实际上还存在父子关系
