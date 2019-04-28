@@ -32,7 +32,32 @@ export {
   v1 as streamV2
 };
 ```
+**需要特别注意的是，export命令规定的是对外的接口，必须与模块内部的变量建立一一对应关系。**
 
+```
+// 报错
+export 1;
+
+// 报错
+var m = 1;
+export m;
+
+// 报错
+export {
+	m: 1
+}
+
+// 正确写法一
+export var m = 1;
+
+// 正确写法二
+var m = 1;
+export {m};
+
+// 正确写法三
+var n = 1;
+export {n as m};
+```
 
 
 export语句输出的接口，与其对应的值是动态绑定关系。
@@ -72,8 +97,7 @@ import 'lodash';
 ```
 
 
-
-> 目前阶段，通过 Babel 转码，CommonJS 模块的require命令和 ES6 模块的import命令，可以写在同一个模块里面，但是最好不要这样做。因为import在静态解析阶段执行，所以它是一个模块之中最早执行的。下面的代码可能不会得到预期结果。
+目前阶段，通过 Babel 转码，CommonJS 模块的require命令和 ES6 模块的import命令，可以写在同一个模块里面，但是最好不要这样做。因为import在静态解析阶段执行，所以它是一个模块之中最早执行的。下面的代码可能不会得到预期结果。
 
 
 ```
@@ -103,6 +127,8 @@ import { area, circumference } from './circle';
 
 import * as circle from './circle';
 ```
+
+尤其需要注意的一旦是 
 
 ## export default命令
 

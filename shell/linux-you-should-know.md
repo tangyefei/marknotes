@@ -60,3 +60,10 @@
 如果只是`-r`递归删除某个目录会依次询问是否要删除子结构，`-f`跳过提示直接删除，`-fr`可以结合使用。
 
 
+### 可执行命令无法被识别
+
+[PATH Definition](http://www.linfo.org/path_env_var.html)
+
+PATH中定义了所有会去寻找的可执行的目录，可以通过 `env | grep PATH` 或 `echo $PATH` 找到。
+
+如果安装的某个执行文件没被找到，可以将所在目录添加到PATH中即可，例如 `export PATH=$PATH:/usr/sbin`。
