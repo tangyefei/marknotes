@@ -55,7 +55,7 @@ ECMAScript3和非严格的ECMASript5，调用的上下文（this的指向）是�
 如果方法调用仍旧返回一个对象，那么又可以继续进行调用，从而形成方法链条的写法，比如：
 
 ```
-shape. setX( 100). setY( 100). setSize( 50). setOutline(" red"). setFill(" blue"). draw();
+shape.setX(100).setY(100).setSize(50).setOutline("red").setFill("blue").draw();
 ```
 
 在嵌套调用中，this关键字不会从调用它的函数继承this，如果嵌套函数作为方法调用，则this指向它的对象，如果作为函数调用则指向全局变量（非严格模式下）或者unfefined（严格模式下）：

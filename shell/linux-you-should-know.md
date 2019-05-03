@@ -60,6 +60,22 @@
 如果只是`-r`递归删除某个目录会依次询问是否要删除子结构，`-f`跳过提示直接删除，`-fr`可以结合使用。
 
 
+`ps -aux | less`
+
+ps, process status
+`-aux` 
+  - -a option tells ps to list the processes of all users on the system rather than just those of the current user,
+  - -u option tells ps to provide detailed information about each process
+  - -x option adds to the list processes that have no controlling terminal
+  - less used to pipe the command, pressing the SPACE bar or b key for forward or back.
+
+`ps -ef | grep adam`
+
+- -e option generates a list of information about every process currently running. 
+- -f option generates a listing that contains fewer items of information for each process
+- grep, a filter that is used for searching text
+
+
 ### 可执行命令无法被识别
 
 [PATH Definition](http://www.linfo.org/path_env_var.html)

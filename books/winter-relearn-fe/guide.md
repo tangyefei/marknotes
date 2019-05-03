@@ -82,7 +82,7 @@ Undefined类型表示未定义，该类型只有一个值那就是undefined，�
 
 ### Null
 
-Null类型也只有一个值，那就是null，它的语义表示为空值。和undefined不同，null是JavaScript关键之，因此可以在任何代码中用关键字null来获取null值。
+Null类型也只有一个值，那就是null，它的语义表示为空值。和undefined不同，null是JavaScript关键字，因此可以在任何代码中用关键字null来获取null值。
 
 ### Boolean
 

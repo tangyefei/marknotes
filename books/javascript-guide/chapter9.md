@@ -39,7 +39,7 @@ function Range( from, to) {
 	this. from = from; 
 	this. to = to; 
 }
-Range. prototype = {
+Range.prototype = {
 	includes: function (x) { 
 		return this. from <= x && x <= this. to; 
 	}, 
