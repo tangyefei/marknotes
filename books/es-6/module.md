@@ -152,22 +152,37 @@ customName(); // 'foo'
 ```
 
 
+注：如下是比较容易犯错的用法
 
+```
+// config.js
+var host = '';
+var env = '';
+export default {
+	host,
+	env,
+}
 
+// main.js
 
+// right
+import config from 'config.js';
+console.log(config.path);
 
+// error
+import { host } from 'config.js';
+```
 
+```
+// config.js
+export var host = '';
+export var env = '';
 
+// main.js
 
+// right
+import { host } from 'config.js';
 
-
-
-
-
-
-
-
-
-
-
-
+// error 
+import host from 'config.js';
+```

@@ -286,9 +286,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 疑问：既然`print.js`的代码会最终都被打包到`app.bundle.js`中，print生成的`print.bundle.js`有什么意义呢，徒增加了一个js文件的加载。
 
 
-
-
-
 ## [Development](https://webpack.js.org/guides/development)
 
 在开发过程中，模块之间相互引用，最后都被打成了一个`bundle`包，有报错的时候只会指向到该`bundle.js`往往无助于我们定位问题，为了更好的跟踪问题JavaScript提供了`source maps`的功能可以方便的定位到源代码的位置。
@@ -605,5 +602,78 @@ css-loader 会在js加载好，将样式代码以行内的格式插入到页面�
 
 ### 集成Vue+Vue-Router
 
+参考另一篇笔记
+
+### webpack-dev-server 和 webpack --watch的区别
 
 
+entry: 可以配置多个bundle，每个bundle可以被用在HtmlWebpackPlugin的chunks配置中，
+
+如果采用的是 `webpack` 或 `webpack --watch` 的跑法
+
+默认可以什么都不指定，如下即可，系统会默认创建 index.html 并且帮我们吧 index.bundle.js 写入该页面
+
+
+```
+new HtmlWebpackPlugin({
+```
+
+如果想要有多个页面，可以采用如下的结构：
+
+```
+new HtmlWebpackPlugin({
+  filename: 'login.html',
+  // template: './dist/login.html',
+  chunks: ["login"]
+}),
+new HtmlWebpackPlugin({
+  filename: 'index.html',
+  // template: './dist/index.html',
+  chunks: ["index"]
+}),
+```
+
+非常要注意的一点是，这个时候如果再指定 template 并且 filename 和 template指向的一个文件，会造成死循环，因为读取template追加了bundle，然后有将内容写入了该文件
+
+不用template的缺点就是，自己想要在默认页面上一些 属性比如 想给 vue 实例 增加一个挂载点 `<div id="app"></div>` 就会没办法
+
+
+
+使用 `webpack-dev-server --open` 的好处就体现出来了，使用如下配置会发现最终访问的页面中，两个bundle都有，也就是说虽然有两个 HtmlWebpackPlugin 但实际只有一个页面
+
+
+
+```
+new HtmlWebpackPlugin({
+  // filename: 'login.html',
+  template: './dist/login.html',
+  chunks: ["login"]
+}),
+new HtmlWebpackPlugin({
+  // filename: 'index.html',
+  template: './dist/index.html',
+  chunks: ["index"]
+}),
+```
+
+因此将filename放开以后就可以正常使用了
+
+
+
+
+```
+new HtmlWebpackPlugin({
+  filename: 'login.html',
+  template: './dist/login.html',
+  chunks: ["login"]
+}),
+new HtmlWebpackPlugin({
+  filename: 'index.html',
+  template: './dist/index.html',
+  chunks: ["index"]
+}),
+```
+
+但仍旧不是很理解，既然 devServer配置了 contentBase: './dist'， 那最终的页面被输出到了哪里？
+
+另外，既然两种配置方式需要打开的项不同，如何能够做到两种方式都能使用呢？因为开发中需要使用 devServer 的方式，实际上线肯定是会使用 webpack 的方式？
