@@ -676,4 +676,18 @@ new HtmlWebpackPlugin({
 
 但仍旧不是很理解，既然 devServer配置了 contentBase: './dist'， 那最终的页面被输出到了哪里？
 
-另外，既然两种配置方式需要打开的项不同，如何能够做到两种方式都能使用呢？因为开发中需要使用 devServer 的方式，实际上线肯定是会使用 webpack 的方式？
+
+```
+new HtmlWebpackPlugin({
+  filename: 'login.html',
+  template: './dist/login.html',
+  chunks: ["login"]
+}),
+new HtmlWebpackPlugin({
+  filename: 'index.html',
+  template: './dist/index.html',
+  chunks: ["index"]
+}),
+```
+
+但仍旧不是很理解，既然 devServer配置了 contentBase: './dist'， 那最终的页面被输出到了哪里？
