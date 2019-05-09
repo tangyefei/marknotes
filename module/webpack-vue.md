@@ -1,4 +1,4 @@
-# 基于Webpack+Vued+Vue-Router搭建前端开发环境
+# 基于Webpack+Vue+Vue-Router搭建前端开发环境
 
 前端开发一步步发展催生了很多工具、组件、脚手架，好处是确实便利了项目的快速搭建，但是害处也很大：用惯了工具也许开发，也许两年过去了仍旧对基础原理仍旧一无所知。
 
@@ -297,3 +297,4 @@ src/components/Products.vue
 ```
 
 执行 `npm npm run start`可以通过切换 `/` 和 `/products` 来看到不同的内容被渲染成功。
+

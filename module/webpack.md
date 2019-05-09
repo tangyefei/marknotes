@@ -575,10 +575,38 @@ async function getComponent() {
 官方提供了一些工具用于分析bundle文件，当然社区也还有很多工具可以根据需求选择。
 
 
+## [Tree Shaking](https://webpack.js.org/guides/tree-shaking)
 
-## Application
+简单来说就是一棵树树上不被引用到的枝丫和叶子会被砍掉，主要原理是使用的的 ES6的模块原生的机制，在实际使用需要在 webpack.config.js 和 package.json 上都进行配置。
 
-### 指定Alias
+## [Production](https://webpack.js.org/guides/production)
+
+可以通过配置另外一个配置用来load prod的配置
+
+```
+scripts: {
+	"build": "webpack --config webpack.prod.js"
+}
+```
+
+并且在webpack.config.js中增加如下配置行：
+
+```
+mode: 'development',
+```
+
+以及在 pacakge.json中增加配置行
+
+```
+"sideEffects": false,
+```
+
+可以完成代码压缩和和tree-shaking的操作。
+
+
+## 实用的配置项
+
+### 如何指定Alias
 
 - [resolvealias](https://webpack.js.org/configuration/resolve/#resolvealias) 在引用js/css等文件的时候如果不希望记忆前面的路劲，可以使用alias
 
@@ -604,90 +632,7 @@ css-loader 会在js加载好，将样式代码以行内的格式插入到页面�
 
 参考另一篇笔记
 
-### webpack-dev-server 和 webpack --watch的区别
+### 使用的webpack-dev-server
 
 
-entry: 可以配置多个bundle，每个bundle可以被用在HtmlWebpackPlugin的chunks配置中，
-
-如果采用的是 `webpack` 或 `webpack --watch` 的跑法
-
-默认可以什么都不指定，如下即可，系统会默认创建 index.html 并且帮我们吧 index.bundle.js 写入该页面
-
-
-```
-new HtmlWebpackPlugin({
-```
-
-如果想要有多个页面，可以采用如下的结构：
-
-```
-new HtmlWebpackPlugin({
-  filename: 'login.html',
-  // template: './dist/login.html',
-  chunks: ["login"]
-}),
-new HtmlWebpackPlugin({
-  filename: 'index.html',
-  // template: './dist/index.html',
-  chunks: ["index"]
-}),
-```
-
-非常要注意的一点是，这个时候如果再指定 template 并且 filename 和 template指向的一个文件，会造成死循环，因为读取template追加了bundle，然后有将内容写入了该文件
-
-不用template的缺点就是，自己想要在默认页面上一些 属性比如 想给 vue 实例 增加一个挂载点 `<div id="app"></div>` 就会没办法
-
-
-
-使用 `webpack-dev-server --open` 的好处就体现出来了，使用如下配置会发现最终访问的页面中，两个bundle都有，也就是说虽然有两个 HtmlWebpackPlugin 但实际只有一个页面
-
-
-
-```
-new HtmlWebpackPlugin({
-  // filename: 'login.html',
-  template: './dist/login.html',
-  chunks: ["login"]
-}),
-new HtmlWebpackPlugin({
-  // filename: 'index.html',
-  template: './dist/index.html',
-  chunks: ["index"]
-}),
-```
-
-因此将filename放开以后就可以正常使用了
-
-
-
-
-```
-new HtmlWebpackPlugin({
-  filename: 'login.html',
-  template: './dist/login.html',
-  chunks: ["login"]
-}),
-new HtmlWebpackPlugin({
-  filename: 'index.html',
-  template: './dist/index.html',
-  chunks: ["index"]
-}),
-```
-
-但仍旧不是很理解，既然 devServer配置了 contentBase: './dist'， 那最终的页面被输出到了哪里？
-
-
-```
-new HtmlWebpackPlugin({
-  filename: 'login.html',
-  template: './dist/login.html',
-  chunks: ["login"]
-}),
-new HtmlWebpackPlugin({
-  filename: 'index.html',
-  template: './dist/index.html',
-  chunks: ["index"]
-}),
-```
-
-但仍旧不是很理解，既然 devServer配置了 contentBase: './dist'， 那最终的页面被输出到了哪里？
+参加另一篇笔记
