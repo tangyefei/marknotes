@@ -1,6 +1,16 @@
 # 第18周技术周报
 
 
+尝试每周总结遇到的技术问题，分享一些有用的知识点，毕竟要忙于工作事务，记录的通常只是很少一部分，但相信持续积累总会有不同的结果：
+
+- CSS: inline-block的元素发生塌陷
+- CSS：如何实现超出边界的水平滚动条
+- CSS: 层叠上下文和fixed的从父原则
+- Webpack项目的性能优化
+- pacakge-lock.json冲突、无法被添加到.gitignore
+- 修改hosts文件解决跨域调用
+- Axios
+
 
 ## 1. CSS: inline-block的元素发生塌陷
 
@@ -132,7 +142,7 @@ CSS代码（部分关键代码）
 
 知道了原因后发现 app-main中的fixed设置不是必须的，去除以后就可以解决该问题。
 
-## 3. Webpack项目的性能优化
+## 4. Webpack项目的性能优化
 
 Webpack的Code Splitting介绍了三种减少加载包大小的技术，可以尝试运用两种：
 
@@ -140,7 +150,7 @@ Webpack的Code Splitting介绍了三种减少加载包大小的技术，可以�
 - Prevent Duplication: 通过 SplitChunksPlugin 拆分 和 杜绝重复
 - Dynamic Imports: 通过行内调用来拆分代码
 
-### 3.1 SplitChunksPlugin
+### 4.1 SplitChunksPlugin
 
 
 项目中已经采用第一种技术，根据页面的不同打成不同的bundle；现在可以通过SplitChunksPlugin将常用的commons打包。
@@ -197,7 +207,7 @@ plugins: [
     <script src="./vendors~index.bundle.js"></script>
     <script src="./index.bundle.js"></script>
 
-### 3.2 Routes Dynamic Imports
+### 4.2 Routes Dynamic Imports
 
 首先在项目的根目录新建文件 .babelrc：
 
@@ -222,11 +232,11 @@ const AppFrame = () => import('cp/app-frame.vue');
 这时候可以看到每次加载一个新组件的时候，都会请求单独的js。
 
 
-### 3.3 按需加载element UI
+### 4.3 按需加载element UI
 
 参考 [element quick start](https://element.eleme.cn/#/en-US/component/quickstart) 进行配置，可以将对应的bundle文件减小，其中development环境bundle文件大小从7.5M减小到5M，production大小从 1.2M 减小到 815KB。
 
-## 4. pacakge-lock.json冲突、无法被添加到.gitignore
+## 5. pacakge-lock.json冲突、无法被添加到.gitignore
 
 
 [resolving-lockfile-conflicts](https://docs.npmjs.com/files/package-locks.html#resolving-lockfile-conflicts)
@@ -243,7 +253,7 @@ const AppFrame = () => import('cp/app-frame.vue');
 
 > Yes, package-lock.json is intended to be checked into source control. If you're using npm 5, you may see this on the command line: created a lockfile as package-lock.json. You should commit this file.
 
-## 5. 修改hosts文件解决跨域调用
+## 6. 修改hosts文件解决跨域调用
 
 Mac环境下使用Chrome浏览器，想在本地调用钉钉的登陆接口，会出现 redirect_uri 不允许的问题。因为在钉钉内部注册的应用，只能配置一个允许redirect的地址，假定地址是 local-erp.tbsite.net，可以通过修改本地 /etc/hosts 配置文件解决该问题：
 
@@ -252,41 +262,16 @@ Mac环境下使用Chrome浏览器，想在本地调用钉钉的登陆接口，�
 127.0.0.1       local-erp.tbsite.net
 ```
 
-## ElementUI中能否实现el-input只输入整数，或者自己可以封装？
-
-## Git的代码在jekins，HEAD被初始到了一个很早的节点
-
-## 错误埋点的常用方法和手段有什么
-
-## Element-UI提供预览的解决方案
-
-## sideEffects到底做了什么为什么使用后导致CSS无法被打包的问题
-
-## TODO: Webpack 拆分CSS/JS
-
-## TODO: 学习Jekins的使用
-
-## TODO: Axios的研究 & 整理项目代码
-
-## TODO: Flutter的入门学习
-
-## TODO： 研究hosts的原理
-
-## TODO：微信小程序的学习
+## 7. Axios
 
 
-扩展阅读：
+### 7.1 为什么要用Axios
 
-- block和inline涉及的模型概念
-- vertical-align
-- baseline是如何确定的，为什么有高度是朝下扩展的
-- float如何父元素，和祖先元素
-- 滚动区域是如何确定的，上例中给 audit-scroll-bar 设置 overflow: hidden/auto, 或者 border: 1px solid green; 都能打破这种滚动区域，从符合需求的宽度变到10000px。
-- 层叠上下文的详细阅读
-- etag
-- 既然vue的component配置了按需加载为什么切换组件的时候之前的组件不在需要请求了
-- 另外，修改了组件代码，所有加载项都刷新了，有的bundle回来的etag没变，是属于缓存？状态为什么不是206，304之类的，而是200	
-- yarn vs npm ?
 
+[Jquery ajax, Axios, Fetch区别之我见](https://segmentfault.com/a/1190000012836882)对三种技术的特点分析，可以看到Axios是最适合当前编程使用的，它使用Promise语法、支持node.js、支持并发请求、支持拦截器等。
+	
+### 7.2 项目中基础的运用
+
+[Github:Axios](https://github.com/axios/axios) 足够清楚到你能找到你所需要的所有信息。
 
 
