@@ -93,4 +93,101 @@ document. body. onclick = function( event){ alert( event. eventPhase); //3 };
 ```
 
 ### 3.2 IE中的事件对象
+
+略。
+
 ### 3.3 跨浏览器的事件对象
+
+介绍了如何实现浏览器的事件处理代码。略。
+
+
+
+## 4. 事件类型
+
+DOM3级事件定义了如下几类：
+
+- UI事件
+- 焦点事件
+- 鼠标事件
+- 滚轮事件
+- 键盘事件
+- 合成事件，为IME（输入法编辑器）输入字符时出发
+- 变动事件，底层DOM结构发生变化时出发
+- 变动名称事件，已废弃
+
+除此外，HTML5定义了一组时间，浏览器还会在DOM和BOM中有其他专有事件，DOM3级事件模块是在DOM2级事件模块的基础上重新定义了这些实践。所有主流的浏览器都支持DOM2级事件。
+
+
+### 4.1 UI事件
+
+- load：页面完全加载后在window上触发，图像/嵌入内容加载完毕在img/<object>上触发
+- unload：和load相反
+- abort：停止下载过程，或者嵌入内容没有加载完，在<object>元素上触发
+- error：JavaScript发生错误时在window上触发，无法加载/嵌入 图像/嵌入内容时候在img/<object>上触发
+- select：文本框中的一个或者多个字符时触发
+- resize：窗口大小变化时候在window上触发
+- scroll：当用户滚动带滚动条的元素内容时候触发
+
+
+疑问：感觉这里包含的不是所有的UI时间呀，比如输入框的 change 。
+
+
+
+### 4.2 焦点事件
+
+- blur：不冒泡
+- focus：不冒泡
+- focusin：等价focus，冒泡
+- focusout：等价blur，冒泡
+
+
+
+### 4.3 鼠标与滚轮事件
+
+- click
+- dbclick
+- mousedown
+- mouseenter
+- mounseleave
+- mousemove
+- mouseout
+- mouseover
+- mouseup
+- mousewheel
+
+除了 mouseenter mounseleave，所有事件都冒泡。
+
+只有相继触发mousedown和mouseup才回粗发click时间。
+
+本书从4.2节就在介绍各种浏览器检测的手段，用于判定是否支持介绍的事件，这里不做记录。
+
+判定个位置的几个坐标：
+
+clientX/clientY vs pageX/pageY vs screenX/screenY
+
+判定用户按下的键也可以产生类似鼠标点击的效果：
+
+shift/ctrl/alt/meta(windows/cmd)，如果被按下了可以通过 event.shiftKey、event.ctrlKey、event.altKey、event.metaKey来判定是否被按下。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
