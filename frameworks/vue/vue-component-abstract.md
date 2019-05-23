@@ -113,7 +113,7 @@ export default {
 }
 ```
 
-## c. 应用
+## 3. 应用
 
 
 假定我们需要基于 el-select 封装得到一个  tsp-select，代码大概是这样的，实用有效：
@@ -147,7 +147,7 @@ export default {
 ```
 
 
-## d. 总结和完整代码
+## 4. 总结和完整代码
 
 使用 `ElementUI` 的 `el-select` 能够成功使用 `v-model`，说明  `原生input`到 `directiveInput`再到`directiveElSelect`的数据流转是ok的（即在`el-select`代码内部是有封装 `$emit('input', $event)` 的），那么到了我们的 `tsp-select`中，想要也能被直接使用，也需要将值继续往外传递。如下是完整封装代码：
 
