@@ -37,19 +37,15 @@ $.prototype.delegate(event, selector, handler) {
 }
 ```
 
-实际调用代码如下会发现点击在 title 上的时候不会触发函数
+
+实际调用的代码会发现点击在 title 上的时候不会触发函数
 
 ```
-$(document.querySelector('container')).delegate('click', '.article', function(){
-  //
+$(document.querySelector('.container')).delegate('click', '.article', function(){
+  console.log('trigger...');
 });
 ```
 
-分析得出结论是，从 title 上触发的时间，一直冒泡到 .container 才被捕获，捕获以后判定的是 
-  `event.target is selectorNode`
-实际上，判定应该做的是  
-  `event.target is selectorNode or child of selectorNode`
-
-这样，当我们点击的是 .title 得到的 event.target 是 dom.title，点击的 .article 的时候得到的dom是 dom.article，并且都能执行处理。
-
-但是要注意，event.target 的不同指向，处理上会有所不同。
+分析得出结论是，从 `title` 上触发的点击事件，一直冒泡到 .container 才被捕获，捕获以后判定的是  `event.target` equal `.article`，实际上判定应该做的是  
+  `event.target` equal `.article` or is child of `.article`。这样，当我们点击的是 .title 得到的 event.target 是 `.title`，点击的 .article 的时候得到的dom是 `.article`，并且都能执行处理。
+```
