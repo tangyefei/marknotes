@@ -1,16 +1,71 @@
 # 第20周技术周报
 
-## 1. 在Vue中渲染大量数据的性能问题
 
-### a. 问题
+### 1. Vue-Router对同一个路由不同参数刷新无效的问题
 
-项目中使用ElementUI的 el-cascader 组件渲染数据，数据总共分三层，总计2400多个节点，发现在某些页面切换的过程中会CPU占用高达100%，最后用 Chrome Devtools 的 Performance 定位到基本在数据量太大导致。
 
-### b. 解决
+```
+{
+	name: 'product_manage_view', path: '/product/:id', component: ViewProduct
+}
 
-#### 方法1：使用动态加载子级别选项
+```
 
-参考[ISSUE](https://github.com/ElemeFE/element/issues?utf8=%E2%9C%93&q=cascader)中有不少人提起。
+假定有如上路由，当我们在 /product/1 页面想跳转到 /product/2单页面的时，发现页面并没有刷新。
 
-原理即渲染一颗主干树，没被展开的枝丫不在其中，随着操作动态去增减枝丫。
+通过添加 :key 可以解决
+
+```
+<router-view :key="$route.fullPath" class="view-page"></router-view>
+```
+
+### 2. 基于v-model封装 ElementUI 的 el-select组件
+
+详情参考 [我的简书](https://www.jianshu.com/p/cba1f210d8a8) 或 [我的博客](http://tangyefei.cn/detail.html?id=7)
+
+### 3. 对事件模型的基本原理做了些整理
+
+详情参考 [我的简书](https://www.jianshu.com/p/4095e3c10bd5) 或 [我的博客](http://tangyefei.cn/detail.html?id=8)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
