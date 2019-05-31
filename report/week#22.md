@@ -36,7 +36,10 @@ for...in访问的是对象属性，如果是数组（特殊的对象）则是访
 </keep-alive>
 ```
 
-原理大概是在内存中缓存了
+原理大概是在内存中缓存了，另外再实际使用中又遇到了一些问题：
+
+（1）组件的表单中提交成功过后，仍旧替我们缓存了填写过的数据。应对是手动清楚数据。
+（2）在一些交互性的输入框中，也缓存了我们输入过的数据。能想到的在组件提供个钩子中数据重置。
 
 参考：
 
@@ -45,3 +48,11 @@ for...in访问的是对象属性，如果是数组（特殊的对象）则是访
 - 使用介绍：[http://blog.myweb.kim/vue/keep-alive/?utm-source=segmentfault](http://blog.myweb.kim/vue/keep-alive/?utm-source=segmentfault)
 
 - 原理分析：[https://juejin.im/post/5cce49036fb9a031eb58a8f9](https://juejin.im/post/5cce49036fb9a031eb58a8f9)
+
+## 4. vue style scoped
+
+在项目中经常遇到引用某个第三方组件，想要覆写它的样式，如果自己的style中加了scoped，是没法生效的。实际看dom长这样 `<div data-v-7ba5bd90="" id="app">`，同样样式代码也被编译成了 `#app[data-v-7ba5bd90]{}`，这样防止了对其他的同样选择器的dom的污染。
+
+scoped不会处理子组件中的dom，因此如果想让子组件能够样式被覆写，需要去掉scoped，在父级别加上合适的父级class防止污染到其他地方即可。
+
+## 5. webpack merge
