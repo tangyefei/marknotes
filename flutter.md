@@ -109,35 +109,61 @@ $ cd my_first_flutter
 $ flutter run
 ```
 
+### Hello World
+
+参考[https://flutter.dev/docs/get-started/codelab](https://flutter.dev/docs/get-started/codelab) 的 `Step 1: Create the starter Flutter app`部分，将 lib/main.dart 中的内容替换为 
+
+```
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Welcome to Flutter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Welcome to Flutter'),
+        ),
+        body: Center(
+          child: Text('Hello World'),
+        ),
+      ),
+    );
+  }
+}
+```
+
+然后再在项目目录下执行 `flutter run` 即可看到 Hello World生效。
+
+### 更进一步
+
+#### 
+
 ## 在Andriod上运行第一个Flutter程序
 
+要在安卓设备上使用Flutter，必须安装Android Studio，因为依赖它来提供各种依赖。但是可以使用全天的代码编辑器来书写你的代码。
 
 
+### 安装Android Studio
+
+[下载Android Studio](https://developer.android.com/studio)，第一次打开时，Android Studio Setup Wizard 会引导安装开发所需：
+
+- Android SDK
+- Android SDK Platform-Tools 
+- and Android SDK Build-Tools
+
+### 配置Andriod模拟器
+
+1. 打开电脑的 VM acceleration（自己跳过了似乎没什么影响）
+2. 创建虚拟设备：Android Studio > Tools > Android > AVD Manager，选择Create Virtual Device，然后创建自己所需要的设备类型，system image推荐选择 x86 或 x86_64类型，在 Emulated Performance 中，选择 Hardware - GLES 2.0 用于激活硬件加速（自己实操作的时候发现不能选），确认无误后就创建成功了。
+3. 在 Android Virtual Device Manager 所创建的设备列表中，点击 run 的图标就可以打开模拟器展示默认的图案。
+
+### 运行Hello World
+
+同理打开Android Studio中选择 New Flutter Project，然后手动修改 lib/main.dart，然后在编辑器的右上角的bar上可以选择运行它即可（注：并非最顶部的位置，自己也好找了一会儿）。
+ 
 
 
-
-安装 [Android Studio](https://developer.android.com/studio)
-
-打开 Android Studio 在 'Android Studio Setup Wizard' 中安装最新的 Android SDK、
-Android SDK Platform-Tools、Android SDK Build-Tools。
-
-下载安装某些包的时候发现无法获取到，暂且先不管，直接跳过，进行下一步。
-
-
-执行 flutter doctor 发现的若干问题
-
-`android/repositories.cfg could not be loaded.`
-
-执行 `flutter doctor --android-licenses` 然后依次approve即可。
-
-`Flutter plugin not installed; this adds Flutter specific functionality.`
-
-在 Plugins 中 去搜索安装 Flutter 即可。
-
-`Dart plugin not installed; this adds Dart specific functionality.`
-
-同理搜索安装即可。
-
-`No devices available`
-
-手机虽然连接了，但是侦测不到，暂时忽略继续往前推，也许使用模拟器也行。
