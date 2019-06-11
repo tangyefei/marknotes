@@ -52,6 +52,16 @@ item.text += '+'
 
 显然第一种方式需要后端配合略麻烦，直接其使用第二种方式，全局的axios拦截中给GET请求添加下即可。
 
+## 3. 虚拟机上安装Windows10用于测试Edge浏览器
+
+流行的虚拟机 有VirtualBox， VMWare Fusion，Parallels Desktop，想安装Edge浏览器用于调试页面，发现不论怎么试都不成功，本来下载速度就感人，各种下载试错。
+
+最终发现是因为下载的 Windows 10的image有问题，正确的姿势应该是 [从官网下载纯净的 iso image](http://down1.xitongwanjia.com/Windows10_64_.2019.iso
+)，这样才能被虚拟机正确识别。
+
+## 4. Flutter的Hello World
+
+在Mac上用模拟器来运行 Android 和 iOS 上的 HelloWorld，参考我的  [简书](https://www.jianshu.com/p/73339c1a1b62)  或 [个人博客](http://tangyefei.cn/detail.html?id=12)
 
 
 
