@@ -85,3 +85,8 @@ sitemap 配置：根目录下的 sitemap.json 文件用来配置小程序及其�
 冷启动是会自动加载最新的小程序包，在其他若干个时机微信也会去检查小程序的版本更新。
 
 # Part2 实践
+
+[https://developers.weixin.qq.com/miniprogram/dev/devtools/devtools.html](https://developers.weixin.qq.com/miniprogram/dev/devtools/devtools.html)
+
+
+

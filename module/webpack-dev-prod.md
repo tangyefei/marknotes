@@ -64,12 +64,12 @@ module.exports = {
   },
   plugins: {
     new HtmlWebpackPlugin({
-	   file: 'login.html',
-      chunks: ['login'],
+		file: 'login.html',
+		chunks: ['login'],
     }),
 	 new HtmlWebpackPlugin({
-	   file: 'index.html',
-      chunks: ['index'],
+		file: 'index.html',
+		chunks: ['index'],
     }),
   }
 ```
@@ -84,16 +84,16 @@ module.exports = {
   },
   plugins: {
     new HtmlWebpackPlugin({
-      inject: false,
-	   file: 'login.html',
-      chunks: ['login'],
-  	   template: './dist/login.html'
+		inject: false,
+		file: 'login.html',
+		chunks: ['login'],
+		template: './dist/login.html'
     }),
 	 new HtmlWebpackPlugin({
-      inject: false,
-	   file: 'index.html',
-      chunks: ['index'],
-   	   template: './dist/login.html'
+		inject: false,
+		file: 'index.html',
+		chunks: ['index'],
+		template: './dist/login.html'
     }),
   }
 ```
