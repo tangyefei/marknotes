@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <script>
+        var lengthOfLongestSubstring = function(s) {
+            window.g = window.g || {};
+
+            if(s && s.length) {
+                var f = s.charAt(0);
+                if(g[f]) {
+                    return 0;
+                }
+                else
+                {
+                    g[f] = true;
+                    return 1 + lengthOfLongestSubstring(s.substring(1, s.length));
+                }
+            }
+            return 0;
+        };
+
+        console.log(lengthOfLongestSubstring('abacda')); //3
+
+    </script>
+</head>
+<body>
+
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+body {
+	padding: 0;
+	margin: 0;
+}
+
+body nav {
+	position: fixed;
+	height: 53px;
+	background: #CDCDCD;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	top: 0;
+}
+
+body article {
+	height: 855px;
+	border: 1px solid red;
+}
+
+#home {
+	background: url(../images/bg2.jpg) no-repeat center;
+	margin-top: 53px;
+}
+article ul li {
+	width: 30%;
+	margin: 1.5%;
+	display: inline-block;
+	height: 200px;
+	background: grey;
+	overflow: hidden;
+	border: 1px solid white;
+
+	background: url(../images/brandgraph.png) no-repeat 50% 50% / auto 100% #ccc;
+	position: relative;
+}
+article ul li h3 {
+	color: #fff;
+	text-align: center;
+	font-size: 18px;
+
+	line-height: 40px;
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+
+	background: rgba(22,22,22,0.6);
+	padding: 0;
+	margin: 0;
+}
+body > * {
+    text-align: center;
+}
+
+body #quoteArea 
+{
+    margin: 1% 25%;
+}
+
