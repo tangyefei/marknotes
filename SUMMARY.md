@@ -2,7 +2,7 @@
 
 * [关于](README.md)
 * [技术笔记](books/guide.md)
-  * 《ECMAScript 6 入门》]
+  * 《ECMAScript 6 入门》
     * [async](books/es-6/async.md)
     * [babel](books/es-6/babel.md)
     * [class-syntax](books/es-6/class-syntax.md)
@@ -48,6 +48,10 @@
 * [Webpack](webpack/guide.md)
 * [移动端开发](mobile/guide.md)
 * [后端和服务器](backend/guide.md)
+* [常用工具](tool/guide.md)
+  * [Git](tool/git.md)
+  * [Bash](tool/bash.md)
+  * [Node](tool/node.md)
 * [我的应用](application/guide.md)
 * [我的周报](report/guide.md)
 * [生活阅读](reading/guide.md)
