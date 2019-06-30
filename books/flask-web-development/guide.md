@@ -3,11 +3,11 @@
 # 目录结构
 
 ## 前言
-   - [Flask框架的特点]((book/flask-web-development/0.html) 
-   - [本书的组织方式]((book/flask-web-development/0.html) 
-   - [本书面向的读者]((book/flask-web-development/0.html) 
-   - [本书的主体结构]((book/flask-web-development/0.html) 
-   - [如何使用本书的示例代码]((book/flask-web-development/0.html) 
+   - [Flask框架的特点](0.html) 
+   - [本书的组织方式](0.html) 
+   - [本书面向的读者](0.html) 
+   - [本书的主体结构](0.html) 
+   - [如何使用本书的示例代码](0.html) 
      - [获取和检出代码 ](0.html)
      - [安装数据库和packages ](0.html)
      - [会用到的Git操作 ](0.html)

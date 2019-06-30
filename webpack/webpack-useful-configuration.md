@@ -1,6 +1,6 @@
 
 
-# 实践中的有用配置
+# 实用的配置项
 
 ## 如何指定Alias
 
@@ -22,7 +22,7 @@ import Utility from '../../utilities/utility';
 
 ## 解决css晚于DOM渲染好导致的 Flash_of_unstyled_content 问题
 
-style-loader 会在js加载好，将样式代码以行内的格式插入到页面中，晚于DOM渲染，使用 [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/) 可以提前将css打包到指定文件夹，然后在html的head中提前引入就可以解决这个问题了。
+css-loader 会在js加载好以后，将样式代码以行内的格式插入到页面中，晚于DOM渲染，使用 [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/) 可以提前将css打包到指定文件夹，然后在html的head中提前引入就可以解决这个问题了。
 
 ```
 npm i -D mini-css-extract-plugin
