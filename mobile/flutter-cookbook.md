@@ -78,3 +78,75 @@ Weex是阿里巴巴于2016年发布的跨平台移动端开发框架，思想及
 
 
 ## Flutter简介
+
+
+# 第一个Flutter应用
+
+Material是一种标准的移动端和web端的视觉设计语言， Flutter默认提供了一套丰富的Material风格的UI组件。
+
+“综上所述，可以发现，对于StatefulWidget，将build方法放在State中，可以给开发带来很大的灵活性。” -- 第二点理解不深，暂不深究，改日回来再看。
+
+
+
+切换路由的用法 以及 路由对象的定义：
+
+```
+Navigator.push( context,
+	new MaterialPageRoute(builder: (context) {
+	      return new NewRoute();
+	 }));
+	},
+),
+     
+MaterialPageRoute({
+    WidgetBuilder builder,
+    RouteSettings settings,
+    bool maintainState = true,
+    bool fullscreenDialog = false,
+})
+```  
+  
+- builder 是一个WidgetBuilder类型的回调函数，它的作用是构建路由页面的具体内容，返回值是一个widget。我们通常要实现此回调，返回新路由的实例。
+- settings 包含路由的配置信息，如路由名称、是否初始路由（首页）。
+- maintainState：默认情况下，当入栈一个新路由时，原来的路由仍然会被保存在内存中，如果想在路由没用的时候释放其所占用的所有资源，可以设置maintainState为false。
+- fullscreenDialog表示新的路由页面是否是一个全屏的模态对话框，在iOS中，如果fullscreenDialog为true，新页面将会从屏幕底部滑入（而不是水平方向）。
+
+
+
+我们需要先注册路由表后，我们的Flutter应用才能正确处理命名路由的跳转。注册方式很简单，我们回到之前“计数器”的示例，然后在MyApp类的build方法中找到MaterialApp，添加routes属性，代码如下：
+
+
+
+
+```
+// 疑问：下方的ModalRoute是个啥？
+
+return new MaterialApp(
+  title: 'Flutter Demo',
+  theme: new ThemeData(
+    primarySwatch: Colors.blue,
+  ),
+  //注册路由表
+  routes:{
+   "new_page":(context)=>EchoRoute(),
+  } ,
+  home: new MyHomePage(title: 'Flutter Demo Home Page'),
+);
+
+class EchoRoute extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    //获取路由参数  
+    var args=ModalRoute.of(context).settings.arguments
+    //...省略无关代码
+  }
+}
+```
+
+通过路由名打开新路由页：
+
+```
+Navigator.pushNamed(context, "new_page");
+Navigator.of(context).pushNamed("new_page", arguments: "hi");
+```

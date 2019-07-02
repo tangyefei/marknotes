@@ -4,13 +4,3 @@
 
 - [language-tour](http://dart.goodev.org/guides/language/language-tour)
 - [dart-by-example](http://dart.goodev.org/dart-vm/dart-by-example)
-
-
-
-
-## 实际应用
-
-### 应用1
-
-使用Dart语言监听Markdown的文件夹变动，然后生成Gitbook的目录文件。
-
