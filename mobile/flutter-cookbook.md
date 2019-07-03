@@ -143,13 +143,151 @@ Error launching application on VTR AL00.
 
 # 第一个Flutter应用
 
+## 计数器示例
+
+Material是一种标准的移动端和web端的视觉设计语言， Flutter默认提供了一套丰富的Material风格的UI组件。
+
+关于如下对描述不是很理解，暂不深究，改日回来再看：
+
+> 综上所述，对于StatefulWidget，将build方法放在State中，可以给开发带来很大的灵活性。
+
+
+## 路由管理
+
+切换路由的用法 以及 路由对象的定义：
+
+```
+Navigator.push( context,
+	new MaterialPageRoute(builder: (context) {
+	      return new NewRoute();
+	 }));
+	},
+),
+     
+MaterialPageRoute({
+    WidgetBuilder builder,
+    RouteSettings settings,
+    bool maintainState = true,
+    bool fullscreenDialog = false,
+})
+```  
+  
+- builder 是一个WidgetBuilder类型的回调函数，它的作用是构建路由页面的具体内容，返回值是一个widget。我们通常要实现此回调，返回新路由的实例。
+- settings 包含路由的配置信息，如路由名称、是否初始路由（首页）。
+- maintainState：默认情况下，当入栈一个新路由时，原来的路由仍然会被保存在内存中，如果想在路由没用的时候释放其所占用的所有资源，可以设置maintainState为false。
+- fullscreenDialog表示新的路由页面是否是一个全屏的模态对话框，在iOS中，如果fullscreenDialog为true，新页面将会从屏幕底部滑入（而不是水平方向）。
+
+
+
+我们需要先注册路由表后，我们的Flutter应用才能正确处理命名路由的跳转。注册方式很简单，我们回到之前“计数器”的示例，然后在MyApp类的build方法中找到MaterialApp，添加routes属性，代码如下：
 
 
 
 
+```
+// 疑问：下方的ModalRoute是个啥？
+
+return new MaterialApp(
+  title: 'Flutter Demo',
+  theme: new ThemeData(
+    primarySwatch: Colors.blue,
+  ),
+  //注册路由表
+  routes:{
+   "new_page":(context)=>EchoRoute(),
+  } ,
+  home: new MyHomePage(title: 'Flutter Demo Home Page'),
+);
+
+class EchoRoute extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    //获取路由参数  
+    var args=ModalRoute.of(context).settings.arguments
+    //...省略无关代码
+  }
+}
+```
+
+通过路由名打开新路由页：
+
+```
+Navigator.pushNamed(context, "new_page");
+Navigator.of(context).pushNamed("new_page", arguments: "hi");
+```
+
+## 包管理
+
+Pub（https://pub.dartlang.org/ ）是Google官方的Dart Packages仓库，除此外我们还可以依赖本地包和git仓库。
+
+## 资源管理
+
+略。
+
+## 调试Flutter应用
+
+### Dart分析器
+
+运行 `flutter analyze` 可以分析代码的错误。
+
+如果使用的编辑器安装了Flutter创建，通常已经启用了Dart分析器。
+
+### Dart Observatory (语句级的单步调试和分析器)
+
+**debugger()声明**
+
+可以在代码顶部添加 `import 'dart:developer';`，然后在需要断点的位置增加`debugger()`。
+
+**print、debugPrint、flutter logs**
+
+可以使用`print`和`debugPrint`来输出日志，可以在启动命令行中 或者 通过 `flutter logs` 命令来查看日志。
 
 
 
+### 调试模式断言
+
+- flutter run 调试模式
+- flutter run --profile 中间模式（保留除Observatory之外的所有调试工具）
+- flutter run --release 发布模式
+
+### 调试应用程序层
+
+该部分接介绍了一些高级调试的技巧。使用的时候查询。
+
+
+### 可视化调试
+
+介绍了调试可视化布局的一些配置项。使用的时候查询。
+
+### 调试动画
+
+通过配置参数来减慢速度可以调试动画。
+
+
+### 调试性能问题
+
+可以在启动命令中增加参数来衡量应用启动时间，可以通过执行自定义性能跟踪和测量Dart任意代码段的wall/CPU时间。
+
+###  Performance Overlay
+
+可以通过 MaterialApp 的构造函数传递参数，来要获得应用程序性能图。
+
+
+### Material grid
+
+将Material Design基线网格覆盖在应用程序上可能有助于验证对齐
+
+
+## Dart线程模型及异常捕获
+
+Dart大致运行原理：
+
+![error-report.png](./error-report.png)
+
+在事件循环中，当某个任务发生异常并没有被捕获时，程序并不会退出，而直接导致的结果是当前任务的后续代码就不会被执行了，也就是说一个任务中的异常是不会影响其它任务执行的。
+
+Dart中可以通过try/catch/finally来捕获代码块异常。在Dart中，异常分两类：同步异常和异步异常，同步异常可以通过try/catch捕获，而异步异常则比较麻烦，感兴趣可以参考[该部分](https://book.flutterchina.club/chapter2/thread_model_and_error_report.html)。
 
 
 

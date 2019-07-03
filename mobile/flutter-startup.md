@@ -4,8 +4,12 @@ Flutter的热度很高，在项目中即将开始应用它，本篇简单介绍�
 
 参考地址：[https://flutter.dev/docs/get-started/install/macos](https://flutter.dev/docs/get-started/install/macos)
 
-## Flutter SDK安装
 
+备注：配置过程可能会很耗时（实践中出现了各种问题），涉及到：下载 XCode，下载 Android Studio、在 Andriod Studio中安装Package（Flutter和Dart）、安装 flutter doctor 提示的包。在Mac上开发建议系统更新到最新版本，然后通过AppStore下载安装XCode。然后再走下面的步骤，因为后续安装的brew、执行flutter doctor都离不开XCode（哪怕你只用Android Studio进行开发，也离不开XCode）。
+pwd
+
+
+## Flutter SDK安装
 
 下载 [Flutter SDK](https://storage.googleapis.com/flutter_infra/releases/stable/macos/flutter_macos_v1.5.4-hotfix.2-stable.zip) 并解压到对应目录
 
@@ -41,6 +45,7 @@ $ source ~/.bash_profile
 
 ```
 ## 在iOS上运行第一个Flutter程序
+
 
 ### 检查运行在iOS上的所需的工具
 
@@ -81,8 +86,7 @@ $ source ~/.bash_profile
 
 ####  其他工具安装
 
-按照上述输出的log执行安装即可，可能也需要耗费一些时间。
-
+按照上述输出的log执行安装即可，可能也需要耗费一些时间。如果brew还不能被识别，先参考 [https://brew.sh/](https://brew.sh/) 安装brew。
 
 ```
 $ flutter doctor
@@ -111,7 +115,7 @@ $ flutter run
 
 ### Hello World
 
-参考[https://flutter.dev/docs/get-started/codelab](https://flutter.dev/docs/get-started/codelab) 的 `Step 1: Create the starter Flutter app`部分，将 lib/main.dart 中的内容替换为 
+如果你使用的Visual Studio Code，需要通过Install Extensions并选择安装 Flutter，可以进行语法高亮和输入提示。然后参考[https://flutter.dev/docs/get-started/codelab](https://flutter.dev/docs/get-started/codelab) 的 `Step 1: Create the starter Flutter app`部分，将 lib/main.dart 中的内容替换为 
 
 ```
 import 'package:flutter/material.dart';
@@ -138,6 +142,9 @@ class MyApp extends StatelessWidget {
 
 然后再在项目目录下执行 `flutter run` 即可看到 Hello World生效。
 
+
+备注：不管使用什么编辑器创建的项目，项目代码都是一样的。既可以用 flutter run 也可以用 Android Studio的图形界面来运行项目。
+
 ### 更进一步
 
 #### 
@@ -154,6 +161,10 @@ class MyApp extends StatelessWidget {
 - Android SDK
 - Android SDK Platform-Tools 
 - and Android SDK Build-Tools
+
+### 安装 Flutter 和 Dart
+
+在 Android Studio 中，在 Preferences -> Plugins -> Marketplace中，寻找和安装 Flutter 和 Dart，然后重启。
 
 ### 配置Andriod模拟器
 
