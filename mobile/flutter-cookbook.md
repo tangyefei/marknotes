@@ -78,3 +78,81 @@ Weex是阿里巴巴于2016年发布的跨平台移动端开发框架，思想及
 
 
 ## Flutter简介
+ 
+**跨平台自绘引擎**
+
+Flutter与用于构建移动应用程序的其它大多数框架不同，因为Flutter既不使用WebView，也不使用操作系统的原生控件。 相反，Flutter使用自己的高性能渲染引擎来绘制widget。
+
+**高性能**
+
+Flutter采用Dart语言并支持AOT，加上使用自己的渲染引擎来绘制UI，可以带来可观的性能。
+
+
+### Flutter框架结构
+
+![flutter-framework.png](./flutter-framework.png)
+
+Widgets层是Flutter提供的的一套基础组件库，在基础组件库之上，Flutter还提供了 Material 和Cupertino两种视觉风格的组件库。而我们Flutter开发的大多数场景，只是和这两层打交道。
+
+Engine 这是一个纯 C++实现的 SDK，其中包括了 Skia引擎、Dart运行时、文字排版引擎等。在代码调用 dart:ui库时，调用最终会走到Engine层，然后实现真正的绘制逻辑。
+
+
+
+### 如何学习Flutter
+
+- 资源：官网、源码及注释、Github、Gallery源码（官方提供的示例App 源码的examples目录下）
+- 社区：stackoverflow、flutter中文社区、掘金
+
+
+## 搭建Flutter开发环境
+
+
+### 连接Android真机设备
+
+
+- 在Android设备上启用 开发人员选项 和 USB调试(设置-关于本机-系统版本号上连续点击7下）。
+- 使用USB将手机插入电脑，授权你的电脑可以访问该设备。
+- 在命令行运行 flutter devices 命令以验证Flutter识别您连接的Android设备。
+- 运行启动你应用程序 flutter run。
+
+
+```
+Error: ADB exited with exit code 1
+Performing Streamed Install
+
+adb: failed to install /Users/yefeitang/Documents/flutter_projects/flutter_widgets/build/app/outputs/apk/app.apk: Failure [INSTALL_FAILED_ABORTED: User rejected permissions]
+Error launching application on VTR AL00.
+
+```
+
+运行遇到了如上所示的问题，将 ”监控 ADB 安装应用“ 关闭即可。
+
+## 连接iOS真机设备
+
+略
+
+## 常见配置问题
+
+略
+
+## Dart语言简介
+
+
+其他略。留个印象（异步支持：Future、Async/await、Stream）。
+
+
+# 第一个Flutter应用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
