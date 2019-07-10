@@ -175,5 +175,62 @@ class TSPColors {
 
 在上例中，如果变量名改为_primaryValue，作为`private`变量是无法直接通过 `TSPColors._ primaryValue` 类访问到的。
 
+<hr>
+
+另一种做法是使用自定义的TabController，涉及到  Provider、AnimationController、StatefulWidget的概念。具体结构部分如下：
+
+```
+    return new Scaffold(
+        appBar: new AppBar(
+          backgroundColor: _backgroundColor,
+          title: new Text(_title),
+        ),
+        body: 
+        new TabBarView(
+            //TabBarView呈现内容，因此放到Scaffold的body中
+            controller: _tabController, //配置控制器
+            children: _tabViews),
+        bottomNavigationBar: new Material(
+          //为了适配主题风格，包一层Material实现风格套用
+          color: Colors.deepOrange, //底部导航栏主题颜色
+          child: new TabBar(
+            //TabBar导航标签，底部导航放到Scaffold的bottomNavigationBar中
+            controller: _tabController, //配置控制器
+            tabs: _tabItems,
+            indicatorColor: _indicatorColor, //tab标签的下划线颜色
+          ),
+        ));
+  }
+```
+
+## commit: 3392f37
+
+设置Timeout来跳转到一个的路由，涉及的概念有：`dart.async`, `Furture`, `delayed`, `Navigator`, `pushReplacement`, `MaterialPageRoute`。
+
+
+```
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:maxima_cars/page/HomePage.dart';
+
+class WelcomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    new Future.delayed(const Duration(seconds: 2), () {
+      Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) {
+        return new HomePage();
+      }));
+    });
+    return new Container(
+      color: Colors.white,
+      child: new Center(
+        child: new Text('李彦宏被泼水', style: new TextStyle(color: Colors.black, fontSize: 22.0))
+      )
+    );
+  }
+}
+```
+
 
 
