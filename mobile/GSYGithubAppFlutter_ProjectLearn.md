@@ -145,3 +145,35 @@ Widget build(BuildContext context) {
 	);
 }
 ```
+
+## commit: 708c7b0
+
+通过定义了一个类，该类拥有一个类实例，然后通过引用该类，来设置MaterialApp的颜色方案。
+
+```
+
+static const MaterialColor primarySwatch = const MaterialColor(
+
+```
+
+> [dart中文网](http://dart.goodev.org/guides/language/language-tour): const 关键字能定义构造函数为 const 类型的，这种类型 的构造函数创建的对象是不可改变的。
+
+如上，之所以在MaterialColor上面不使用new，是因为的构造函数就是const类型的。对于在Dart中的变量和值前面都使用 const 修饰感觉非常奇怪，再加上类型的描述就更显冗长。
+
+
+## commit: 60e7c3d
+
+```
+class TSPColors {
+	static const int primaryValue = 0xFF24292E;x
+}
+```
+
+颜色使用十六进制表示的ARGB表示，前两位代表透明度，后面6位代表色值。前两位不写代表透明。
+
+<hr>
+
+在上例中，如果变量名改为_primaryValue，作为`private`变量是无法直接通过 `TSPColors._ primaryValue` 类访问到的。
+
+
+
