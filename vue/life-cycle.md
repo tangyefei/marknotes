@@ -17,4 +17,4 @@
 - mounted则是一个最常用的钩子，通常会被用来请求数据和操作dom
 - 在什么阶段请求数据，mounted和created即可，理论上越早越好
 
-![life-cycle](./life-cycle.png)
+![life-cycle](./images/life-cycle.png)
