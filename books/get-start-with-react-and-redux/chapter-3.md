@@ -13,3 +13,27 @@
 
 
 ## Redux
+
+可以把Redux看成是Flux的最流行的一种实现方式。
+
+另外从Flux到Redux的过程，增加了只声明和使用一个Store的原则，并且废弃掉了Dispatcher，改为使用Reduer，从结构上来说，Reducer跟Store结合得更紧密一些。
+
+对比Vuex来说一些不同之处：
+
+- Vuex在view中可以通过getters拿到数据，数据变化以后可以自动同步到；Redux的数据通过store.getState()获取到数据，通过store.subscribe(onChange)来触发组件的改变，onChange为view的方法，内部感的是将数据从store中同步到view自己的state的工作。
+
+- Vuex在view中通过actions来触发mutations，然后修改store中的数据；Redux在view中通过store.dispatch，触发Reducer中的修改store的操作，Reducer的实例在Store中作参数传递给Store中的构造函数。
+
+
+## 容器组件和傻瓜组件
+
+通过将跟Store打交道的部分抽象到父容器中，子组件之进行渲染操作，是React中常用的一种模式。
+
+## 组件Context
+
+为了在全局的组件中都能访问到Store，需要在顶层按照规约一个组件，所有的子组件才能够通过构造函数获取到对应的context，context进一步获取到store。
+
+## React-Redux
+
+将 “容器组件和傻瓜组件”  和 “组件Context” 的功能都包含是实现了。
+
