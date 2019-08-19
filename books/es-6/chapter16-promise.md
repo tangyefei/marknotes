@@ -791,14 +791,21 @@ console.log(2);
 
 当然在Promise.try之前，为了解决上述的问题（1），作者还列举了两种做法，一种是 将func定义为async类型，另一种是是使用 new Promise(resolve => resolve(func()))。
 
-注：另外两种做法中的第一种，作者提到了使用 async 了以后异常会被吞没，需要使用catch捕获，对于异常捕获的理解几乎为0，要补功课。
+注：另外两种做法中的第一种，作者提到了使用 async 了以后异常会被吞没，需要使用catch捕获。
 
 注：上面这个new Promise要注意，跟Promise().then(func)在本轮末尾执行不同， resolve内写的是 `func()` 会立即执行。
 
 ~ 对同步和异步的理解还不够，因此对 Promise.try() 存在的意义还是有些感到费解。
 
 
+<hr/>
 
 
+关于错误的一些个人简单总结：
+
+- Error发生时候（它有六个细分的类型，比ReferenceError），通常会影响后续的执行代码。
+- 可以通过try/catch捕获Error，加上自己的处理，未经捕获的Error就会变成Uncaught类型的Error。
+- 在Promise中生成的或者抛出的Error，会被吞没（即不影响外部的程序执行），可以通过 `.catch()`捕获Error。同理，未经捕获的会变成Uncaught类型的Error。
+- 在Promise构造函数中，通过setTimeout去抛出Error，会在下一轮“事件循环”再抛出错误。到了那个时候Promise 的运行已经结束了，所以这个错误是在 Promise 函数体外抛出的，会冒泡到最外层，成了未捕获的错误。
 
 
