@@ -109,7 +109,7 @@ Promise新建后就会立即执行，这里的输出顺序是
 
 - 新建Promise的执行
 - 同步的console
-- 异步的resolve后的calblack
+- 异步的resolve后的callback
 
 ### 加载图片
 
@@ -403,3 +403,402 @@ someAsyncThing().then(function() {
 ```
 
 改写后的方法使用了第二个catch来捕获catch中抛出的错误。
+
+## 5. Promise.prototype.finally()
+
+### finally介绍
+
+finally方法是ES2018 引入标准的，不管 Promise 对象最后状态如何，都会执行它。
+
+```
+server.listen(port)
+  .then(function () {
+    // ...
+  })
+  .finally(server.stop);
+  
+```
+
+finally方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是fulfilled还是rejected。这表明，finally方法里面的操作，应该是与状态无关的。
+
+### 使用then来实现finally
+
+```
+promise
+.finally(() => {
+  // 语句
+});
+
+// 等同于
+promise
+.then(
+  result => {
+    // 语句
+    return result;
+  },
+  error => {
+    // 语句
+    throw error;
+  }
+}  
+```
+
+如下是它的具体实现：
+
+```
+Promise.prototype.finally = function (callback) {
+  let P = this.constructor;
+  return this.then(
+    value  => P.resolve(callback()).then(() => value),
+    reason => P.resolve(callback()).then(() => { throw reason })
+  );
+};
+```
+
+这里使用 P.resolve的操作方式 前后都么有没有介绍过，理解下来就是生成了一个Promise对象。
+
+
+### 使用finally和then得到的结果不同
+
+finally方法总是会返回原来的值（其实对于上例value/reason是怎么传递的，一辆懵，大概需要理解解释器层面的东西才会懂？）
+
+```
+// Promise {<resolved>: undefined}
+Promise.resolve(2).then(() => {}, () => {})
+
+// Promise {<resolved>: 3}
+Promise.resolve(2).finally(() => {})
+
+// Promise {<reject>: undefined}
+Promise.reject(3).then(() => {}, () => {})
+
+// Promise {<reject>: 3}
+Promise.reject(3).finally(() => {})
+```
+
+## 6. Promise.all()
+
+
+
+### 概念介绍
+
+```
+const p = Promise.all([p1, p2, p3]);
+```
+
+Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。上面代码中，p1、p2、p3都是 Promise 实例，如果不是就会先调用下面讲到的Promise.resolve方法，将参数转为 Promise 实例，再进一步处理。
+
+### 回调函数获取的值
+
+p的状态由p1、p2、p3决定，分成两种情况：
+
+（1）只有p1、p2、p3的状态都变成fulfilled，p的状态才会变成fulfilled，此时p1、p2、p3的返回值组成一个数组，传递给p的回调函数。
+
+（2）只要p1、p2、p3之中有一个被rejected，p的状态就变成rejected，此时第一个被reject的实例的返回值，会传递给p的回调函数。
+
+### 一个简单例子
+
+
+```
+const promises = [2, 3, 5, 7, 11, 13].map(function (id) {
+  return getJSON('/post/' + id + ".json");
+});
+
+Promise.all(promises).then(function (posts) {
+  // ...
+}).catch(function(reason){
+  // ...
+});
+```
+
+### 另外一个例子
+
+```
+const databasePromise = connectDatabase();
+
+const booksPromise = databasePromise
+  .then(findAllBooks);
+
+const userPromise = databasePromise
+  .then(getCurrentUser);
+
+Promise.all([
+  booksPromise,
+  userPromise
+])
+.then(([books, user]) => pickTopRecommendations(books, user));
+```
+
+### 自带catch的Promise不会再触发all的catch
+
+
+```
+const p1 = new Promise((resolve, reject) => {
+  resolve('hello');
+})
+.then(result => result)
+.catch(e => e);
+
+const p2 = new Promise((resolve, reject) => {
+  throw new Error('报错了');
+})
+.then(result => result)
+.catch(e => e);
+
+Promise.all([p1, p2])
+.then(result => console.log(result))
+.catch(e => console.log(e));
+// ["hello", Error: 报错了]
+```
+
+
+p1会resolved，p2首先会rejected，但是p2有自己的catch方法，该方法返回的是一个新的 Promise 实例，p2指向的实际上是这个实例。该实例执行完catch方法后，也会变成resolved，导致Promise.all()方法参数里面的两个实例都会resolved。
+
+因此会调用then方法指定的回调函数，而不会调用catch方法指定的回调函数。
+
+如果p2没有自己的catch方法，就会调用Promise.all()的catch方法。
+
+```
+const p1 = new Promise((resolve, reject) => {
+  resolve('hello');
+})
+.then(result => result);
+
+const p2 = new Promise((resolve, reject) => {
+  throw new Error('报错了');
+})
+.then(result => result);
+
+Promise.all([p1, p2])
+.then(result => console.log(result))
+.catch(e => console.log(e));
+// Error: 报错了
+```
+
+## 7. Promise.prototype.race()
+
+### 概念介绍
+
+```
+const p = Promise.race([p1, p2, p3]);
+```
+
+只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。
+
+与Promise.all方法一样，p1、p2、p3如果不是 Promise 实例，就会先调用下面讲到的Promise.resolve方法，将参数转为 Promise 实例，再进一步处理。
+
+### 一个例子
+
+```
+const p = Promise.race([
+  fetch('/resource-that-may-take-a-while'),
+  new Promise(function (resolve, reject) {
+    setTimeout(() => reject(new Error('request timeout')), 5000)
+  })
+]);
+
+p
+.then(console.log)
+.catch(console.error);
+```
+
+如果 5 秒之内fetch方法无法返回结果，变量p的状态就会变为rejected，触发catch方法指定的回调。
+
+## 8. Promise.resolve()
+
+### 语法介绍
+
+Promise.resolve方法可以将现有对象转为 Promise 对象
+
+```
+Promise.resolve('foo')
+// 等价于
+new Promise(resolve => resolve('foo'))
+```
+
+
+### resolve参数的四种情况
+
+
+#### 情况1：参数是一个 Promise 实例
+
+Promise.resolve将不做任何修改、原封不动地返回这个实例。
+
+#### 情况2：参数是一个thenable对象
+
+thenable对象指的是具有then方法的对象，Promise.resolve方法会将这个对象转为 Promise 对象，然后就立即执行thenable对象的then方法。
+
+```
+let thenable = {
+  then: function(resolve, reject) {
+    resolve(42);
+  }
+};
+
+let p1 = Promise.resolve(thenable);
+p1.then(function(value) {
+  console.log(value);  // 42
+});
+```
+
+#### 情况3：参数不是具有then方法的对象，或根本就不是对象
+
+
+Promise.resolve方法返回一个状态为resolved的Promise 对象，Promise.resolve方法的参数，会同时传给回调函数。
+
+#### 情况4：不带有任何参数
+
+直接返回一个resolved状态的 Promise 对象。
+
+
+### 立即resolve()后执行then回调
+
+立即resolve()的 Promise 对象，是在本轮“事件循环”（event loop）的结束时执行，而不是在下一轮“事件循环”的开始时。
+
+```
+setTimeout(function () {
+  console.log('three');
+}, 0);
+
+Promise.resolve().then(function () {
+  console.log('two');
+});
+
+console.log('one');
+
+// one
+// two
+// three
+```
+
+
+
+
+
+
+
+## 9. Promise.reject()
+
+
+### 概念介绍
+
+```
+const p = Promise.reject('出错了');
+// 等同于
+const p = new Promise((resolve, reject) => reject('出错了'))
+
+p.then(null, function (s) {
+  console.log(s)
+});
+// 出错了
+```
+
+### 特殊之处
+
+Promise.reject()方法的参数，会原封不动地作为reject的理由，变成后续方法的参数。这一点与Promise.resolve方法不一致。因此如果传入的是一个thenable的对象，catch中的e就不是”出错了“，而是整个thenable对象：
+
+```
+const thenable = {
+  then(resolve, reject) {
+    reject('出错了');
+  }
+};
+
+Promise.reject(thenable)
+.catch(e => {
+  console.log(e === thenable)
+})
+// true
+```
+
+## 10. 应用
+
+### 加载图片
+
+```
+const preloadImage = function (path) {
+  return new Promise(function (resolve, reject) {
+    const image = new Image();
+    image.onload  = resolve;
+    image.onerror = reject;
+    image.src = path;
+  });
+};
+```
+
+### Generator 函数与 Promise 的结合
+
+
+使用 Generator 函数管理流程，遇到异步操作的时候，通常返回一个Promise对象。
+
+```
+function getFoo () {
+  return new Promise(function (resolve, reject){
+    resolve('foo');
+  });
+}
+
+const g = function* () {
+  try {
+    const foo = yield getFoo();
+    console.log(foo);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+function run (generator) {
+  const it = generator();
+
+  function go(result) {
+    if (result.done) return result.value;
+
+    return result.value.then(function (value) {
+      return go(it.next(value));
+    }, function (error) {
+      return go(it.throw(error));
+    });
+  }
+
+  go(it.next());
+}
+
+run(g);
+```
+
+~ 例子似乎有点牵强
+
+## 11. Promise.try
+
+
+注：该部分自己做了一些幅度略大的整理
+
+我们希望使用 then catch 这套流程去处理 同步 和 异步函数，如下代码就能满足需求么？
+
+```
+func() {console.log(1);}
+Promise.resolve().then(func);
+console.log(2);
+```
+
+
+存在两个问题（当然作者不讲我是丝毫不知道错误捕获存在这些差异的）：
+
+（1）如果func是同步函数，它会在本轮事件的末尾执行，即后面 123 的输出会先于 func执行。
+（2）同样func作为同步函数，如果抛出了错误（同步错误），是无法使用 `.catch` 捕捉到的。
+
+对应的有了 Promise.try(）的提案，使用 Promise.try嵌套func，就可以先输出1再输出2，同理使用Promise.try()包裹异步操作，可以在后续的catch中捕获 异步 和 同步的异常。
+
+当然在Promise.try之前，为了解决上述的问题（1），作者还列举了两种做法，一种是 将func定义为async类型，另一种是是使用 new Promise(resolve => resolve(func()))。
+
+注：另外两种做法中的第一种，作者提到了使用 async 了以后异常会被吞没，需要使用catch捕获，对于异常捕获的理解几乎为0，要补功课。
+
+注：上面这个new Promise要注意，跟Promise().then(func)在本轮末尾执行不同， resolve内写的是 `func()` 会立即执行。
+
+~ 对同步和异步的理解还不够，因此对 Promise.try() 存在的意义还是有些感到费解。
+
+
+
+
+
+
