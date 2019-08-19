@@ -223,3 +223,183 @@ new Promise((resolve, reject) => {
 ```
 
 
+## 3. Promise.prototype.then()
+
+接上面介绍的，then可以传入success和fail作为resolved和rejected的回调。
+
+### then返回新的Promise实例
+
+
+then方法返回的是一个新的Promise实例，可以采用链式写法，前面的then中return的结果会作为后一个then的参数被使用：
+
+```
+getJSON("/posts.json").then(function(json) {
+  return json.post;
+}).then(function(post) {
+  // ...
+});
+```
+
+### 在then中继续异步操作
+
+如下的例子中，第一个then中又请求了另外一个请求，返回本身就是Promise对象，因此不会像上例中被转化一次，而是仅当 `getJSON(post.commentURL)` 经过resolve后，才走到第二个then输出comments的内容。
+
+```
+getJSON("/post/1.json").then(function(post) {
+  return getJSON(post.commentURL);
+}).then(function (comments) {
+  console.log("resolved: ", comments);
+}, function (err){
+  console.log("rejected: ", err);
+});
+```
+
+## 4. Promise.prototype.catch()
+
+### 用法示例
+
+Promise.prototype.catch() 是 `.then(null, rejection)`或`.then(undefined, rejection)`的另一种写法，catch的用法更推荐使用，因为它能捕获发生在then中的错误：
+
+```
+getJSON('/posts.json').then(function(posts) {
+  reject(new Error('test'));、
+}).catch(function(error) {
+  console.log('发生错误！', error);
+});
+```
+### resolved后再抛出错误无效
+
+如果 Promise 状态已经变成resolved，再抛出错误是无效的。
+
+```
+const promise = new Promise(function(resolve, reject) {
+  resolve('ok');
+  throw new Error('test');
+});
+promise
+  .then(function(value) { console.log(value) })
+  .catch(function(error) { console.log(error) });
+// ok
+```
+
+### 错误一直向后传递直到遇到catch
+
+```
+getJSON('/post/1.json').then(function(post) {
+  return getJSON(post.commentURL);
+}).then(function(comments) {
+  // some code
+}).catch(function(error) {
+  // 处理前面三个Promise产生的错误
+});
+```
+
+### Promise中没有try/catch的错误不捕获
+
+
+跟传统的try/catch代码块不同的是，如果没有使用catch方法指定错误处理的回调函数，Promise 对象抛出的错误不会传递到外层代码，即不会有任何影响外面代码的运行：
+
+
+```
+const someAsyncThing = function() {
+  return new Promise(function(resolve, reject) {
+    resolve(x + 2);
+  });
+};
+
+someAsyncThing().then(function() {
+  console.log('everything is great');
+});
+
+setTimeout(() => { console.log(123) }, 2000);
+// Uncaught (in promise) ReferenceError: x is not defined
+// 123
+```
+
+
+但是如下例子，Promise 指定在下一轮“事件循环”再抛出错误。Promise 的运行已经结束了，所以这个错误是在 Promise 函数体外抛出的，会冒泡到最外层，成了未捕获的错误：
+
+
+```
+const promise = new Promise(function (resolve, reject) {
+  resolve('ok');
+  setTimeout(function () { throw new Error('test') }, 0)
+});
+promise.then(function (value) { console.log(value) });
+// ok
+// Uncaught Error: test
+```
+
+### catch方法返回Promise
+
+catch方法返回的还是一个 Promise 对象，因此后面还可以接着调用then方法
+
+```
+const someAsyncThing = function() {
+  return new Promise(function(resolve, reject) {
+    // 下面一行会报错，因为x没有声明
+    resolve(x + 2);
+  });
+};
+
+someAsyncThing()
+.catch(function(error) {
+  console.log('oh no', error);
+})
+.then(function() {
+  console.log('carry on');
+});
+// oh no [ReferenceError: x is not defined]
+// carry on
+```
+
+如果没有报错，则会跳过catch方法：
+
+```
+Promise.resolve()
+.catch(function(error) {
+  console.log('oh no', error);
+})
+.then(function() {
+  console.log('carry on');
+});
+// carry on
+```
+
+### catch中还可以抛出错误
+
+```
+const someAsyncThing = function() {
+  return new Promise(function(resolve, reject) {
+    resolve(x + 2);
+  });
+};
+
+someAsyncThing().then(function() {
+  return someOtherAsyncThing();
+}).catch(function(error) {
+  console.log('oh no', error);
+  y + 2;
+}).then(function() {
+  console.log('carry on');
+});
+// oh no [ReferenceError: x is not defined]
+```
+
+上面代码中，catch方法抛出一个错误，因为后面没有别的catch方法了，导致这个错误不会被捕获，也不会传递到外层。
+
+
+```
+someAsyncThing().then(function() {
+  return someOtherAsyncThing();
+}).catch(function(error) {
+  console.log('oh no', error);
+  y + 2;
+}).catch(function(error) {
+  console.log('carry on', error);
+});
+// oh no [ReferenceError: x is not defined]
+// carry on [ReferenceError: y is not defined]
+```
+
+改写后的方法使用了第二个catch来捕获catch中抛出的错误。
