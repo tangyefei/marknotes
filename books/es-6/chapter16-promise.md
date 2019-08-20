@@ -26,7 +26,7 @@ Promise是一种异步编程解决方案，最早由社区提出和实现，ES6�
 （2）一旦状态改变就不会再变，任何时候都可以得到这个结果。而不像事件，错过了就无法再监听到，而Promise则一直保持着这个结果。
 
 
-为了行为方便，后续会用resolved代表fulfilled状态。
+为了行文方便，后续会用resolved代表fulfilled状态。
 
 **它的好处是：**
 
@@ -294,7 +294,7 @@ getJSON('/post/1.json').then(function(post) {
 });
 ```
 
-### Promise中没有try/catch的错误不捕获
+### Promise中没有try/catch的错误不影响外部代码运行
 
 
 跟传统的try/catch代码块不同的是，如果没有使用catch方法指定错误处理的回调函数，Promise 对象抛出的错误不会传递到外层代码，即不会有任何影响外面代码的运行：
@@ -460,7 +460,6 @@ Promise.prototype.finally = function (callback) {
 
 ### 使用finally和then得到的结果不同
 
-finally方法总是会返回原来的值（其实对于上例value/reason是怎么传递的，一辆懵，大概需要理解解释器层面的东西才会懂？）
 
 ```
 // Promise {<resolved>: undefined}
@@ -475,6 +474,10 @@ Promise.reject(3).then(() => {}, () => {})
 // Promise {<reject>: 3}
 Promise.reject(3).finally(() => {})
 ```
+
+（1）finally方法总是会返回原来的值，finally传入的只是callback部分，返回值在`then()`中已经定义好了，是不能修改的。
+
+（2）在形如 `Promise.resolve(2).then(() => {})` 代码中，返回值是第一个回调的返回值，上面都没写，自然就是undefined，`Promise.resolve(2).then((v) => { return v * 2})` 的返回值是 `Promise {<resolved>: 4}`。
 
 ## 6. Promise.all()
 
@@ -771,7 +774,8 @@ run(g);
 ## 11. Promise.try
 
 
-注：该部分自己做了一些幅度略大的整理
+注：该部分的理解很差，需要理解加深了以后返回来阅读
+
 
 我们希望使用 then catch 这套流程去处理 同步 和 异步函数，如下代码就能满足需求么？
 
@@ -784,8 +788,9 @@ console.log(2);
 
 存在两个问题（当然作者不讲我是丝毫不知道错误捕获存在这些差异的）：
 
-（1）如果func是同步函数，它会在本轮事件的末尾执行，即后面 123 的输出会先于 func执行。
-（2）同样func作为同步函数，如果抛出了错误（同步错误），是无法使用 `.catch` 捕捉到的。
+（1）如果func是同步函数，它会在本轮事件的末尾执行，即后面 2 的输出会先于 1 执行。
+
+（2）同样func作为同步函数，如果抛出了错误（某种同步错误？），是无法使用 `.catch` 捕捉到的。
 
 对应的有了 Promise.try(）的提案，使用 Promise.try嵌套func，就可以先输出1再输出2，同理使用Promise.try()包裹异步操作，可以在后续的catch中捕获 异步 和 同步的异常。
 
@@ -800,12 +805,49 @@ console.log(2);
 
 <hr/>
 
+## 12. 个人总结
 
-关于错误的一些个人简单总结：
 
-- Error发生时候（它有六个细分的类型，比ReferenceError），通常会影响后续的执行代码。
-- 可以通过try/catch捕获Error，加上自己的处理，未经捕获的Error就会变成Uncaught类型的Error。
-- 在Promise中生成的或者抛出的Error，会被吞没（即不影响外部的程序执行），可以通过 `.catch()`捕获Error。同理，未经捕获的会变成Uncaught类型的Error。
-- 在Promise构造函数中，通过setTimeout去抛出Error，会在下一轮“事件循环”再抛出错误。到了那个时候Promise 的运行已经结束了，所以这个错误是在 Promise 函数体外抛出的，会冒泡到最外层，成了未捕获的错误。
+### 关于执行顺序
 
+1. Promise**构造函数中的执行代码**和随后的**then中的执行代码**，前者是立即执行的，后者是在本轮事件末尾执行的。
+
+2. **Promise中执行setTimeout**会成为下一轮时间循环，成为所谓的在Promise外执行。
+
+3. **Promise.resolve()后的then代码**在本轮事件末尾执行，跟1中的第二处一样。
+
+```
+new Promise(resolve => {
+	setTimeout(()=>{console.log(4)},0);
+	console.log(1);
+	resolve(3)
+}).then(v=>{console.log(v)});
+
+console.log(2);
+
+// 1 2 3 4
+```
+
+### Promise.resolve语法
+
+
+1. `Promise.resolve('foo’)` 等价于 `new Promise(resolve => resolve(‘foo’));`
+2. `Promise.resolve(func())` 等价于 `new Promise(resolve => {resolve(func())});` 
+3. 参数是thenable的对象，会生成一个Promise对象然后立即执行对象的then方法，将结果传递给回调
+4. 参数是不是具有then的对象或不是对象，生成Promise对象，将参数传递给回调函数
+
+
+### Promise.catch
+
+1.有Error抛出生成的Promise对象的状态是rejected
+2.但是经过catch的处理以后，对象的状态就变成了resolved
+3.使用all对多个各自catch的Promise实例，最终结果也是resolved
+
+
+### Error 
+
+1. JavaScript Error发生时候（它有六个细分的类型，比ReferenceError），会影响后续代码执行。
+2. 可以通过try/catch捕获Error，未经捕获的Error就会变成Uncaught Error。
+3. 在Promise中生成的或者抛出的Error，会被吞没（即不影响外部的程序执行），可以通过 `.catch()`捕获Error，未经捕获的会变成Uncaught Error。
+4. 在Promise构造函数中，通过setTimeout去抛出Error，会在下一轮“事件循环”再抛出错误。到了那个时候Promise 的运行已经结束了，所以这个错误是在 Promise 函数体外抛出的，会冒泡到最外层，成了未捕获的错误。
 
