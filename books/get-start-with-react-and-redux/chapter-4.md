@@ -1,6 +1,6 @@
 # 第4章 模块化React和Redux应用
 
-## 模块化应用的要点
+## 1. 模块化应用的要点
 
 - 代码文件的组织结构
 - 确定模块的边界
@@ -8,7 +8,7 @@
 
 后续将围绕一个Todos的应用来介绍各个要点
 
-## 代码文件的组织方式
+## 2. 代码文件的组织方式
 
 ### 按角色组织
 
@@ -39,10 +39,7 @@ filter/
 
 它的好处是，要修改某个功能的时候，只需要关注某个文件夹下的目录即可。
 
-## 模块接口
-
-
-
+## 3. 模块接口
 
 传统MVC框架的问题在于View和Model之间的通信会扰乱数据流转，从而变的难以为胡。而Flux的做法是：
 
@@ -54,28 +51,48 @@ filter/
 - 在View中，把Store中获取到的数据设置到state中，Store的addListener的处理回调中使用View中的onChange方法，就可以监听数据变化了，一旦变化，再获取State数据，设置到自己的State中
 
 
-## Redux
+简言之：
 
-可以把Redux看成是Flux的最流行的一种实现方式。
+作者推荐的做法是，把一个功能模块的所有代码都组织到一个文件夹中，然后暴露一个对外的js（通常是该文件夹下的index.js），要引用这个模块的任何一个部分，都需要经过这个js。
 
-另外从Flux到Redux的过程，增加了只声明和使用一个Store的原则，并且废弃掉了Dispatcher，改为使用Reduer，从结构上来说，Reducer跟Store结合得更紧密一些。
+好处就是，内部的命名不论再怎么变，都不会影响其他模块对该模块的引用，开发者只需要维护好对外的js 和 各个部分的映射关系即可，从而达成高内聚低耦合的目标。
 
-对比Vuex来说一些不同之处：
+## 4. 状态树的设计
 
-- Vuex在view中可以通过getters拿到数据，数据变化以后可以自动同步到；Redux的数据通过store.getState()获取到数据，通过store.subscribe(onChange)来触发组件的改变，onChange为view的方法，内部感的是将数据从store中同步到view自己的state的工作。
+状态树的设计需要遵循的几个原则：
 
-- Vuex在view中通过actions来触发mutations，然后修改store中的数据；Redux在view中通过store.dispatch，触发Reducer中的修改store的操作，Reducer的实例在Store中作参数传递给Store中的构造函数。
+- 一个模块修改某一块数据
+- 避免冗余数据
+- 树形结构扁平
+
+## 5. Todo应用实例
+
+参考作者的代码库第四章进行动手实践，自己实现了简单的版本：[https://github.com/tangyefei/react-redux-todos](git@github.com:tangyefei/react-redux-todos.git)
+
+这里仅介绍一些值得注意的地方：
+
+- 为了在React使用Redux，需要安装 redux 和 react-redux
+- 为了在所有组件上都能拿到Store的数据，需要在组件的根的位置嵌套一层 `<Provider store={store}></Provider>`
+- 关于Store，我们使用createStore来创建一个Store，其中第一个参数是使用combineReducers生成的结构，指明了 `key: value`的关系，key代表state中的数据，value代表了能获取到修改权的reducer
+- 关于reducer，如果也学作者用switch来做action.type的不同处理，必须要有default的处理，否则会运行不正常
+- 关于reducer，每一个reducer不会直接修改reducer，而是通过操作state得到新值然后return作为state的值
+- 关于action，只需要把它当做views调用reducer时，用来传递的一组封装数据，里面会将view传递的数据变成更完整的对象结构
+- 关于views中如何映射，`react-redux`组件提供了一个`connect(mapStateToProps, mapDispatchToProps)(component)`方法
+  - mapStateToProps函数负责把store的数据映射到组件中，reducer直接拿到了Store中的对应数据（即mapStateToProps方法的state），state中即可取到值
+  - mapDispatchToProps函数负责把本地的函数调用映射到具体的action的触发（dispatch），在这里需要自己引入需要dispatch的action类型
+  - 使用connect的组件的定义方式需要修改，因为mapStateToProps, mapDispatchToProps提供的属性和方法，都会作为组件的函数的参数被传入，例：`const TodoList = ({todos, onRemoveTodo})`
 
 
-## 容器组件和傻瓜组件
+## 6. 开发辅助工具
 
-通过将跟Store打交道的部分抽象到父容器中，子组件之进行渲染操作，是React中常用的一种模式。
+### 扩展包
 
-## 组件Context
+React Devtools、Redux Devtools、React Perf（可以发现组件渲染的性能问题）
 
-为了在全局的组件中都能访问到Store，需要在顶层按照规约一个组件，所有的子组件才能够通过构造函数获取到对应的context，context进一步获取到store。
+### redux immutable state invariant
 
-## React-Redux
+可以检查一些私自修改state的行为并给出警告
 
-将 “容器组件和傻瓜组件”  和 “组件Context” 的功能都包含是实现了。
+### 具体应用
 
+作者在该部分介绍了使用上述工具的一些具体配置，使用的时候可以查阅
