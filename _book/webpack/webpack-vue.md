@@ -30,7 +30,7 @@ simplest-webpack-vue
     - main.js
   - packge.json
   - webpack.config.js
-
+```
 
 webpack-config.js
 

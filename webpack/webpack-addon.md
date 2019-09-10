@@ -1,34 +1,73 @@
 
-还存在一种情况，你的的html中有一些样式的引入，或者你希望在 `<body>`中内置一个 `<div id="app"></div>` 用于 Vue的根实例的挂载，因此你期望自己的html可以拿来当模板。这时候就需要使用到template，你可以将模板定义在对应html文件中，然后进行如下配置：
+在webpack中，使用HtmlWebpackPlugin对代码进行build常见的一种情形是：你有多个输出的html文件，比如登陆使用`login.html` 登陆成功后使用`index.html`。
 
+这里的配置和容易出错的情形，看下面的示例配置会有什么问题
+
+
+
+### 不指定chunk和file
 
 ```
+  output: {
+    path: '/build'
+  },    
   entry: {
     index: './src/main.js',
     login: './src/login.js'
   },
   plugins: {
     new HtmlWebpackPlugin({
-		inject: false,
-		file: 'login.html',
-		chunks: ['login'],
-		template: './dist/login.html'
+		inject: true,
+		template: './public/login.html'
     }),
 	 new HtmlWebpackPlugin({
-		inject: false,
-		file: 'index.html',
-		chunks: ['index'],
-		template: './dist/login.html'
+		inject: true,
+		template: './public/login.html'
     }),
   }
 ```
 
-这里略微有点让犯错误，让我们分别解释下：
+**问题1：**没有指名要将哪个chunk注入到html，结果是两个chunk的引用都会出现在输出的index.html中
 
-- template：指明了我们从来注入到 virtual 中的模板
+**问题2：**template代表源文件，并不能代表最终生成的文件（需要使用file指定），结果是两个HtmlWebpackPlugin注入了不同模板内容到build/index.html，后者覆盖前者
 
-- inject: false 意味着我们自己已经写好了 <script 中对 bundle 文件的引用了，不用webpack帮我们注入到模板中。如果不指定 `inject: false` 该项意味着 bundle 文件会被重复注入到我们的模板中，npm run start运行一次注入一次。也许你会说，那在html模板中不写  <script 对 bundle 文件的引用，到线上环境配置中我们再解释。
+现象是，build/index.html的内容来自于 /public/login.html，并且引入的js文件，包含了 `login.bundle.js`  和 `index.bundle.js`。
 
-- chunks: 则指明了我们要基于哪个js文件进行打包（因为我们会设置inject为false，所以它跟 template 和 file 是没什么关系的）
+另外也存在一个 `build/login.html`，内容跟 `public/login.html` 一模一样，猜想是Webpack操作包含了 ”拷贝 + inject/写文件“，其中从 `public/login.html` 到 `build/login.html` 的拷贝正常，但是 "inject/写文件"操作 被错误映射到了 `/build/index.html` 中。
 
-- file 指明了 我们的模板的内容最终会输出到哪个virtual的html文件中，如果不指明它，会发生奇怪的想象，即 /index.html 访问到的是 login.html的内容，并且都加载了 login.bundle.js 和 index.bundle.js，而 /login.html则无法访问。其实不难解释：因为没有指定file，index.html 和 login.html中 先后被设置为 virtual index.html的内容，而通过 /index.html 访问到的其实是 login.html的内容，
+### 修改后的配置
+
+```
+  output: {
+    path: '/build'
+  }    
+  entry: {
+    index: './src/main.js',
+    login: './src/login.js'
+  },
+  plugins: {
+    new HtmlWebpackPlugin({
+		inject: true,
+		template: './public/index.html',
+		file: 'index.html',
+		chunks: ['index']		
+	
+    }),
+	 new HtmlWebpackPlugin({
+		inject: true,
+		template: './public/login.html',
+		file: 'login.html',
+		chunks: ['login']
+    }),
+  }
+```
+
+chunks也制定了，输出文件也执行了，理论上应该正确了，结果发现 /build/index.html 和 /build/login.html中内容倒是都来自模板了，但是bundle都没有注入。
+
+可以把filename和chunks分别注释掉，再进行build，会发现是chunks引起的。我们的代码必然是要使用chunks的， 因此找到了绕过它的方式。
+
+### 曲线救国
+
+首先配置`inject`为`false`我们再指定打包的`js/css`文件名的时候，不采用`[hash]`，而是直接使用 `[name].bundle.js` 和 `[name].css`的方式，再在  `public/login.html` 中 和 `public/index.html` 中引用即将被打包好的css/js即可。
+ 
+ 

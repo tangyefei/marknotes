@@ -3,7 +3,7 @@
 
 ## 含义
 
-Generator 函数的语法糖。
+async就是Generator函数的语法糖。作者介绍了async函数的若干优点，这里暂且不管，先注重如何使用它。
 
 
 
