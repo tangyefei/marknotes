@@ -204,6 +204,228 @@ var t =  s.len;   //  查询这个属性
 '123'==='123'//true
 ```
 
+## 3.8 类型转换
+
+类型转换发生在，程序期望某个类型数据，而实际格式不符的时候，下面是一些例子：
+
+```
+10 + " objects" // => "10 objects". 数字 10 转换 成 字符串 
+"7" * "4" // => 28: 两个 字符串 均 转换 为 数字 
+var n = 1 - "x"; // => NaN: 字符串" x" 无法 转换 为 数字 
+n + " objects" // => "NaN objects": NaN 转换 为 字符串" NaN"
+
+```
+
+下图中的表格列举了JavaScript中类型转换的规则，其中加粗部分是让人感到意外的类型转换：
+
+![type-convert](./type-convert.png)
+
+转换类型可以简单进行分类：
+
+- 原始值到原始值的转换
+	- `"" => false`
+	- 合规的字符串（两边带空格的）可以转化为数字，两头有非数字的组成部分的则会变成NaN
+- 原始值到对象的转换
+	- 简单通过new String()、Number()、Boolean(）转化为包装对象
+	- null和undefined试图转成对象会造成TypeError
+- 对象到原始值的转换
+	- 比较复杂，将在3.8.3节专门介绍
+
+### 3.8.1 转换和相等性
+
+灵活的类型转换发生在`==`运算符中，它会将左右两边的变量转化后进行对比：
+
+注：阅读后续内容后，反而对下面的规则不能理解，姑且理解为后面是对象类型的转化。
+
+```
+null == undefined // 这 两 值 被认为 相等 
+"0" == 0 // 在 比较 之前 字符串 转换 成 数字 
+0 == false // 在 比较 之前 布尔 值 转换 成 数字 
+"0" == false // 在 比较 之前 字符串 和 布尔 值 都 转换 成 数字
+```	
+
+在另外一个场景  `if(undefined) {}` 中，`undefined` 被转化为了`false`，并不意味着 `undefined == false`。
+
+### 3.8.2 显式类型转化
+
+
+#### 函数手动转化
+
+显式类型转化最简单的办法是使用Number()、String()、Boolean()、Object()函数。
+
+```
+Number("3");// Number(3)
+String(false);//"false"
+Boolean([]);//true
+Object(3)//Number(3)
+```
+
+注意事项：
+
+
+- 除了null和undefined的任何值都有toString方法，返回值和String()方法返回的一致。
+- 把null和undefined转化为对象会抛出TypeError，Object则会简单地返回一个空对象。
+
+#### 运算符导致的转化
+
+- + 运算符的一个操作符是字符串，则会把另一个操作数也转化为字符串
+- 一元 + 运算符会将其操作数转化为数字
+- 一元 ! 运算符会将操作数转化为布尔值并取反
+
+#### 使用函数在 数字/字符串 之间做精准转化
+
+**数字到字符串**
+
+- 使用`toString(进制)`获取指定进制的字符
+- 使用`toFixed(保留位数)`获取到保留到小数点后若干位的小数
+- 使用`toExponential(小数点后的位数)`将数字转化为指数表示
+- 使用`toPrecision(有效位)`将指定的有效位将数字转换为字符串
+
+
+```
+var n = 123456. 789; 
+n. toFixed( 0); // "123457" 
+n. toFixed( 2); // "123456. 79" 
+n. toFixed( 5); // "123456. 78900" 
+n. toExponential( 1); // "1. 2e+ 5" 
+n. toExponential( 3); // "1. 235e+ 5" 
+n. toPrecision( 4); // "1. 235e+ 5" 
+n. toPrecision( 7); // "123456. 8" 
+n. toPrecision( 10); // "123456. 7890"
+```
+
+**字符串到数字**
+
+- Number(string)只能基于十进制转化为整数或浮点数，非法格式不能识别
+- parseInt() 解析为整数，前缀是0x或0X会被解析为十六进制，第二个参数可以指定转换基数
+- parseFloat() 解析为整数和浮点数
+
+parseInt()/parseFloat()和都会忽略前导空格并解析尽可能多的字符，忽略后面的无效内容（这一点和Number()不通过），第一个非空格字符是非法的数字直接量，会返回NaN。
+
+```
+parseInt(" 3 blind mice") // => 3 
+parseFloat(" 3. 14 meters") // => 3. 14 
+parseInt("- 12. 34") // => -12 parseInt(" 0xFF") // => 255 
+parseInt(" 0xff") // => 255 
+parseInt("- 0XFF") // => -255 
+parseFloat(". 1") // => 0. 1 
+parseInt(" 0. 1") // => 0 
+parseInt(". 1") // => NaN: 整数 不 能以"." 开始
+parseFloat("$ 72. 47"); // => NaN: 数字 不 能以"$" 开始
+
+parseInt(" 11", 2); // => 3 (1* 2 + 1) 
+parseInt(" ff", 16); // => 255 (15* 16 + 15) 
+parseInt(" zz", 36); // => 1295 (35* 36 + 35)
+parseInt(" 077", 8); // => 63 (7* 8 + 7) 
+parseInt(" 077", 10); // => 77 (7* 10 + 7)
+```
+
+### 3.8.3 对象转换为原始值
+
+#### a. 对象到布尔值
+
+全都转换为true
+
+#### b. 对象到字符串/数字转换
+
+注意：下面介绍的规则只适用于本地对象，宿主对象有各自的转换算法。
+
+所有对象继承了toString()和valueOf()方法
+
+**toString()方法**
+
+默认对象上调用会返回`[object Object]`，各个类（比如Array）则都实现了特定版本的toString()返回比较具有可读性的内容：
+
+```
+[1, 2, 3]. toString() // => "1, 2, 3" 
+(function( x) { f( x); }).toString() // => "function( x) {\n f( x);\ n}" 
+/\d+/ g. toString() // => "/\\d+/ g" 
+new Date( 2010, 0, 1). toString() // => "Fri Jan 01 2010 00: 00: 00 GMT- 0800 (PST)"
+```
+**valueOf()方法**
+
+语言对该方法的任务没详细定义。它的作用是，如何存在任意原始值，它就将默认对象转换为原始值。
+
+大多数对象是复合值，无法简单表示为原始值，因此将直接返回自身。
+
+**转化规则**
+
+注意：Number('1') 和 new Number('1') 是不用的，一个转化数字，一个新建了一个包装对象。
+
+（1）对象到字符串
+
+
+```
+if o.toString
+	if o.toString() is 原始值
+		return String(o.toString())
+	else if o.valueOf
+		if o.valueOf() is 原始值
+			return String(valueOf())
+else if o.valueOf
+	if o.valueOf() is 原始值
+		return String(valueOf())
+else 
+	TypeError	
+```
+
+（2）对象到数字
+
+```
+if o.valueOf
+	if o.valueOf() is 原始值
+		return Number(o.valueOf())
+	else if o.toString
+		if o.toString() is 原始值
+			return Number(o.toString())
+else if o.toString
+	if o.toString() is 原始值
+		return Number(o.toString())
+else 
+	TypeError	
+```
+
+```
+//[] == 0 的转化过程
+
+[] 
+valueOf([]) // []
+toString([])  // ''
+Number('') // 0
+
+//[2] == 2 的转化过程
+
+[2] 
+valueOf([2]) // [2]
+toString([2])  // '2'
+Number('2') // 2
+```
+
+**+和其他运算符**
+
++运算符可以执行算术运算 和 将字符串相连。
+
+如果一个运算数是对象，则会特殊的方法将其转化为原始值（此处应该是字符串），而不像其他运算符那样实现对象到数字的转化（言下之意其他运算符是将对象转化为数字。比如 `<` 和 `-` 运算符会先转化为数字）。 ==运算符与此规则相似；同样使用 `==` `!=` 将对象和原始值比较，会将对象先转化为原始值。
+
+```
+[1]+1 // '11'
+[1]-1 / /0
+```
+
+**日期的转换**
+
+日期对象到原始值的转化采用的是到字符串的转化模式，即先采用toString()，并且通过toString()或valueOf()的返回值将被直接使用，而不再转化为字符串或数字。
+
+```
+var now = new Date(); // 创建 一个 日期 对象 
+typeof (now + 1) // => "string": "+"将 日期 转换 为 字符串 
+typeof (now - 1) // => "number": "-"使用 对象 到 数字 的 转换 
+now == now. toString() // => true: 隐式 的 和 显 式 的 字符串 转换 
+now > (now -1) // => true: ">"将 日期 转换 为 数字
+```
+
+
+
 ## 3.9 变量声明
 
 如下是常见的合法声明：
