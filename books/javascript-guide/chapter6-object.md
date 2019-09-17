@@ -27,7 +27,7 @@
 最后定义一些术语用于区分三类JavaScript对象和两类属性：
 
 - 内置对象，由 ECMAScript规范定义的类或者对象
-- 宿主对象，有 JavaScript所迁入的宿主环境定义的
+- 宿主对象，有 JavaScript所嵌入的宿主环境定义的对象
 - 自定义对象，运行中的JavaScript代码创建的
 - 自有属性，直接在对象中定义的
 - 继承属性，在对象的原型对象中定义的
@@ -42,7 +42,7 @@
 
 #### a. 通过new常创建对象
 
-使用new运算符来创建初始化一个对象的用法是，关键字new后面跟随一个函数调用，这里的函数成为构造函数（constructor），JavaScript语言核心中的原始类型都包含内置构造函数：
+使用new运算符来创建初始化一个对象的用法是，关键字new后面跟随一个函数调用，这里的函数称为构造函数（constructor），JavaScript语言核心中的原始类型都包含内置构造函数：
 
 ```
 var o = new Object();
@@ -61,7 +61,7 @@ TODO 插入代码示例
 
 每个JavaScript对象都和另一个对象（原型）关联，并从中继承属性：
 
-- 使用对象直接量创建的对象具有同一个原型对象，可以通过Object.prototype获取到对它的引用。
+- 使用对象直接量创建的对象obj具有同一个原型对象，可以通过`obj.__proto__` 或 `Object.prototype` 获取到对它的引用。
 - 使用关键字new和构造函数创建的对象原型就是构造函数的prototype属性的值。
 
 原型的对象都是普通对象，普通对象又具有原型，比如 new Date()创建的对象date，原型是Date.prototype，它又继承自Object.prototype，因此date同时继承了Date.protype和Object.prototype，这种链接的原型对象就是所谓的”原型链“。
@@ -104,8 +104,7 @@ function  inherit(p) {
 
 #### d. 自总结
 
-对象实例可以访问到原型上的值，但它原型是通过对象的构造函数来指定的，如果你通过 var o = {}; o.prototype={x:1}; 只是给o下面挂了一个对象，想通过o.x访问到数值是undefinfed，正确的做法是o.constructor.prototype.x=1来指定，这是一个不妥当的例子，因为是会导致所有的对象实例都有指定的值x。
-
+对象实例可以访问到原型上的值，但它原型是通过对象的构造函数来指定的，比如要在Object的原型上挂载东西，那么是通过`Object.prototype.x = 1`。如果你通过 `var o = {}; o.prototype={x:1};` 只是给o下面挂了一个名为prototype的属性，它的值是一个对象，想通过o.x访问到数值是undefined。
 
 #### e. 疑问
 
@@ -117,7 +116,7 @@ F.prototype ={x:1};
 var f = new F();
 f.constructor.prototype.x // undefined;
 ```
-第二行代码修改了F的原型对象，原型对象默认construct是指向构造函数的，修改后只想到了Object，因此会发现prototype上找不到x。
+**第二行代码修改了F的原型对象，原型对象默认construct是指向构造函数的，修改后只想到了Object，因此会发现prototype上找不到x。**
 
 
 ## 6.2 属性的查询和设置
@@ -135,9 +134,9 @@ unitcircle.r;   //  =>  1，原型对象没有修改
 ```
 
 
-属性赋值要么失败（只读），要么创建一个属性，要么在原始对象（非被继承对象）中设置属性。
+属性赋值要么失败（只读），要么在当前对象上创建/设置一个属性。
 
-但有一个例外，如果o继承自属性x，而这个属性是一个具有setter方法的accessor属性（参照6.6节）。
+**但有一个例外，如果o继承自属性x，而这个属性是一个具有setter方法的accessor属性（参照6.6节）。**
 
 
 
@@ -148,7 +147,7 @@ delete 可以删除自有属性，不可以删除继承属性
 delete 删除成功或者没有任何副作用都会返回true
 delete 不能删除那些可配置型为false的属性
 
-关于delete有一些注意事项，一些内置对象的属性是不可配置的，通过变量申明或函数声明创建的全局对象也是如此。如下为ES3中非严格模式下：
+关于delete有一些注意事项，一些内置对象的属性是不可配置的，通过变量声明或函数声明创建的全局对象也是如此。如下为ES3中非严格模式下：
 
 ```
 delete Object.prototype; //不能删除，属性不可配置
@@ -160,9 +159,15 @@ delete this. f; // 也不能删除全局函数
 
 ## 6.4 检测属性
 
-判断一个属性是否在对象中，可以通过 `in` 运算符，hasOwnProperty(), propertyIsEnumerable() 方法来完成，甚至仅通过属性检查也可以做到这一点。
+判断一个属性是否在对象中，可以通过如下方法来完成，甚至仅通过属性检查也可以做到这一点：
 
-- `in` 自有属性或者继承属性包含时返回`true`，这个循环遍历`for in`不是一回事
+- `attr in obj`、
+- `obj.hasOwnProperty(attr)`、
+- `obj.propertyIsEnumerable(attr)` 
+
+具体的使用说明：
+
+- `in` 自有属性或者继承属性包含时返回`true`
 - `hasOwnProperty` 仅在自有属性时返回`true`
 - `propertyIsEnumerable` 仅在自有属性并且可枚举时返回`true`
 - `o.attribute !== undefined` 也可以简单判定属性是否存在，但无法处理属性存在值为`undefined`的特例
@@ -180,6 +185,8 @@ Object.prototype.propertyisEnumerable("toString") // false
 - `Object.keys()`列举所有可枚举的自有属性
 - `Object.getOwnPropertyNames()`获取所有自有属性而不管它是不是可枚举的
 
+**注意 in 和 for...in 的区别**
+
 ## 6.6 属性的getter和setter
 
 对象由名字、值和一组特性（attributes）组成，在ES5中属性值可以用一个或两个方法代替（getter和setter），用这样的方式定义的属性叫做存取器属性（accessor property）。和数据属性不同，存储器属性不具有writable attribute，加上没有 value attribute，存储器属性包含四个特性：
@@ -188,6 +195,7 @@ Object.prototype.propertyisEnumerable("toString") // false
 - setter
 - enumerable
 - configurable
+
 
 我们可以使用Object.getOwnPropertyDescriptor(o, propertyName)方法来获取到属性特性的描述对象。
 
@@ -200,7 +208,7 @@ var o = {
 Object.getOwnPropertyDescriptor(o, 'location') // {get: ƒ, set: ƒ, enumerable: true, configurable: true}
 ```
 
-定义存取器属性的方法如下：
+定义存取器属性的方法如下：	
 
 ```
 var o = {
@@ -212,45 +220,147 @@ var o = {
 
 和数据属性一样，存储器属性是可以继承的；另外如果对象中定义了重复的值的属性和存储器属性，在定义的顺序上后出现的覆盖前出现的。
 
+
+注：如果set/get属性和值属性同时存在，后出现的将会覆盖先出现的。
+
+
 ## 6.7 属性的特性
+
+
+我们把属性的值看成属性的特性，因此一个属性包含一个名字和四个特性：value、writable、enumerable、configurable。
+
+存储器属性setter/getter不具备value、writable特性（而是由setter是否存在决定的），因此也有四个特性： set、get、enumerable、configurable。
+
+
+ECMAScript 5中定义了名为 property descriptor 的对象，可以使用 Object.getOwnPropertyDescriptor()获取对象的特定属性的描述符，可以使用Objbect.defineProperty()来修改属性特性。
+
+```
+var o = {};
+Object.defineProperty(o, 'x', {
+	value: 1,
+	writable: true,
+	enumerable: false,
+	configurable: true
+});
+o.x;
+Object.keys(o);//[]
+Object.defineProperty(o,'x', {writable: false});
+o.x = 2;
+o.x; // 1
+Object.defineProperty(o, 'x', {value: 2}); // configurable为true所以可以修改
+o.x; // 2
+Object.defineProperty(o, 'x', {get: function(){return 0;}})
+o.x; // 0
+```
+
+Object.defineProperty不必传入所有的四个特性，未传递的值默认为false或undefined。
+
+Object.defineProperty不能修改继承属性。
+
+可以使用Object.defineProperties来修改/创建多个属性，只需要将第二个参数改为一个如下的映射对象即可。
+
+Object.defineProperties(o, {'x': { value: 1, writable: true, enumerable: false, configurable: true }});
+  
+参照6.8.3节，给不可扩展的对象新增属性会抛出类型错误异常。
+
+对于那些不允许创建或修改的属性，如果使用对其操作，会抛出类型错误异常。完整规则如下：
+ 
+- 如果属性是不可配置的，则不能修改它的可配置性和可枚举性
+- 如果存取器属性是不可配置的，则不能修改其getter和setter方法，也不能将它转换为数据属性
+- 如果数据属性是不可配置的，则不能将它转换为存取器属性
+- 如果数据属性是不可配置的，则不能将它的可写性从false修改为true，但可以从true修改为false
+- 如果数据属性是不可配置且不可写的，则不能修改它的值。然而可配置但不可写属性的值是可以修改的（实际上是先将它标为可写的，然后修改它的值，最后转换为不可写的）。
+
+
+如下实现了将属性之外的特性也赋值的extend方法：
+
+```
+
+Object.defineProperty(Object.prototype,"extend",
+  {
+    writable:true,
+    enumerable:false,
+    configurable:true,
+    value:function(o){
+      var names=Object.getOwnPropertyNames(o);
+      for (vari=0;i<names.length;i++){
+        if(names[i]inthis)
+          continue;
+        var desc=Object.getOwnPropertyDescriptor(o,names[i]);
+        Object.defineProperty(this,names[i],desc);
+        }
+      }
+    }
+);
+```
+
+
+在6.6节中通过set/get在对象直接量中定义了对象的存储器属性，另外专门有一些方法用于对存储器属性进行查询和设置。
+
+在ECMAScript 5中我们已经有Object.getOwnPropertyDescriptor() 和 Object.defineProperty()方法，所以此处不再对老的API进行记录。
 
 ## 6.8 对象的三个属性
 
 ### a. 原型属性
 
-对象的原型属性是在对象创建之处就设置好的
-
-- 通过对象直接量创建的对象使用Object.prototype作为它的原型
-- 通过new创建的对象使用构造函数的prototype作为它的原型
-- 通过create()创建的对象使用第一个参数作为它的原型
+对象的原型属性是在对象创建之初就设置好的，
 
 ECAMScript 5可以将对象作为参数传入Object.getPrototypeOf()中查询它的原型。
 
-在ECAMScript 3中没有与之等价的函数，常使用表达式 o.constructor.prototype来检测一个对象的原型。
+如下例子还会结合使用`o.constructor.prototype`的方式判断原型，可以看到它有时是不可靠的：
 
-- new表达式创建的对象，继承一个construct属性，这个属性指向这个对象的构造函数。不适合用上述的方法进行检测对象原型，如下示例会展示原因。
-- 通过对象直接量或Object.create()创建的对象包含一个名为constructor的属性指代Object()这个构造函数。对象直接量的真正原型是constructor.prototype，但Object.create()创建的对象往往不是这样（是传入的对象）。
-
+**Case1** 通过对象直接量创建的对象使用Object.prototype作为它的原型
 
 ```
-<!--看下面这个例子上使用constructor.prototype来判定原型就知道有多不靠谱了-->
+var o = {};
+o.constructor == Object;//true
+o.constructor.prototype == Object.prototype;//true
 
-var o1 = {x: 1};
-o1.constructor.prototype === Object.prototype; // true
-Object.prototype.isPrototypeOf(o1); // true
+Object.getPrototypeOf(o) == Object.prototype;//true
+Object.prototype.isPrototypOf(o);//true
 
+```
+
+**Case2** 通过new创建的对象使用构造函数的prototype作为它的原型
+
+```
+
+var d = new Date();
+d.constructor == Date;//true
+d.constructor.prototype == Date.prototype;//true
+
+Object.getPrototypeOf(d) == Date.prototype;//true
+Date.prototype.isPrototypOf(d);//true
+```
+
+**Case3** 通过create()创建的对象使用第一个参数作为它的原型
+
+```
+var p = {x:1}
+var o = Object.create(p);
+
+o.constructor == Object;
+
+o.constructor.prototype == Object.prototype;//true
+o.constructor.prototype == p;//false
+
+p.isPrototypeOf(o); // true  o继承自p
+Object.prototype.isPrototypeOf(o);//true p继承自Object.prototype 跟预期会有偏差
+
+Object.getPrototypeOf(o) == p;//true
+Object.getPrototypeOf(o) == Object.prototype;//false
+```
+
+另外，从如下例子中可以看出，尽管我们改了构造函数F的prototype，通过constructor.prototype访问到的仍旧是Object.prototype，可见使用提供的方法判定prototype更靠谱：
+
+```
 function F(){};
 F.prototype = {y: 1};
 var o2 = new F();
 o2.constructor.prototype === F.prototype; // false 
 o2.constructor.prototype === Object.prototype; // true 
 F.prototype.isPrototypeOf(o2); // true
-
-var p = {x:1};
-var o3 = Object.create(p);
-o3.constructor.prototype === p; // false
-o3.constructor.prototype === Object.prototype; // true 
-p.isPrototypeOf(o3); // true
+Object.getPrototypeOf(o2) == F.prototype;//true
 ```
 
 ### b. 类属性
@@ -269,4 +379,40 @@ p.isPrototypeOf(o3); // true
 
 
 ## 6.9 序列化对象
+
+
+JSON（JavaScript Object Notation）的语法和对象/数组直接量的语法非常接近，它只是JavaScript语法的子集，因此不能表示JavaScript中的所有值。
+
+序列化NaN、Infinity、-Infinity的结果为null，序列化Date的结果是ISO格式的字符串。
+
+函数、正则表达式、Error、Undefined的值不支持序列化和还原。
+
+JSON.stringify只可以序列化对象可枚举的自有属性。
+
+JSON.stringify和JSON.parse都可以指定第二个参数，用于指定需要序列化或还原的属性列表。
+
+
 ## 6.10 对象方法
+
+
+前述已经讨论过 Object.getPrototypeOf、Object.create()、isPrototypeOf()、 hasOwnProperty()、propertyIsEnumerable()，本章继续对Object.prototype中的方法进行详解。
+
+### toString方法
+
+在使用+号连接字符串和对象，或者在期望使用字符串的地方会调用toString方法。
+
+Object默认的toString方法返回的非常有限 `[object Object]`，很多对象的子类的toString方法有自己的默认实现。
+
+可以自己重写toString方法，详见9.6.3节。
+
+### toLocaleString方法
+
+返回一个表示这个对象的本地化字符串。
+
+### toJSON方法
+
+Object.prototype中是没有toJSON方法，调用JSON.stringify的时候如果发现有toJSON方法会调用它并把结果值当结果。
+
+### valueOf方法
+
+在需要将对象转化为原始值的时候才会调用。9.6.3节会介绍如何给自定义的对象类型定义valueOf方法。
