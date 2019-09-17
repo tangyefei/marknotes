@@ -3,26 +3,28 @@
 # 第6章 对象
 
 
-原型式继承是JavaScript的核心特征，即JavaScript对象除了保持自有的属性，还可以从一个被称为原型的对象继承属性，对象的方法通常都是继承的属性。
+原型式继承是JavaScript的核心特征，即JavaScript对象除了保持自有的属性，还可以从一个被称为原型的对象继承属性，对象的方法通常都是继承的属性，本章会详细讲述原型和属性继承。
 
-本章会讲述对象的基础操作（包括 create, set, query, delete, test, enumerate 它的属性），然后讲述来自ECMAScript 5的高级主题。
+本章会讲述对象的基础操作（create, set, query, delete, test, enumerate），然后介绍来自ECMAScript 5的高级主题：
 
-属性包括名字和值，名字可以是字符串或Symbol对象，值得可以是任意JavaScript值，也可以是（ECMAScript 5定义）一个getter或setter函数（或两者都有）。除了名字和值之外，每个属性还有一个与之相关的值，成为属性特性（property attribute）：
+属性包括名字和值，名字可以是字符串或Symbol对象，值可以是任意JavaScript值，除了名字和值之外，每个属性还有一个与之相关的值，称为属性特性（property attribute）：
 
 - writable attribute：是否可以设置该属性的值
 - enumerable attribute：是否可以通过for/in循环返回该属性
 - configurable attribute：是否可以删除或修改该属性
 
-
 在ECMAScript 5之前通过代码给对象创建的所有属性都是writable，enumerable，configurable的，在ECMAScript 5中可以对这些特性加以配置。
 
-除了包含属性外，每个对象还包含三个相关的对象属性（object abbribute）：
+属性的值也可以是（ECMAScript 5定义）一个getter或setter函数（或两者都有）。
+
+除了自身的属性外，每个对象还包含三个相关的对象属性（object abbribute），本章会详细介绍上面提到的三个特性的用法。
 
 - 对象的原型（prototype）指向另外一个对象
 - 对象的类（class）一个标志对象类型的字符串
 - 对象的扩展标记（extensible flag）指明了（在ECMAScript 5中）是否可以向该对象添加新属性
 
-本章会讲述原型和属性继承，然后详细介绍上面提到的三个特性。
+
+
 
 最后定义一些术语用于区分三类JavaScript对象和两类属性：
 
@@ -105,18 +107,6 @@ function  inherit(p) {
 #### d. 自总结
 
 对象实例可以访问到原型上的值，但它原型是通过对象的构造函数来指定的，比如要在Object的原型上挂载东西，那么是通过`Object.prototype.x = 1`。如果你通过 `var o = {}; o.prototype={x:1};` 只是给o下面挂了一个名为prototype的属性，它的值是一个对象，想通过o.x访问到数值是undefined。
-
-#### e. 疑问
-
-如下代码的undefined怎么解释?
-
-```
-function F(){}
-F.prototype ={x:1};
-var f = new F();
-f.constructor.prototype.x // undefined;
-```
-**第二行代码修改了F的原型对象，原型对象默认construct是指向构造函数的，修改后只想到了Object，因此会发现prototype上找不到x。**
 
 
 ## 6.2 属性的查询和设置
