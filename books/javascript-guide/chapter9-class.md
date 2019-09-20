@@ -8,8 +8,17 @@
 第6章的inherit()函数通过继承自传入的对象，返回一个新创建的对象，定义了一个JavaScript类，通常该类是实例还需要进一步的初始化，通常是通过定义一个函数来创建并初始化这个对象：
 
 
-
 ```
+function inherit(proto) {
+	if(Object.create) 
+		return Object.create(proto);
+	else {
+		let f = function(){};
+		f.prototype = proto;
+		return new f();
+	}
+}
+
 function  range(from,  to) {
   var r =  inherit(range.methods);
   r.from =  from;
@@ -27,6 +36,10 @@ range.methods = {
   	return  "(" +  this.from +  "..." +  this.to +  ")";
   }
  };
+ var r = range(1,3);
+ r.includes(2);
+ r.foreach(console.log);
+ console.log(r);
 ```
 
 ### 9.2 类和构造函数
@@ -52,7 +65,7 @@ Range.prototype = {
 };
 ```
 
-#### a. 构造函数和类的标志
+#### 构造函数和类的标志
 
 原型对象是类的唯一标志，初始化对象的构造函数则不能作为类的标志，因为两个不同个构造函数的prototype属性可能指向同一个原型对象。但因为构造函数的”外在表现“，它的名字常被用作类名。
 
@@ -63,7 +76,7 @@ r instanceOf Range // 如果r继承自Range.prototype，则返回true
 
 跟直观的理解不同，我们会以为如上只要r是通过Range构造函数构造出来的，就会返回true，实际上检验的是r是否继承自Range.prototype，不过 instanceOf运算符强化了 ”构造函数是类的共有标志“ 的概念。
 
-#### b. constructor属性
+#### constructor属性
 
 ```
 var F = function(){}
@@ -86,6 +99,22 @@ o.constructor ==== F;
 在9.2的例子中，我们看到Range的整个prototype对象被重写了，因此新的实例中是不含有constructor属性的的，我们可以有两种办法修正它：
 
 - 在prototype的覆盖对象中指定 `constructor: Range`
-- 通过 `Range.prototype.includes = function(){...}` 来给原型对象添加方法
+- 通过不直接设置Range.prototype，而是赋值单个方法，例如给prototype中添加includes方法
 
-### 9.6 
+```
+Range.prototype.includes = function(){...}
+```
+
+### 9.3 JavaScript中Java式的类继承
+
+
+
+
+
+
+
+
+
+
+
+-
