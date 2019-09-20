@@ -334,6 +334,47 @@ o.test();//window
 
 ### 不完全函数
 
+该节演示了一些不完全函数，以及和高阶函数的混合调用，作为一种范式不难理解，感兴趣再细看。
+
+```
+array(a,n) {return Array.prototype.slice.call(a,n || 0);}
+
+function partialLeft(f) {
+  var args = arguments;
+  return function(){
+    var a = array(args,1);
+    a = a.concat(array(arguments));
+    return f.apply(this, a);
+  }
+}
+
+function partialRight(f) {
+  var args = arguments;
+  return function(){
+    var a = array(arguments);
+    a = a.concat(array(args, 1));
+    return f.apply(this,a);
+  }
+}
+
+function partial(f) {
+  var args = argumnets;
+  return function(){
+    var a = array(args, 1);
+    var i = 0, j = 0;
+    for(;i < a.length; i++) {
+      if(a[i]===undefined) a[i] = arguments[j++];
+    }
+    a = a.concat(array(arguments, j));
+    return f.apply(this,a);
+  }
+}
+
+var f = function(x,y,z) {return x*(y-z)}
+partialLeft(f, 2)(3,4);//-6
+partialRight(f, 2)(3,4);//6
+partial(f, undefined, 2)(3,4);//-6
+```
 ### 记忆
 
 在函数中将曾经计算过的结果缓存起来的技巧成为记忆。
