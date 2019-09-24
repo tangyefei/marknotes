@@ -4,28 +4,12 @@
 
 # 第2章 JavaScript词法结构
 
-<<<<<<< Updated upstream
 编程语言的词法结构，是指一套描述如何使用这门语言来编写程序的基础性规则。它规定了变量名是什么样的、注释怎么写、程序语句如何分隔等。
 
 ## 2.1 字符集
-=======
-编程语言的词法结构，是描述如何使用这门语言来编写程序的基础性规则。包含变量名是什么样的、怎么写注释、程序语句之间如何分隔等规则。
 
-## 2.1 字符集 
 
 JavaScript程序是用Unicode字符集编写的。
-
-ES3/ES5要求JavaScript的实现必须支持Unicode 2.1/3及其后续版本。
->>>>>>> Stashed changes
-
-
-<<<<<<< Updated upstream
-JavaScript程序是用Unicode字符集编写的。
-=======
-关键字、变量、函数名和所有的标识符都区分大小写。
-
-但HTML并不区分，许多客户端的HTML标签属性和JavaScript对象属性联系紧密，比如在HTML中onclick属性也可以写成onClick，在JavaScript代码中则必须用onclick。
->>>>>>> Stashed changes
 
 ### 空格、换行符 和 格式控制符
 

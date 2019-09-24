@@ -242,14 +242,13 @@ eval(exp)
 foo('return;') // Uncaught SyntaxError: Illegal return statement
 ```
 
-### 全局eval()
+### eval别名
 
 使用别名调用 `eval()`时候，规范和实现有不同的处理
 
 - ECMAScript 3不允许使用eval的别名，否则直接抛出EvalError。
 - 大多数实现会将其他代码当做顶层的全局代码来执行。
-- ECMAScript 5反对使用EvalError，并且规范了eval的行为，间接使用eval将使用全局对象作为其上下文，
-并且无法读、写、定义局部变量和函数。
+- ECMAScript 5反对使用EvalError，并且规范了eval的行为，使用全局对象作为其上下文，并且无法读、写、定义局部变量和函数。
 - IE9和早期的版本，仅将其当做一个局部的eval来调用。
 
 
@@ -279,12 +278,10 @@ console. log( g(), y); // 更改 了 全局 变量： 输出" local globalchange
 
 ECMAScript 5严格模式下，对eval()函数的行为实施了更严格限制：
 
-- 查询和修改是局部变量，但是不能在局部作用域中定义新的变量和函数
+- 查询和修改的是局部变量，但是不能在局部作用域中定义新的变量和函数
 - eval被列为保留字
 - 不能用一个别名覆盖 eval()函数
 - 变量、函数、函数参数、或者异常捕获的参数都不能取名为eval
-
-
 
 
 ## 4.13 其他运算符
