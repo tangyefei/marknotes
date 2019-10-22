@@ -8,13 +8,13 @@ RegExp是用于表示正则表达式的类，可以使用直接量或RegExp两�
 
 ### 直接量字符
 
-通过反斜杠(\)可以让表达式中的字符按照非字母进行匹配，如下列举了转译字符：
+通过反斜杠`\`可以让表达式中的字符按照非字母进行匹配，如下列举了转译字符：
 
 ![regexp-parser](./regexp-parser.png)
 
 `^$.*+?=!:|\/()[]{}` 是有特殊含义的标点符号，其中某些符号只在一定的上下文中才有特殊含义，其他情况直接被当成直接量。
 
-想要在表达式中使用这些字符当做直接量，需要在前面加前缀\。其他的标点符号比如@在正则表达式中按照字面含义进行匹配。
+想要在表达式中使用这些字符当做直接量，需要在前面加前缀`\`。其他的标点符号比如@在正则表达式中按照字面含义进行匹配。
 
 标点符号如果不记得是否需要转译，可以都加上反反斜杠；另外字母和数字如果使用了反斜杠转移会有特殊的含义，尽量不要使用反斜杆。
 
@@ -162,15 +162,18 @@ var zipCode = new RegExp("\\d{5}", 'g')
 
 匹配了以后会返回一个跟match一样的结构，没匹配则返回null，返回结果中还包含了 input 和 index属性，index包含发生匹配的字符位置，input引用 是正在检索的字符串。
 
-和match()不同的是，不管是否有修饰符g，它都返回一样的数组。但是当使用了g修饰符，它的lastIndex为紧邻这匹配子串的位置，每一次执行都将从lastIndex的位置开始检索。
+和match()不同的是，不管是否有修饰符g，它都返回一样的数组。但是当使用了g修饰符，它的lastIndex为匹配子串的位置，每一次执行都将从lastIndex的位置设置为子串后的位置，并从该位置开始检索。
 
 ```
 var pattern = /Java/g;
 var text = "JavaScript is more fun than Java!";
 var result;
-while(result = pattern.exec(text) != null) {
-	alert("Mathced '" + result[0] + "'" + " at position " + result.index + '; next search begins at" + pattern.lastIndex);
+while((result = pattern.exec(text)) != null) {
+    console.log("Mathced '" + result[0] + "'" + " at position " + result.index + "; next search begins at " + pattern.lastIndex);
 }
+
+// Mathced 'Java' at position 0; next search begins at4
+// Mathced 'Java' at position 28; next search begins at32
 ```
 
 #### regex.test(str)
