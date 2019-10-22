@@ -2,6 +2,60 @@
 
 # 第10章 正则表达式和模式匹配
 
+## 容易混淆的复杂概念总结
+
+###（1） `?:`分组
+
+出现在该表达式后面的字符，不会出现在匹配结果的编组中。
+
+例如下面例子中，`(\.)`因为有括号括起来，也会出现在编组中，结果的第三项为`.`。
+
+```
+"http://www.baidu.com".match(/(\w+)(\.)/)
+
+["www.", "www", ".", index: 7, input: "http://www.baidu.com", groups: undefined]
+```
+
+稍加修改，可以看到 `.` 不会在出现匹配结果中
+
+```
+"http://www.baidu.com".match(/(\w+)(?:\.)/)
+
+(2) ["www.", "www", index: 7, input: "http://www.baidu.com", groups: undefined]
+```
+###（2）`?=`向前断言、`?<=`向后断言
+
+我们可以通过如下表达式直接不通过分组直接匹配出带`.com`结尾的`baidu`这部分：
+
+```
+"http://www.baidu.com".match(/\w+(?=\.com)/);
+
+["baidu", index: 11, input: "http://www.baidu.com", groups: undefined]
+```
+
+`?=`确保的是表达式`\w+`前面（书写顺序）这部分是符合要求，但是不出现在匹配结果中的。
+
+同理，我们可以通过如下表达式匹配出 `www.`打头的部分
+
+```
+http://www.baidu.com".match(/(?<=www\.)\w+/);
+
+["baidu", index: 11, input: "http://www.baidu.com", groups: undefined]
+```
+`?<=`确保的是向后部分`www.`是匹配的
+
+### （3）str.match方法参数使用g和不使用g
+
+不使用g，会返回一个数组结果，如上：它包含匹配结果的分组、index、input属性。操作。
+
+而使用g，会返回所有的匹配结果，例如：
+
+```
+"http://www.baidu.com".match(/\w+\./g);
+
+["www.", "baidu."]
+```
+
 ## 10.1 正则表达式的定义
 
 RegExp是用于表示正则表达式的类，可以使用直接量或RegExp两种方式创建正则表达式。
