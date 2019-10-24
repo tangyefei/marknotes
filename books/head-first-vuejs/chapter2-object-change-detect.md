@@ -32,7 +32,6 @@ function defineReactive(data, key, val) {
     },
     set: function(newval) {
       if(val != newval) {
-        if(val === newval) return;
         val = newval;
         dep.notify();
       }
@@ -41,7 +40,7 @@ function defineReactive(data, key, val) {
 }
 ```
 
-将dep的常用操作抽象到一个单独的类当中，先假定window.target被临时变量，存放了会使用data.key的结构：
+将dep的常用操作抽象到一个单独的类当中，先假定window.target被当做临时变量，存放了会使用data.key的结构：
 
 ```
 
@@ -165,7 +164,7 @@ if(typeof val === 'object') {
 
 #### 8. 关于Object的问题
 
-假定在Vue.js的实例中已经有一个obj对象（无name属性)，那么新通过 `this.data.obj.name = 'newattr'`进行的操作是无非被侦听到的，delete一个属性也是同样的道理。这是因为Object.defineProperty只能侦听到属性是否修改，无法侦听属性是否被新增或删除。后续章节会介绍 `vm.$set`、`vm.$delete`的方法。
+假定在Vue.js的实例中已经有一个obj对象（无name属性)，那么新通过 `obj.name = 'newattr'`进行的操作是无非被侦听到的，delete一个属性也是同样的道理。这是因为Object.defineProperty只能侦听到属性是否修改，无法侦听属性是否被新增或删除。后续章节会介绍 `vm.$set`、`vm.$delete`的方法。
 
 
 
@@ -176,8 +175,18 @@ if(typeof val === 'object') {
 ![图解](./chapter2.png)
 
 
+10月24日复习：
 
-![图解](./chapter3-graphic.jpeg)
+1. 理解顺序：先进行get生成依赖，后进行set同步界面
+2. Watcher作为一个抽象概念获取值的同时，把自己挂载了window.target上
+3. 获取的同时触发Observer侦听的对象的属性，属性的getter中，会把window.target添加到Dep的实例中
+4. 当Observer中对象的属性变化的时候，setter会通过Dep实例，来通知所有的Watcher，每个Watcher会通知具体的试图进行更新
+5. Observer是一个入口，具体做的是defineReactive的动作，因为属性可能又是对象，所以还会递归地进行构建Observer的动作
+
+
+![图解](./chapter2-graphic.jpeg)
+
+
 
 
 

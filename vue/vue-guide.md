@@ -21,3 +21,41 @@ Prop的属性传递是单向的，父改变了值，会同步到子，而子修�
 至于子想要修改父的属性，则可以通过
 
 `@update:title="title=$event"` + `$emit('update:title', '666')`的方式，该写法在引用端可以简化为 `:title.sync="title"`。
+
+**动态组件**
+
+使用 `<component v-bind:is="currentComponent"></component>` 来指定动态组件。
+
+通过包裹 `<keep-alive></keep-alive>` 可以将切换过的组件缓存。
+
+通过如下两种预发可以进行异步组件加载：
+
+```
+Vue.component(
+  'async-webpack-example',
+  // The `import` function returns a Promise.
+  () => import('./my-async-component')
+)
+```
+
+```
+new Vue({
+  // ...
+  components: {
+    'my-component': () => import('./my-async-component')
+  }
+})
+```
+
+**处理边界**
+
+可以使用 $root 获取到对根组件的引用；可以使用 $parent 获取到父组件的引用；可以通过 $refs.name 获取子组件的引用；可以通过 provide + inject的方式可以让任意子孙组件访问到祖先组件的提供的数据/方法。
+
+可以使用 $on $off $once 来对组件的一些时间进行侦听。
+
+循环引用，分为组件对自己的循环引用、组件之间的循环引用。
+
+在模板中使用 inline-template 可以使用嵌套内容作为模板；x-template 可以使用script中定义的内容作为模板。
+
+可以使用$forceUpdat来强制更新数据，可以使用v-once来提高静态模板的渲染效率。
+

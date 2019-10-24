@@ -2,7 +2,7 @@
 
 本章介绍了用create-react-app创造了一个简单的React应用，
 
-所谓JSX，是JavaScript的语法扩展（eXtension），让我们在JavaScript中可以编写像HTML一样的代码。
+所谓JSX，是JavaScript的语法扩展（extension），让我们在JavaScript中可以编写像HTML一样的代码。
 
 React判断一个元素是HTML元素还是React组件的原则就是看第一个字母是否大写，如果在JSX中我们不用ClickCounter而是用clickCounter，那就得不到我们想要的结果。
 
