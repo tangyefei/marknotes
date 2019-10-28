@@ -89,7 +89,42 @@ px2rem-loader、lib-flexible（就是在HTML上设置一个font-size然后通过
 多页面通常需要配置多个entry/htmlwebpackplugin，作者介绍了**Glob**工具可以读取到某个规则的文件比如 `src/*/index.js`，然后通过书写js代码来准备entry/htmlwebpackplugin，个人感觉意义不大，因为项目不会频繁增减入口。
    
    
+### 3.8 Tree Shaking
 
+将没有用到到代码删除掉，从而对应代码不会打包到bundle.js，要注意的是引入的语法必须是ES6的语法，CJS的require方式是不支持Tree Shaking的。
 
+DCE(dead code elimination)
 
-           
+- 代码不可到达
+- 执行结果不会被用到
+- 代码只影响死变量（最后没有用到被影响到的变量）
+
+Tree Shaking主要利用的是ES6的特点进行静态分析。
+
+## 3.9 Scope Hoisting
+
+能减少打包的包裹代码从而提高性能，必须是ES6语法，CJS不支持。
+
+在Webpack3中可以加入ModuleConcatenationPlugin插件，在Webpack4中使用`mode:'production'`就已经应用了Scope Hoisting。
+
+```
+module.exports = {  
+  plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin()
+  ]
+};
+```
+
+## 3.10 代码分割和动态导入
+
+适用场景：包括把通用内容抽到共享块；脚本懒加载使用时候再加载。
+
+ES6：动态import，在if/else逻辑里面用的时候再引入。目前没有原生支持，需要Babel转化。
+
+具体使用是要安装 plugin-syntax-dynamic-import 插件，并且配置 .babelrc 文件。
+
+## 3.11 使用ESLint
+
+不同的公司有不同的eslint规范，具体落地又分为：跟CI/CD集成 和 跟Webpack集成。
+
+介绍了跟Webpack集成，主要是通过 `.eslintrc.js` 来实现，里面可以定义parer(比如babel-eslint)，集成自那些已经发布出来的贵方（比如airbnb)，支持的环境（browsser，node），以及需要覆写的规则(rules)。
