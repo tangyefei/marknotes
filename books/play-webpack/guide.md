@@ -90,6 +90,12 @@ px2rem-loader、lib-flexible（就是在HTML上设置一个font-size然后通过
    
    
 
+### 3.6 sourcemap
 
+在webpack中可以有多重配置来使用sourcemap，除了问题默认是定位到打包过后的代码不好调试，其他一些可用参数可以让自己以更细的粒度进行代码调试。
+
+### 3.7 提取页面公共资源资源
+
+可以使用webpack-externals-plugin和splitChunks来进行公共资源提取。
 
            

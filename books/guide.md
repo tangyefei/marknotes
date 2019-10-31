@@ -8,3 +8,4 @@
 5. [《CSS揭秘》](/css-secrets.md)，重点记录。
 6. [《Flask Web Development》](/flask-web-development.md)，1-8章翻译。
 7. [《图解HTTP》](/http.md)，大部分章节翻译。
+8. [《深入浅出Vue.js》](/head-first-vuejs.md)，进行中的阅读笔记。
