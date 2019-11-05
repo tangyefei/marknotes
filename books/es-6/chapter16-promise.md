@@ -172,12 +172,6 @@ getJSON("/posts.json").then(function(json) {
 
 `resolve`函数的参数还可以是另外一个Promise实例，如下：
 
-- `p2`自己的状态无效
-- `p1`决定了`p2`的状态
-- `p2`1秒后等待`p2`的状态
-- 再过（3-1）秒`p1`的处理结果被传递给`p2`
-- 结果最终被catch中的函数处理
-
 ```
 const p1 = new Promise(function (resolve, reject) {
   setTimeout(() => reject(new Error('fail')), 3000)
@@ -192,6 +186,14 @@ p2
   .catch(error => console.log(error))
 // Error: fail
 ```
+
+
+- `p2`自己的状态无效
+- `p1`决定了`p2`的状态
+- `p2`1秒后等待`p1`的状态
+- 再过（3-1）秒`p1`的处理结果被传递给`p2`
+- 结果最终被catch中的函数处理
+
 
 ### resole/reject对后续执行的影响
 
@@ -850,4 +852,15 @@ console.log(2);
 2. 可以通过try/catch捕获Error，未经捕获的Error就会变成Uncaught Error。
 3. 在Promise中生成的或者抛出的Error，会被吞没（即不影响外部的程序执行），可以通过 `.catch()`捕获Error，未经捕获的会变成Uncaught Error。
 4. 在Promise构造函数中，通过setTimeout去抛出Error，会在下一轮“事件循环”再抛出错误。到了那个时候Promise 的运行已经结束了，所以这个错误是在 Promise 函数体外抛出的，会冒泡到最外层，成了未捕获的错误。
+
+### 常见的问题
+
+- Promise是为了解决什么问题？
+
+- Promise的模拟实现?
+
+- Promise如何解决回调地狱的问题？
+
+- Promise只要其中某一个请求通过就行？
+
 
