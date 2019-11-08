@@ -859,8 +859,6 @@ console.log(2);
 
 - Promise的模拟实现?
 
-- Promise如何解决回调地狱的问题？
-
 - Promise只要其中某一个请求通过就行？
 
 

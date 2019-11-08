@@ -56,7 +56,8 @@ export default class Observer {
 
 #### 6. 依赖列表存在哪儿
 
-在Observer的构造函数中，增加如下一行
+在Observer的构造函数中，增加如下行
+
 ```
 export default class Observer {
   constructor(value) {
@@ -119,7 +120,7 @@ export class Observer {
 
 其中def做的事情就是在使用`Object.defineProperty`在对象`value`上定义一个`__ob__`属性
 
-在使用`Object.defineProperty`对`arrayMethod`对各个操作数组的方法
+**在使用`Object.defineProperty`对`arrayMethod`对各个操作数组的方法。自己写的不明白了！！！**
 
 #### 9.　向数组的依赖发送通知
 
@@ -143,7 +144,7 @@ export const arrayMethods = Object.create(arrayProto);
 
 #### 10.　侦测数组中元素的变化
 
-对于全面的内容可大概总结下：我们给Array类型的方法，增加了拦截，每当通过`push`改变数组结构的行为发生时候可以侦听到。
+对于前9节的全面的内容可大概总结下：我们给Array类型的方法，增加了拦截，每当通过`push`改变数组结构的行为发生时候可以侦听到。
 
 本节介绍的是数组中包含了子对象的时候，如何侦听子对象中属性的变化，即在Observer的构造函数中，针对isArray的情况增加一个处理
 
