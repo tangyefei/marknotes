@@ -1,4 +1,4 @@
-# Promise、Await、Async
+# Promise、Async/Await
 
 ## Promise是为了解决什么问题?
 
@@ -235,4 +235,176 @@ G.R.Product.getActivityDetail(id).then(resp => {
   this.loadingCount --;
 });
 ```
+
+## Async/Await的含义和基本用法
+
+
+**1. Generator**
+
+
+
+可以把Generator函数看成是一个状态机，封装了多个内部状态，执行 Generator 函数会返回一个遍历器对象，代表 Generator 函数的内部指针。虽然Generator函数是一个普通函数，但是有两个特征：（1）function关键字与函数名之间有一个星号；（2）函数体内部使用yield表达式，定义不同的内部状态。
+
+```
+function* helloWorldGenerator() {
+  yield 'hello';
+  yield 'world';
+  return 'ending';
+}
+
+var hw = helloWorldGenerator();
+
+hw.next()
+// { value: 'hello', done: false }
+
+hw.next()
+// { value: 'world', done: false }
+
+hw.next()
+// { value: 'ending', done: true }
+
+hw.next()
+// { value: undefined, done: true }
+
+**2. Async/Await**
+
+
+async就是Generator函数的语法糖。如下是使用Generator函数依次读取两个文件的代码： 
+
+```
+const fs = require('fs');
+
+const readFile = function (fileName) {
+  return new Promise(function (resolve, reject) {
+    fs.readFile(fileName, function(error, data) {
+      if (error) return reject(error);
+      resolve(data);
+    });
+  });
+};
+
+const gen = function* () {
+  const f1 = yield readFile('/etc/fstab');
+  const f2 = yield readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+```
+
+使用async函数改写后如下，语法上看只是简单地把 * 换成 async，yield 替换成 await 而已。
+
+```
+const asyncReadFile = async function () {
+  const f1 = await readFile('/etc/fstab');
+  const f2 = await readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+```
+
+
+但async对Generator函数的改进体现在如下四点：
+
+- Generator必须依靠内置执行器（co模块）通过next语法执行，而async函数自带执行器执行起来像普通函数
+- 更好的语义，比起*和yield，使用async和await语义更清楚
+- 更广的适用性，yield命令后面只能是Trunk函数和Promise对象，而async的await后面可以是Promisee对象和原始值
+- async函数的返回值是Promise对象，比起Generator函数的返回值是Iteretor翻遍，可以使用then方法指定下一步操作
+
+## Async/Await的实际应用
+
+未经过改写的代码
+
+```
+methods: {
+  handlePreview(file) {
+    this.dialogImageUrl = file.url;
+    this.dialogVisible = true;
+  },
+  queryAuditStatus(id){
+    G.R.Common.getAuditProgress('ACTIVITY_AUDIT', id).then(resp => {
+      if(resp.status == 0) {
+        this.processData = resp.data;
+      }
+    })
+  },
+  lookProduct(id){
+    this.$router.push({name:'prod_product_manage_view',params:{id:id}})
+  }
+},
+mounted() {
+  let params = this.$route.params || {};
+  this.loading = true;
+  G.R.Product.getActivityDetail(params.id).then(resp => {
+    console.log(resp)
+    if(resp.status == 0 && resp.data) {
+      this.product = Activity.parse(resp.data);
+      this.queryAuditStatus(params.id);
+    }else{
+      this.$message({
+        type:'info',
+        message:resp.message
+      })
+    }
+    this.loading = false;
+  })
+  let id = {
+    id:params.id
+  }
+  G.R.Product.getActivityOtherDispose(id).then(resp => {
+    console.log(21321321312312)
+    console.log(resp)
+    if(resp.status == 0 && resp.data) {
+      if(resp.data.length){
+        this.activityOther = resp.data;
+      }
+    }
+    this.loading = false;
+  })
+}
+```
+
+使用await该改写后的代码：
+
+-（1）代码更少，可读性更好
+-（2）在loading的控制上更直接
+
+```
+  # /components/activity/view.vue
+
+  async mounted() {
+    let params = this.$route.params || {};
+    let id = params.id;
+    let activityRes = await G.R.Product.getActivityDetail(id);
+    let processRes = await G.R.Common.getAuditProgress('ACTIVITY_AUDIT', id);
+    let otherRes = await G.R.Product.getActivityOtherDispose({id});
+
+    this.loading = true;
+
+    if(activityRes.ok && processRes.ok && otherRes.ok) {
+      this.product = Activity.parse(activityRes.data);
+      this.processData = processRes.data;
+      if(otherRes.data && otherRes.data.length) {
+        this.activityOther = otherRes.data;
+      }
+    }
+    
+    this.loading = false;
+  }
+```
+
+将三个请求改为并行缩短请求时间
+
+```
+  # /components/activity/view.vue
+  async mounted() {
+    ...
+    let [activityRes, processRes, otherRes] = await Promise.all([
+      G.R.Product.getActivityDetail(id),
+      G.R.Common.getAuditProgress('ACTIVITY_AUDIT', id),
+      G.R.Product.getActivityOtherDispose({id})
+    ])
+    ...
+  }
+```
+
 
