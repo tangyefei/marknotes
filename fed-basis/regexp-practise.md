@@ -21,20 +21,18 @@ const params = {
 ```
 
 
-理论上`?=\?`应该会匹配问号但不会消费，但是这里还是被消费了：
+第一步处理
 
 ```
-var matched = sourceUrl.match(/(?=\?)(.+)(?=#).?/);
-(2) ["?a=1&b=2&c=3&d#", "?a=1&b=2&c=3&d", index: 22, input: "https://www.taobao.com?a=1&b=2&c=3&d#name", groups: undefined]
+var matched = sourceUrl.match(/(?<=\?)(.+)(?=#)/);
+var matched = sourceUrl.match(/([^?]+)(?=#)/);
+
+["a=1&b=2&c=3&d", "a=1&b=2&c=3&d", index: 23, input: "https://www.taobao.com?a=1&b=2&c=3&d#name", groups: undefined]
 ```
 
-一种变通做法是：
+第二步处理
 
 ```
-var matched = sourceUrl.match(/([^?]+)(?=#).?/);
-(2) ["a=1&b=2&c=3&d#", "a=1&b=2&c=3&d", index: 23, input: "https://www.taobao.com?a=1&b=2&c=3&d#name", groups: 
 matched[1].match(/\w+(=\d+)?/g);
 (4) ["a=1", "b=2", "c=3", "d"]
 ```
-
-

@@ -91,6 +91,13 @@ px2rem-loader、lib-flexible（就是在HTML上设置一个font-size然后通过
    
 ### 3.8 Tree Shaking
 
+### 3.6 sourcemap
+
+在webpack中可以有多重配置来使用sourcemap，除了问题默认是定位到打包过后的代码不好调试，其他一些可用参数可以让自己以更细的粒度进行代码调试。
+
+### 3.7 提取页面公共资源资源
+
+可以使用webpack-externals-plugin和splitChunks来进行公共资源提取。
 将没有用到到代码删除掉，从而对应代码不会打包到bundle.js，要注意的是引入的语法必须是ES6的语法，CJS的require方式是不支持Tree Shaking的。
 
 DCE(dead code elimination)
@@ -128,3 +135,18 @@ ES6：动态import，在if/else逻辑里面用的时候再引入。目前没有�
 不同的公司有不同的eslint规范，具体落地又分为：跟CI/CD集成 和 跟Webpack集成。
 
 介绍了跟Webpack集成，主要是通过 `.eslintrc.js` 来实现，里面可以定义parer(比如babel-eslint)，集成自那些已经发布出来的贵方（比如airbnb)，支持的环境（browsser，node），以及需要覆写的规则(rules)。
+
+## 3.12 打包组件和基础库
+
+从一个计算长整数的算法开始，介绍了将代码作为工具输出，输出两个版本的工具，一个普通版本，一个压缩版本
+
+在配置中指定mode为none用于去除默认配置
+
+在optimazation中指定minimize来确定用什么工具压缩什么格式的文件名，这里用了一个可以正常解析es6语法的terserplugin
+，它是基于uglify开发出来的
+
+配置中无非也是制定 entry，不同的名字指向到同一个文件， output使用[name].js
+
+为了让用户可以根据环境，自动确定使用什么版本。用了一个index.js作为导出文件，会自动决定加载哪个版本，原理即使用process.env来判定执行的环境
+
+最后介绍了如何将定义的js工具publish到npm中，从而可以被项目引用。
