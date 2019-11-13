@@ -1,0 +1,32 @@
+JavaScript权威指南-第6版
+
+第11章 子集和扩展
+
+本章讨论JavaScript的子集和超集。
+
+定义子集的大部分是出于安全的考虑，因为使用安全的子集编写脚本可以让代码更安全。至于扩展很大程度上是尚且未称为标准，但很强大并且很有可能在未来成为标准。
+
+1. JavaScript的子集
+
+**The Good Part**
+
+Douglas Crockford在《JavaScript: The Good Part》一书中倡导避免使用鸡肋的部分，仅使用建议使用的子集来编写程序，从而使编写更容易、更强壮。
+
+后来ECMAScript的严格模式出现了，它对“The Good Part”提到的大多数鸡肋部分同样做了限制。
+
+**子集的安全性**
+
+这里讨论的子集可能比The Good Part的范围更大，它的目的是在容器或沙箱内更安全地运行不可信的第三方代码，为了让代码能够通过安全检查，必须移除掉一些特性，比如：
+
+- 禁止使用使用eval和Function
+- 禁止使用this关键字
+- 禁止使用with语句
+- 禁止使用某些全局变量比如window
+- 禁止使用某些属性和语法比如arguments caller callee
+- 防止使用.读取属性
+
+因为检查器的检验规则较严格，所以一些沙箱系统定义了更松散的、范围更广的子集，比如ADSafe、dojox.safe、Caja、FBJS、Microsoft Web Sandbox。
+
+2. 常量和局部变量
+3. 
+
