@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    /**
+      * @param {number[]} nums
+      * @return {number[][]}
+      */
+     var threeSum = function(nums) {
+         var m = new Map();
+         let r = [];
+         nums.forEach((d,i) => {
+          if(m.has(d)) {
+            m.get(d).push(i);
+          } else {
+            m.set(d, [i])
+          }
+         });
+         for (let i = 0; i < nums.length-1; i++) {
+           for (let j = i+1; j < nums.length; j++) {
+             let n  = -nums[i]-nums[j];
+             if(m.has(n)) {
+              m.get(n).forEach(d => {
+                // i !=d && j !=d
+                if(d > j) {
+                  r.push([nums[i], nums[j], nums[d]]);
+                }
+              })
+              // r.push([i, j ], m[n]);
+             }
+           }
+         }
+         return r;
+     };
+
+     console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+      // [
+      //   [-1, 0, 1],
+      //   [-1, -1, 2]
+      // ]
+
+  </script>
+  
+</body>
+</html>
