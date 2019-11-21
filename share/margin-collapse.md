@@ -63,10 +63,12 @@ overflow-y:hidden
 
 在`.print`上`padding-top: 1px;`的注释放开后，发现可以达到效果：`p`的`marign`没有再向上撑开父元素`.print`。
 
-
 ![excepted](./margin-collapse/c.png)
 
 实际上这是margin collapse的一个应用，相邻的block元素，在垂直（top bottom)方向的margin会合并，最常见的场景是：
+
+关招商使用渠道
+还信用卡
 
 - 在兄弟元素间
 - 父子元素间（子元素没有padding）
@@ -77,3 +79,5 @@ overflow-y:hidden
 ### 参考：
 
 [margin-collapse-in-css-what-why-and-how](https://medium.com/@joseph0crick/margin-collapse-in-css-what-why-and-how-328c10e37ca0#fe08)
+
+## 2. Vue中

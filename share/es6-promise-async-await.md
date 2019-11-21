@@ -1,12 +1,12 @@
 # Promise、Async/Await
 
-## Promise是为了解决什么问题?
+## 1. Promise是为了解决什么问题?
 
 解决了回调地狱Callback Hell的问题。
 
 回调地狱的问题并不只是在于缩进太多（如下图），至少在阅读如下代码的时候不会有什么障碍。
 
-[callback-hell](./callback-hell.jpeg)
+![callback-hell](./callback-hell-1.jpeg)
 
 
 **1. 难于理解**
@@ -79,7 +79,7 @@ getJSON("/posts.json").then(function(json) {
 经过Promise流程的调用，将同步调用放在then中就不会出现同步调用意外的早于异步调用的情况；而且Promise的结果不能被篡改，多次调用的回调结果都能保持一致。
 
 
-## 如何模拟实现Promise
+## 2. 如何模拟实现Promise
 
 ```
 let status = 'pending';
@@ -106,7 +106,7 @@ class Promise {
 }
 ```
 
-## 实际的应用场景
+## 3. 实际的应用场景
 
 
 ```
@@ -224,7 +224,7 @@ mounted() {
 ```
 let id = G.U.getParam('id', this);
 
-this.loadingCount = 2;
+this.loading = true;
 
 G.R.Product.getActivityDetail(id).then(resp => {
   this.product = Activity.parse(resp.data || {});
@@ -232,11 +232,11 @@ G.R.Product.getActivityDetail(id).then(resp => {
 }).then(resp => {
   this.processData = resp.data;
 }).finally(() => {
-  this.loadingCount --;
+  this.loading = false;
 });
 ```
 
-## Async/Await的含义和基本用法
+## 4.Async/Await的含义和基本用法
 
 
 **1. Generator**
@@ -266,7 +266,9 @@ hw.next()
 hw.next()
 // { value: undefined, done: true }
 
-**2. Async/Await**
+```
+
+2. Async/Await
 
 
 async就是Generator函数的语法糖。如下是使用Generator函数依次读取两个文件的代码： 
@@ -310,7 +312,7 @@ const asyncReadFile = async function () {
 - 更广的适用性，yield命令后面只能是Trunk函数和Promise对象，而async的await后面可以是Promisee对象和原始值
 - async函数的返回值是Promise对象，比起Generator函数的返回值是Iteretor翻遍，可以使用then方法指定下一步操作
 
-## Async/Await的实际应用
+## 5. Async/Await的实际应用
 
 未经过改写的代码
 
