@@ -26,7 +26,7 @@
 ## 2. 在博客使用HTTPS
 
 
-参考 [阮一峰：HTTPS 升级指南](http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html)，使用[Let's Encrypt 提供的工具选择 Linux + Centos7](https://certbot.eff.org/lets-encrypt/centosrhel7-nginx)，只执行如下两个命令即可生成证书：
+参考 [阮一峰：HTTPS 升级指南](http://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html)，使用[Let's Encrypt 提供的工具选择 Linux + Centos7](https://certbot.eff.org/lets-encrypt/centosrhel7-nginx)，只在服务器上执行如下两个命令即可生成证书：
 
 ```
 $ sudo yum install certbot python2-certbot-nginx

@@ -1,12 +1,16 @@
-lv1 14章 Window对象
+# JavaScript权威指南-第6版
 
-lv2 多窗口和窗体
+# 第二部分
+
+#第14章 Window对象
+
+## 多窗口和窗体
 
 浏览器窗口可以打开多个页签，它们上下文独立，有各自的Window对象，脚本通常不知道其他标签页的存在，更不可能有交互操作。
 
-lv3打 开和关闭窗口
+### 打开和关闭窗口
 
-lv4 打开窗口
+#### 打开窗口
 
 但是窗口可以打开/关闭新的窗口，这样也就不算是完全没有关系。
 
@@ -42,7 +46,7 @@ w.opener == w;
 opener.alert('alter window 1');
 ```
 
-lv4 关闭窗口
+#### 关闭窗口
 
 如果创建了Window对象，可以通过close方法将它关掉：
 
@@ -59,7 +63,7 @@ window.close();
 疑问：window和Window的关系是什么
 
 
-lv3 窗体之间的关系
+### 窗体之间的关系
 
 JavaScript代码中可以使用window或self来引用自己的窗口/窗体，使用parent可应用包含它的窗口/窗体的Window对象。如果本省就是顶级的窗口，那么parent属性就是本身：`parent == self`。parent的引用可以层层嵌套，top可以直接引用顶层窗口，如果本身就是顶级窗口，那么`top == self`。
 
@@ -84,7 +88,7 @@ frames[1].frames[2]
 尽管可以通过document.getElementById/Name拿到窗体，它和frames的引用还是不同的。它查询到的是元素对象，而frames引用的是窗体对象。相当于frames是一个船体组成的数组，可以通过frames[0]或frames.f1来获得对具体某个窗体的引用.
 
 
-lv3 交互窗口中的JavaScript
+### 交互窗口中的JavaScript
 
 假定在Web页面中有iframe元素分别叫A和B，在A中定义的变量 `var i = 3` 在B中可以通过 `parent.A.i = 4`来改变。同理，在A中定义的函数也可以通过该方式进行调用。
 
