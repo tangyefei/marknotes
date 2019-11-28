@@ -9,42 +9,54 @@
 <body>
 
   <script>
-    /**
-      * @param {number[]} nums
-      * @return {number[][]}
-      */
-     var threeSum = function(nums) {
-         var m = new Map();
-         let r = [];
-         nums.forEach((d,i) => {
-          if(m.has(d)) {
-            m.get(d).push(i);
-          } else {
-            m.set(d, [i])
-          }
-         });
-         for (let i = 0; i < nums.length-1; i++) {
-           for (let j = i+1; j < nums.length; j++) {
-             let n  = -nums[i]-nums[j];
-             if(m.has(n)) {
-              m.get(n).forEach(d => {
-                // i !=d && j !=d
-                if(d > j) {
-                  r.push([nums[i], nums[j], nums[d]]);
-                }
-              })
-              // r.push([i, j ], m[n]);
-             }
-           }
-         }
-         return r;
-     };
+     /**
+       * @param {number[]} nums
+       * @return {number[][]}
+       */
+      var threeSum = function(nums) {
+          let result = [];
+          
+          if(nums.length < 3) return result;
 
-     console.log(threeSum([-1, 0, 1, 2, -1, -4]));
-      // [
-      //   [-1, 0, 1],
-      //   [-1, -1, 2]
-      // ]
+          nums = nums.sort((a,b) => {return a - b;});
+          
+          for (let i = 0; i < nums.length - 2; i++) {
+            
+            if(nums[i] > 0) return result;
+
+            if(i > 0 && nums[i] == nums[i - 1]) {
+              // 这里是一个坑：continue以后，i会自增，不需要再i++了
+              // i ++;
+              continue;
+            }
+
+            let j = i + 1, k = nums.length - 1;
+
+            while(j < k) {
+              let sum = nums[i] + nums[j] + nums[k];
+              if(sum === 0) {
+                result.push([nums[i], nums[j], nums[k]]);
+                j ++;
+                k --;
+                while(nums[j] === nums[j - 1]) j++;
+                while(nums[k] === nums[k + 1]) k--;
+              } else if(sum  < 0) {
+                j ++;
+              } else {
+                k --;
+              }
+            }
+          }
+          return result;
+      };
+
+      // console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+      console.log(threeSum([-4,-2,1,-5,-4,-4,4,-2,0,4,0,-2,3,1,-5,0]))
+      
+        // [
+        //   [-1, 0, 1],
+        //   [-1, -1, 2]
+        // ]
 
   </script>
   
