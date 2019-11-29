@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function TreeNode(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+
+    let root = new TreeNode(6);
+    root.left = new TreeNode(2);
+    root.right = new TreeNode(8);
+    root.left.left = new TreeNode(0);
+    root.left.right = new TreeNode(4);
+    root.right.left = new TreeNode(7);
+    root.right.right = new TreeNode(9);
+    root.left.right.left = new TreeNode(3);
+    root.left.right.right = new TreeNode(5);
+
+
+    /**
+     * @param {TreeNode} root
+     * @param {TreeNode} p
+     * @param {TreeNode} q
+     * @return {TreeNode}
+     */
+    var lowestCommonAncestor = function(root, p, q) {
+
+      function findRoutes(root, v, rs) {
+        if(root == null || root == undefined) return false;
+
+        rs.push(root.val);
+
+        if(root.val == v) {
+          return rs;
+        } else {
+          let leftR = findRoutes(root.left, v, rs);
+          if(leftR !== false) return leftR;
+
+          let rightR = findRoutes(root.right, v, rs);
+          if(rightR !== false) return rightR;
+          
+          return [];
+        }
+      }
+
+      const pRoutes = findRoutes(root, p, []);
+      const qRoutes = findRoutes(root, q, []);
+      const pLen = pRoutes.length;
+      const qLen = qRoutes.length;
+
+      return pLen > qLen ? qRoutes[qLen-1] : pRoutes[pLen - 1];
+    };
+
+    console.log(lowestCommonAncestor(root, 2, 8)); //expected 6
+    console.log(lowestCommonAncestor(root, 2, 4)); //expected 2
+    </script>
+</body>
+</html>
