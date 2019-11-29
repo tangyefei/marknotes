@@ -30,36 +30,60 @@
      * @param {TreeNode} q
      * @return {TreeNode}
      */
+      
+  // var lowestCommonAncestor = function(root, p, q) {
+      
+  //     function findRoutes(root, v, rs) {
+  //       if(root == null || root == undefined) return false;
+    
+  //       rs.push(root.val);
+    
+  //       if(root.val == v) {
+  //         return rs;
+  //       } else {
+  //         let leftR = findRoutes(root.left, v, rs);
+  //         if(leftR !== false) {
+  //           return leftR;
+  //         } 
+  //         let rightR = findRoutes(root.right, v, rs);
+  //         if(rightR !== false) {
+  //           return rightR;
+  //         }
+  //         rs.pop();
+  //         return false;
+  //       }
+  //     }
+    
+  //     const pRoutes = findRoutes(root, p, []);
+  //     const qRoutes = findRoutes(root, q, []);
+  //     const pLen = pRoutes.length;
+  //     const qLen = qRoutes.length;
+  //     const cLen = Math.min(pLen, qLen);
+  //     let i = 0;
+    
+  //     while(i < cLen) {
+  //       if(pRoutes[i] === qRoutes[i]) 
+  //         i++;
+  //       else
+  //         return pRoutes[i - 1];
+  //     }
+  //   }
+
+
+ 
     var lowestCommonAncestor = function(root, p, q) {
-
-      function findRoutes(root, v, rs) {
-        if(root == null || root == undefined) return false;
-
-        rs.push(root.val);
-
-        if(root.val == v) {
-          return rs;
-        } else {
-          let leftR = findRoutes(root.left, v, rs);
-          if(leftR !== false) return leftR;
-
-          let rightR = findRoutes(root.right, v, rs);
-          if(rightR !== false) return rightR;
-          
-          return [];
-        }
+      let rv = root.val, pv = p.val, qv = q.val;
+      if(rv > pv && rv > qv) {
+        return lowestCommonAncestor(root.left, p, q);
+      } else if(rv < pv && rv < qv) {
+        return lowestCommonAncestor(root.right, p, q);
+      } else {
+        return root.val;
       }
-
-      const pRoutes = findRoutes(root, p, []);
-      const qRoutes = findRoutes(root, q, []);
-      const pLen = pRoutes.length;
-      const qLen = qRoutes.length;
-
-      return pLen > qLen ? qRoutes[qLen-1] : pRoutes[pLen - 1];
-    };
-
+    }
     console.log(lowestCommonAncestor(root, 2, 8)); //expected 6
     console.log(lowestCommonAncestor(root, 2, 4)); //expected 2
+    console.log(lowestCommonAncestor(root, 0, 5)); //expected 2
     </script>
 </body>
 </html>
