@@ -21,7 +21,7 @@ Window对象表示浏览器的窗口或窗体，它的属性和方法是全局�
 ## 2. 在HTML里嵌入JavaScript
 
 - 内联，放在 <script>和</script>标签之间
-- 放置在由<script>标签的src属性指定的外部文件中
+- 放置在由<script></script>标签的src属性指定的外部文件中
 - 放置在HTML事件处理程序中
 - 放在一个URL里，这个URL使用特殊的 “javascript:”协议
 
@@ -39,7 +39,7 @@ JavaScript的程序执行有两个阶段，第一阶段载入文档内容，并�
 
 当HTML解析器遇到`<script>`元素时，它默认必须先执行脚本，然后再恢复文档的解析和渲染。
 
-可以使用defer和async属性来改变脚本的执行方式，即浏览器会下载脚本时继续解析和渲染文档。它们都是不带值的布尔属性，出现在<script>标签里即可。
+可以使用defer和async属性来改变脚本的执行方式，即浏览器会下载脚本时继续解析和渲染文档。它们都是不带值的布尔属性，出现在<script></script>标签里即可。
 
 - defer属性使得浏览器延迟脚本执行，知道文档的载入和解析完成
 
@@ -47,7 +47,7 @@ JavaScript的程序执行有两个阶段，第一阶段载入文档内容，并�
 
 defer的脚本会按照他们在文档中的出现顺序执行，async会在它们载入后就执行，意味着它们可能是无序的。
 
-在不支持的async浏览器中，可以通过动态创建<script>元素并把它插入文档中，来实现脚本的异步载入和执行。
+在不支持的async浏览器中，可以通过动态创建<script></script>元素并把它插入文档中，来实现脚本的异步载入和执行。
 
 作者提示使用它们的时候，考虑浏览器的实际实现程度。
 
@@ -67,8 +67,8 @@ HTML5定义了一种作为后台线程的 "Web Worker",单客户端JavaScript还
 ### 3.4 客户端JavaScript时间线
 
 1. 浏览器创建Document对象，解析Web页面，document.readystate的值是loading
-2. 遇到不含async和defer属性的<script>元素时，将他们添加到文档中并开始执行，同时文档的解析器会停止，脚本就可以使用document.write来操作文档结构，这些脚本（同步脚本）可以看到它自己的<script>和它们之前的文档内容。
-3. 遇到async属性的<script>元素时候，会下载脚本并继续解析文档，并且脚本会在下载完成后尽快执行，异步脚本禁止实用docuemnt.write方法。
+2. 遇到不含async和defer属性的<script>元素时，将他们添加到文档中并开始执行，同时文档的解析器会停止，脚本就可以使用document.write来操作文档结构，这些脚本（同步脚本）可以看到它自己的<script></script>和它们之前的文档内容。
+3. 遇到async属性的<script></script>元素时候，会下载脚本并继续解析文档，并且脚本会在下载完成后尽快执行，异步脚本禁止实用docuemnt.write方法。
 4. 文档完成解析时，document.readyState编程interactive
 5. 所有的defer脚本会按照在文档中的出现顺序执行，一步脚本可能会在这个时间执行，延迟脚本能访问完整的文档树，禁止实用docuemnnt.write方法（**为什么，这有点奇怪呀？**）
 6. 浏览器在Document对象上触发DocumentContentLoad事件，标志着程序执行从同步执行阶段转化到了异步事件驱动阶段。
@@ -109,7 +109,7 @@ HTML5定义了一种作为后台线程的 "Web Worker",单客户端JavaScript还
 
 ### 6.2 同源策略
 
-即JavaScript代码能操作哪些内容的一条完整的安全限制，当Web页面存在多个<iframe>元素或者打开其他浏览器窗口的时候，这一策略就会发挥作用。具体来说，脚本只能读取和所属文档来源相同窗口和文档的属性。
+即JavaScript代码能操作哪些内容的一条完整的安全限制，当Web页面存在多个<iframe></iframe>元素或者打开其他浏览器窗口的时候，这一策略就会发挥作用。具体来说，脚本只能读取和所属文档来源相同窗口和文档的属性。
 
 需要注意的是，脚本本身的来源和同源策略无关，而和脚本所嵌入的文档的来源有关。
 
@@ -130,7 +130,7 @@ HTML5定义了一种作为后台线程的 "Web Worker",单客户端JavaScript还
 
 ### 6.4 跨站脚本
 
-XSS（Cross-site scripting）即攻击者向目标网站注入HTML标签或脚本，比如：一个站点A的功能是从浏览器地址的search中获取到一个参数，然后document.write到文档中，如果这个search参数被恶意改成了一个包含了<script src>的内容，那么加载的js就可以在文档中盗取cookie等信息，发送给自己的服务器。
+XSS（Cross-site scripting）即攻击者向目标网站注入HTML标签或脚本，比如：一个站点A的功能是从浏览器地址的search中获取到一个参数，然后document.write到文档中，如果这个search参数被恶意改成了一个包含了<script src></script>的内容，那么加载的js就可以在文档中盗取cookie等信息，发送给自己的服务器。
 
 ### 6.5 拒绝服务攻击
 
