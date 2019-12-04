@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * @param {number[]} nums
+     * @return {number}
+     */
+
+    
+    
+    var majorityElement = function(nums) {
+      // // speed > 94.46% memory > 92.86% 
+      // let map = new Map(), max = 0;
+      // nums.forEach(d => {
+      //   let v = map.get(d); 
+      //   map.set(d, v ? v + 1 : 1);
+      // });
+      // for(let [k, v] of map) {
+      //   if(v > max) {
+      //     max = v;
+      //     result = k;
+      //   }
+      // }
+
+      // speed > 12.27% memory > 28.57%
+      nums.sort((a,b) => a-b);
+      let l = nums.length;
+      for(let i = 0; i < nums.length; i++) {
+        if(nums[i + Math.floor(l/2)] === nums[i]) return nums[i];
+      }
+    };
+    console.log(majorityElement([3,2,3])===3);
+    console.log(majorityElement([2,2,1,1,1,2,2])===2);
+    </script>
+
+
+  
+</body>
+</html>
