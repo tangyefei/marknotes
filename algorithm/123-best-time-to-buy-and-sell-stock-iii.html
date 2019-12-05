@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * @param {number[]} prices
+     * @return {number}
+     */
+    var maxProfit = function(prices) {
+      // speed > 10.38%, memory < 50.00%
+      var findMaxOfOneTran = function(subs){
+        if(subs.length < 2) return 0;
+
+        let min = subs[0];
+        let max = 0;
+
+        for (let i = 1; i < subs.length; i++) {
+          max = Math.max(max, subs[i] - min);
+          min = Math.min(min, subs[i]);
+        }
+        return max;
+      }
+
+      let max = 0;
+      for (let i = 0; i < prices.length; i++) {
+        let firstMax = findMaxOfOneTran(prices.slice(0,i));
+        let secondMax = findMaxOfOneTran(prices.slice(i));
+        if(firstMax + secondMax > max) {
+          max = firstMax + secondMax;
+        }
+      }
+      return max;
+
+      // https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/discuss/435022/Java-simple-solution-99.8-time-100-space
+      // 另有一种思路（上述链接），可以把时间复杂度提高到O(n)，思路如下：
+      // 两次交易，分别遍历两次，记录i位置上作为尾交易的最大值 和 作为头交易的最大值 2O(n)
+      // 然后在轮训一次，lmax(i)+rmax(i+1)值作为max的结果，时间复杂度O(n)
+      // 最终返回max
+    };
+
+    // console.log(maxProfit([3,3,5,0,0,3,1,4])===6);
+    // console.log(maxProfit([1,2,3,4,5])===4);
+    // console.log(maxProfit([7,6,4,3,1])===0);
+    // console.log(maxProfit([1,4,2])===3);
+    console.log(maxProfit([2,1,4,5,2,9,7])===11);
+
+  </script>
+  
+</body>
+</html>
