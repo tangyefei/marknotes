@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    let root = new TreeNode(6);
+    let v2 = root.left = new TreeNode(2);
+    let v8 = root.right = new TreeNode(8);
+    let v0 = root.left.left = new TreeNode(0);
+    let v4 = root.left.right = new TreeNode(4);
+    let v7 = root.right.left = new TreeNode(7);
+    let v9 = root.right.right = new TreeNode(9);
+    let v3 = root.left.right.left = new TreeNode(3);
+    let v5 = root.left.right.right = new TreeNode(5);
+
+    // LOWEST-COMMON-ANCESTOR-OF-A-BINARY-SEARCH-TREE
+
+    /**
+     * @param {TreeNode} root
+     * @param {TreeNode} p
+     * @param {TreeNode} q
+     * @return {TreeNode}
+     * function TreeNode(val) {
+     *     this.val = val;
+     *     this.left = this.right = null;
+     * }
+     */
+    var lowestCommonAncestor = function(root, p, q) {
+        let result;
+        function recurseTree(root, p, q) {
+            if(root == null) return false;
+            let leftF = recurseTree(root.left, p, q) ? 1 : 0;
+            let rightF = recurseTree(root.right, p, q) ? 1 : 0;
+            let middleF = (root === p || root === q) ? 1 : 0;
+            let sum = leftF + rightF + middleF;
+            if(leftF + rightF + middleF >= 2) {
+              result = root;  
+            }
+            return sum > 0;
+        }
+        recurseTree(root, p, q);
+        return result;
+    };
+
+    console.log(lowestCommonAncestor(root, v2, v8)); //expected 6
+    console.log(lowestCommonAncestor(root, v2, v4)); //expected 2
+    console.log(lowestCommonAncestor(root, v0, v5)); //expected 2
+    </script>
+</body>
+</html>

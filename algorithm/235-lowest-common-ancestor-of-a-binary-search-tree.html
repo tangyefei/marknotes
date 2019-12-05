@@ -8,10 +8,6 @@
 </head>
 <body>
   <script>
-    function TreeNode(val) {
-        this.val = val;
-        this.left = this.right = null;
-    }
 
     let root = new TreeNode(6);
     root.left = new TreeNode(2);
@@ -22,55 +18,18 @@
     root.right.right = new TreeNode(9);
     root.left.right.left = new TreeNode(3);
     root.left.right.right = new TreeNode(5);
-
+    LOWEST-COMMON-ANCESTOR-OF-A-BINARY-SEARCH-TREE
 
     /**
      * @param {TreeNode} root
      * @param {TreeNode} p
      * @param {TreeNode} q
      * @return {TreeNode}
+     * function TreeNode(val) {
+     *     this.val = val;
+     *     this.left = this.right = null;
+     * }
      */
-      
-  // var lowestCommonAncestor = function(root, p, q) {
-      
-  //     function findRoutes(root, v, rs) {
-  //       if(root == null || root == undefined) return false;
-    
-  //       rs.push(root.val);
-    
-  //       if(root.val == v) {
-  //         return rs;
-  //       } else {
-  //         let leftR = findRoutes(root.left, v, rs);
-  //         if(leftR !== false) {
-  //           return leftR;
-  //         } 
-  //         let rightR = findRoutes(root.right, v, rs);
-  //         if(rightR !== false) {
-  //           return rightR;
-  //         }
-  //         rs.pop();
-  //         return false;
-  //       }
-  //     }
-    
-  //     const pRoutes = findRoutes(root, p, []);
-  //     const qRoutes = findRoutes(root, q, []);
-  //     const pLen = pRoutes.length;
-  //     const qLen = qRoutes.length;
-  //     const cLen = Math.min(pLen, qLen);
-  //     let i = 0;
-    
-  //     while(i < cLen) {
-  //       if(pRoutes[i] === qRoutes[i]) 
-  //         i++;
-  //       else
-  //         return pRoutes[i - 1];
-  //     }
-  //   }
-
-
- 
     var lowestCommonAncestor = function(root, p, q) {
       let rv = root.val, pv = p.val, qv = q.val;
       if(rv > pv && rv > qv) {
