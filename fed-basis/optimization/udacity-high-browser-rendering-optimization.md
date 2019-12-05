@@ -42,9 +42,42 @@
 如上的练习中，一个flex的容器当浏览器被resize到更大的宽度的时候，子元素也会变大，几种行为中有哪些会发生呢？style没有发生改变，而layout、paint和composite都需要被触发。
 
 
+**渲染的过程**
+
+渲染的过程举例：JavaScript > Style  > Layout > Paint > Composite
+
+有三种渠道可以到值整个过程进行运作：
+
+注：通常界面变化的由JavaScript发起（当然不是必须，诸如动画之类也可以导致界面变化）
+
+第1种（各种操作对应上述箭头流程的各个阶段）
+
+- 通过CSS或者JavaScript导致了视觉上的变化
+- 浏览器recalculate计算收到影响的元素的样式
+- 如果你修改了Layout，即修改了元素的geometry（比如宽度、高度、位置），那么浏览器需要检查所有其他元素，并且进行对网页进行reflow
+- 受到影响的区域会被repainted
+- 最终绘制的元素会被composited到一起
+
+
+第2种
+- 仅修改了用于paint的属性，比如背景图、文字颜色、阴影
+- 同样，浏览器recalculate
+- 不需要进行layout操作，因为没有修改geometry相关的属性
+- 同样，进行paint
+- 同样，进行composite
+
+第3种
+- 修改了stlye，单既没有涉及到layout也没有设计到paint，
+- 只需要进行composite操作即可
+
+总结上述三种情况，都会涉及到Style的修改，因此会触发后续的Layout还是Paint决定了我们的网页的性能。
+
+
+
 ## 第2课 App生命周期
 
 Rail
+
 - Response 100ms 用户要在1/10秒对操作感知到想用响应
 - Animation 16ms(10-12ms）
 - Idle 50ms 留给Idle用于处理其他任务的时间
@@ -59,6 +92,27 @@ Rail
 第新闻文案、基本功能项目作为基本功能，是必须最优先被处理好的，而图片、视频、评论可以在这个阶段处理。
 
 尽管如此，用户仍可能很快就进行基础功能的使用，因此用于处理这几个任务的时间会非常短，可能只有50ms。
+
+## 第三课 卡顿杀伤性武器
+
+通过使用Chrome Devtools的分析工具，我们可以分析JavaScript代码的执行时间，如下是两个录制好的分析数据：
+
+
+[timeline-l3-reading-the-timeline](https://www.udacity.com/api/nodes/4156258563/supplemental_media/timeline-l3-reading-the-timeline/download)
+
+[timeline-l3-reading-timeline](https://www.udacity.com/api/nodes/4158208827/supplemental_media/timeline-l3-reading-timeline/download)
+
+![peformance](./peformance.png)
+
+可以看到在每一段黄色区域执行的时间耗费了大约70ms，距离16ms时间（1000ms/60fps)还有一定距离，因此是无法流畅地响应地。
+
+可以利用这个技术来侦测自己的项目中，明显感觉到卡顿的地方（比如TSP的菜单展开）。
+
+
+JavaScript
+样式和布局
+合并和绘制
+
 
 
 
