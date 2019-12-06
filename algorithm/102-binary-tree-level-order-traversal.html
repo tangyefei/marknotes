@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val) {
+     *     this.val = val;
+     *     this.left = this.right = null;
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {number[][]}
+     */
+    var levelOrder = function(root) {
+      // speed > 92.74% memory < 47.06%
+
+      if(root == null) return [];
+      root.level = 0;
+
+      let result = [];
+      let stack = [root];
+      let current = stack.shift();
+
+      while(current) {
+        result.push({val: current.val, level: current.level});
+        if(current.left) {
+          current.left.level = current.level + 1;;
+          stack.push(current.left);
+        }
+        if(current.right) {
+          current.right.level = current.level + 1;;
+          stack.push(current.right);
+        }
+        current = stack.shift();
+      }
+
+      let r = [[]], l = 0;
+      for (let i = 0; i < result.length; i++) {
+        if(result[i].level != l) 
+          r[++l] = [result[i].val];
+        else
+          r[l].push(result[i]['val']);
+      }
+      return r;
+    };
+
+    function TreeNode(val) {
+      this.val = val;
+      this.left = this.right = null;
+    }
+
+    let root = new TreeNode(3);
+    root.left = new TreeNode(9);
+    root.right = new TreeNode(20);
+    root.right.left = new TreeNode(15);
+    root.right.right = new TreeNode(7);
+    
+    console.log( JSON.stringify(levelOrder(root))===JSON.stringify([[3],[9,20],[15,7]]) );
+  </script>
+  
+</body>
+</html>
