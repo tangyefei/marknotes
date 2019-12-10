@@ -28,7 +28,8 @@
         board[i][j] =  'Q';
 
         if(i === n - 1) {
-          return board;
+          group.push(board);
+          return;
         }
 
         for (let index = 0; index < n; index++) {
