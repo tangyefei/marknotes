@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var maxDepth = function(root) {
+      // // speed > 6.70% memory > 100%
+      // if(root == null) return 0;
+
+      // var depth = 0;
+      // var visit = function(root, level) {
+      //   depth = Math.max(depth, level);
+      //   if(root.left) visit(root.left, level + 1);
+      //   if(root.right) visit(root.right, level + 1);
+      // }
+
+      // visit(root, 1);
+
+      // return depth;
+      // var depth = 0;
+
+      // speed > 78% memory > 28%
+      if(root == null) return 0;
+      return Math.max(1 + maxDepth(root.left), 1 + maxDepth(root.right))
+    };
+
+    function TreeNode(val) {
+      this.val = val;
+      this.left = this.right = null;
+    }
+    let root = new TreeNode(3);
+    root.left = new TreeNode(9);
+    root.right = new TreeNode(20);
+    root.right.left = new TreeNode(15);
+    root.right.right = new TreeNode(7);
+    
+    console.log(maxDepth(root) === 3);
+  </script>
+  
+</body>
+</html>

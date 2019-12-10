@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+    * @param {number} n
+    * @return {string[]}
+    */
+    var generateParenthesis = function(n) {
+      // speed > 7.81% memory < 7.69%
+      // speed > 9.65% memory < 30.77%
+      var  result = [];
+      var visit = function(partial, lCount, rCount, r) {
+        if(lCount==0 && rCount ==0) {
+          result.push(partial);
+        }
+        
+        if(lCount>0) {
+          visit(partial + '(', lCount-1, rCount, r)
+        }
+        if(rCount>0 && rCount > lCount) {
+          visit(partial + ')', lCount, rCount - 1, r);
+        }
+      }
+      visit('',  n, n, result);
+      return result;
+    };
+
+    console.log(generateParenthesis(3));
+  </script>
+  
+</body>
+</html>

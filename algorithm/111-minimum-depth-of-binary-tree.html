@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var minDepth = function(root) {
+      //speed > 36.09%  momory < 80.00% 
+      if(root == null) return 0;
+      
+      if(root.left && root.right) {
+        return 1 + Math.min(minDepth(root.left), minDepth(root.right))
+      } else if(root.left) {
+        return 1 + minDepth(root.left);
+      } else if(root.right) {
+        return 1 + minDepth(root.right);
+      } else  {
+        return 1;   
+      }
+    };
+
+    function TreeNode(val) {
+      this.val = val;
+      this.left = this.right = null;
+    }
+    let root = new TreeNode(3);
+    root.left = new TreeNode(9);
+    root.right = new TreeNode(20);
+    root.right.left = new TreeNode(15);
+    root.right.right = new TreeNode(7);
+    
+    let root2 = new TreeNode(1);
+    root2.left = new TreeNode(2);
+
+    console.log(minDepth(root) === 2);
+    console.log(minDepth(root2) === 2);
+  </script>
+  
+</body>
+</html>
