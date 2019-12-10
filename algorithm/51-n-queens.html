@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+   /**
+    * @param {number} n
+    * @return {string[][]}
+    */
+    var solveNQueens = function(n) {
+      let group = [];
+      let createBoard = function(l){
+        let board = [];
+        for (let i = 0; i < l; i++) {
+          board.push(new Array(l));
+        }
+        return board;
+      }
+      let nthQueue = function(i, j, board) {
+        if(board[i][j]==='.') return;
+
+        board[i][j] =  'Q';
+
+        if(i === n - 1) {
+          return board;
+        }
+
+        for (let index = 0; index < n; index++) {
+          if(board[i][index]===undefined)board[i][index] = '.';
+        }
+        for (let index = 0; index < n; index++) {
+          if(board[index][j]===undefined)board[index][j] = '.';
+        }
+
+        let delta = Math.min(n-1-i, j - 0)
+        let x = i + delta;
+
+        while(x > 0 && y < n) {
+          if(board[x][y]===undefined)board[x][y] = '.';
+          x--;
+          y++;
+        }
+
+        x = i > j ? i - j : 0;
+        y = i > j ? 0 : i - j;
+        while(x < n && y < n) {
+          if(board[x][y]===undefined)board[x][y] = '.';
+          x++;
+          y++;
+        }
+        console.log(board);
+      }
+
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+          nthQueue(i, j, createBoard(n))
+        }
+      }
+      return group.map(subArr => { subArr.join('') });
+    };
+    console.log(JSON.stringify(solveNQueens(4))=='[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]');
+  </script>
+  
+</body>
+</html>
