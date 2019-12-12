@@ -14,57 +14,83 @@
     * @return {string[][]}
     */
     var solveNQueens = function(n) {
-      let group = [];
-      let createBoard = function(l){
-        let board = [];
-        for (let i = 0; i < l; i++) {
-          board.push(new Array(l));
+      // speed > 5.05% memory < 100%
+      var result =[];
+      function createBoard(w, basedOn) {
+        console.log('createBoard')
+        var board = new Array(w);
+        for (let i = 0; i < board.length; i++) {
+          let rowCells = board[i] = new Array(w);
+          if(basedOn) {
+            for (let j = 0; j < rowCells.length; j++) {
+              rowCells[j] = basedOn[i][j];
+            }
+          }
         }
         return board;
       }
-      let nthQueue = function(i, j, board) {
-        if(board[i][j]==='.') return;
-
-        board[i][j] =  'Q';
-
-        if(i === n - 1) {
-          group.push(board);
+      function findAvCells(board){
+        let cells = [];
+        // console.log('findAvCells')
+        for (let i = 0; i < board.length; i++) {
+          for (let j = 0; j < board[i].length; j++) {
+            
+            if(board[i][j] === undefined) {
+              cells.push({x: i, y: j})
+            }
+          }
+        }
+        return cells;
+      }
+      function placeQueueWithNewBoard(board, avCells,cell){
+        // console.log('placeQueueWithNewBoard')
+        var newBoard = createBoard(board.length, board);
+        var newAvCells = [];
+        avCells.forEach(d => {
+          if(isConflict(d, cell)) {
+            newBoard[d.x][d.y] = false;
+          } else {
+            newAvCells.push(d);
+          }
+        })
+        newBoard[cell.x][cell.y] = true;
+        return {newBoard, newAvCells};
+      }
+      function isConflict(a, b) {
+        // console.log('isConflict')
+        return (a.x == b.x || a.y == b.y || Math.abs(a.x-b.x) == Math.abs(a.y-b.y))  
+      }
+      function findNQueue(board, nth, inheritAvCells) {
+        if(nth === n) {
+           result.push(board);
+           return;
+        } 
+        if(inheritAvCells && inheritAvCells.length == 0) {
           return;
         }
 
-        for (let index = 0; index < n; index++) {
-          if(board[i][index]===undefined)board[i][index] = '.';
-        }
-        for (let index = 0; index < n; index++) {
-          if(board[index][j]===undefined)board[index][j] = '.';
-        }
+        var avCells = inheritAvCells || findAvCells(board);
 
-        let delta = Math.min(n-1-i, j - 0)
-        let x = i + delta;
+        if(avCells.length == 0) return;
 
-        while(x > 0 && y < n) {
-          if(board[x][y]===undefined)board[x][y] = '.';
-          x--;
-          y++;
+        for (var i = 0; i < avCells.length; i++) {
+        var {newAvCells, newBoard} = placeQueueWithNewBoard(board, avCells, avCells[i]);
+          findNQueue(newBoard, newAvCells, nth + 1);
+          board[avCells[i].x][avCells[i].y] = false; // prevent duplicate
         }
+      } 
+      findNQueue(createBoard(n), 0);
 
-        x = i > j ? i - j : 0;
-        y = i > j ? 0 : i - j;
-        while(x < n && y < n) {
-          if(board[x][y]===undefined)board[x][y] = '.';
-          x++;
-          y++;
-        }
-        console.log(board);
-      }
-
-      for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
-          nthQueue(i, j, createBoard(n))
-        }
-      }
-      return group.map(subArr => { subArr.join('') });
-    };
+      return result.map(d => {
+        return d.map(dd => {
+          return dd.map(ddd => {
+            return ddd ? 'Q':'.'
+          }).join('')
+        })
+      });
+    }
+    
+    // console.log(solveNQueens(4));
     console.log(JSON.stringify(solveNQueens(4))=='[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]');
   </script>
   
