@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+    * @param {number[]} nums1
+    * @param {number[]} nums2
+    * @return {number}
+    */
+    var findMedianSortedArrays = function(nums1, nums2) {
+      // speed > 84.34%, memory < 78.72%
+      let len1 = nums1.length; 
+      let len2 = nums2.length;
+      let l = len1 + len2;
+      let i = 0, j = 0;
+      let combined = [];
+
+      while(i < nums1.length || j < nums2.length) {
+        if(i == len1) {
+          combined.push(nums2[j++]);
+        } else if(j == len2) {
+          combined.push(nums1[i++]);
+        } else if(nums1[i] <= nums2[j]) {
+          combined.push(nums1[i++]);
+        } else {
+          combined.push(nums2[j++]);
+        }
+      }
+      let r = l%2==0 ? (combined[l/2] + combined[l/2-1])/2 : combined[Math.floor(l/2)];
+      return r;
+    };
+    console.log(findMedianSortedArrays([1,3], [2])==2.0)
+    console.log(findMedianSortedArrays([1,2], [3,4])==2.5)
+  </script>
+
+  
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+    * @param {string} s
+    * @param {number} numRows
+    * @return {string}
+    */
+    var convert = function(s, numRows) {
+      // speed > 11.52%, memory < 33.33%
+      if(numRows < 2) return s;
+      let i = 0, j = 0, k = 0;
+      let rs = new Array(numRows);
+      let rule = [1, 0];
+      
+      while(k < s.length) {
+        rs[i] = rs[i] || [];
+        rs[i][j] = s[k++];
+        [i, j] = [i + rule[0],j + rule[1]];
+        if(i==0) rule = [1,0];
+        else if(i==numRows-1) rule = [-1,1];
+      }
+      return rs.map(d => d.join('')).join('');
+    };  
+    // console.log(convert("AB",1)==="AB");
+    console.log(convert("PAYPALISHIRING",3)==="PAHNAPLSIIGYIR");
+    console.log(convert("PAYPALISHIRING",4)==="PINALSIGYAHRPI");
+    console.log(convert("ABCDE",2)==="ACEBD");
+  </script>
+  
+</body>
+</html>
