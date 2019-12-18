@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 基础数据类型：null, undefined, number, string, boolean, symbol
+    // 复合数据类型：object, array, function, date, regexp
+    // 扩展：考虑key是否为symbol，考虑结构是否为ES6的新数据结构
+
+    function deepCopy(value){
+      let type = typeof value;
+
+      // 非复合数据类型，直接返回值
+      if(value === null || (type != 'object' && type !=' function')) {
+        return value;
+      }
+      // update: Object.keys会将symbol直接转化为字符串
+      const isArr = Array.isArray(value);
+      const props = isArr ? value : Object.keys(value);
+
+      let result = isArr ? new Array(value.length) : new Object();
+
+      props.forEach((prop,index) => {
+        if(isArr){
+          result[index] = deepCopy(prop)
+        } else {
+          result[prop] = deepCopy(value[prop]);
+        }
+      });
+
+      return result;
+    }
+
+    var source = {a: null, b: 1, c: undefined, d: 'd', f: {deep:true}, h: [1,2,3]};
+    var target = deepCopy(source);
+    debugger;
+
+  </script>
+</body>
+</html>
