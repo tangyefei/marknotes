@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /**
+    * Initialize your data structure here.
+    */
+      var Trie = function() {
+        this.routes = {};
+      };
+      
+      /**
+      * Inserts a word into the trie. 
+      * @param {string} word
+      * @return {void}
+      */
+      Trie.prototype.insert = function(word) {
+          if(!word || word.length == 0) return;
+          if(this.routes[word[0]] == undefined) {
+            this.routes[word[0]] = new Trie();
+          }
+          this.routes[word[0]].insert(word.slice(1));
+      };
+      
+      /**
+      * Returns if the word is in the trie. 
+      * @param {string} word
+      * @return {boolean}
+      */
+      Trie.prototype.search = function(word) {
+          if(!word || word.length == 0) return true;
+          if(this.routes[word[0]] == undefined) return false;
+          return this.routes[word[0]].search(word.slice(1));
+      };
+      
+      /**
+      * Returns if there is any word in the trie that starts with the given prefix. 
+      * @param {string} prefix
+      * @return {boolean}
+      */
+      Trie.prototype.startsWith = function(prefix) {
+        if(!prefix || prefix.length == 0) {
+          return this.routes[prefix[0]] == undefined ? false : true
+        }
+        if(this.routes[prefix[0]] == undefined) 
+          return false;
+        return this.routes[prefix[0]].search(prefix.slice(1));
+      };
+
+      let trie = new Trie();
+      trie.insert("apple");
+      console.log(trie.search("apple"))==true;   // returns true
+      console.log(trie.search("app"))==false;     // returns false
+      console.log(trie.startsWith("app"))==true; // returns true
+      trie.insert("app")  
+      console.log(trie.search("app"))==true;     // returns true
+
+      /** 
+      * Your Trie object will be instantiated and called as such:
+      * var obj = new Trie()
+      * obj.insert(word)
+      * var param_2 = obj.search(word)
+      * var param_3 = obj.startsWith(prefix)
+      */
+      </script>
+</body>
+</html>

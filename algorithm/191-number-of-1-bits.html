@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+    /**
+     * @param {number} n - a positive integer
+     * @return {number}
+     */
+    var hammingWeight = function(n) {
+        // QA 
+        // 1. 为什么00000000000000000000000000001011会被转化为十进制的521？因为0打头的会被当做8进制
+        // 2. & 1 如果最后一位是1，则返回1，否则返回0
+        // 3. >>> 1 操作会将最后一位舍弃掉
+
+        // 95% 10%
+        return n.toString(2).split('').reduce((sum,v)=>{return sum+Number(v)},0)
+
+        // 69% 100%
+        return n.toString(2).replace('0', '').length;
+        
+        // 69% 70%
+        let sum = 0;
+        while(n > 0) {
+          sum += n & 1;
+          n = n >>> 1;
+        }
+        return sum;
+
+    };
+    console.log(hammingWeight(00000000000000000000000000001011)===3)
+
+</script>
+  
+</body>
+</html>
