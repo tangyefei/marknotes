@@ -7,27 +7,33 @@
   <title>Document</title>
 </head>
 <body>
-
   <script>
-  
   /**
-    * @param {number} num
-    * @return {number[]}
-    */
-    var countBits = function(num) {
-      // 95.07% 100.00%
-        var count = [0];
-        for(var i = 1; i <= num; i++){
-          // 这里 i & (i-1) 非常巧妙
-          // 情况1 没发生进位，count[i]=count[i-1]+1=count[i&(i-1)]+1
-          // 情况2 发生了进位，进位的部分都转化为了count[i]中的一个1，&出来的是没有进位的部分，即 count[i&(i-1)]+1=count[i]
-            count[i] = count[i & (i-1)] + 1;
-        }
-        return count;
-    };
-    console.log(countBits(5))
+   * @param {number} num
+   * @return {number[]}
+   */
+  var countBits = function(num) {
+    // // 5.52% of  100.00%
+    // let result = [];
+    // while(num >= 0) {
+    //   result.unshift(num.toString(2).replace(/0/g,'').length);
+    //   num --;
+    // }
+    // return result;
 
-</script>
-  
+    // 95.07% 100.00%
+    var count = [0];
+      for(var i = 1; i <= num; i++){
+        // 这里 i & (i-1) 非常巧妙
+        // 情况1 没发生进位，count[i]=count[i-1]+1=count[i&(i-1)]+1
+        // 情况2 发生了进位，进位的部分都转化为了count[i]中的一个1，&出来的是没有进位的部分，即 count[i&(i-1)]+1=count[i]
+          count[i] = count[i & (i-1)] + 1;
+      }
+      return count;
+  };
+  console.log(countBits(2).toString()==[0,1,1].toString());
+  console.log(countBits(5).toString()==[0,1,1,2,1,2].toString());
+
+  </script>
 </body>
 </html>

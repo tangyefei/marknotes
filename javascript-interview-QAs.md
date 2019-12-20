@@ -156,7 +156,7 @@ Cat.prototype.isPrototypeOf(cat);
 - 如果任一值是 `true`，把它转换成 `1` 再比较；如果任一值是 `false`，把它转换成 `0` 再比较。 
 - 如果一个是对象，另一个是数值或字符串，把对象转换成基础类型的值再比较。
 
-类型转化概述
+类型转化概述(参考《JavaScript权威指南》3.8节，讲解非常详细）
 
 1. 类型转换发生在：程序期望某个类型数据，而实际格式不符的时候，通常特征是使用了：+、-、*、运算符，或者 if(variable) 判断
 2. 类型转换分为（1）原始值到原始值的转换（2）原始值到对象的转换（3）对象到原始值的转换
@@ -340,3 +340,359 @@ console.log(a)//1,2,3
 4、如果`obj`里有`NaN、Infinity`和`-Infinity`，则序列化的结果会变成`null`;<br>
 5、`JSON.stringify()`只能序列化对象的可枚举的自有属性，例如 如果`obj`中的对象是有构造函数生成的， 则使用`JSON.parse(JSON.stringify(obj))`深拷贝后，会丢弃对象的`constructor`;<br>
 6、如果对象中存在循环引用的情况也无法正确实现深拷贝<br>
+
+
+# 12.原型继承的原理
+**原型链**
+
+```js
+function BasicType() {
+     this.property=true;
+     this.getBasicValue = function(){
+     return this.property;
+      };
+}
+function NewType() {
+     this.subproperty=false;
+}
+NewType.prototype = new BasicType(); 
+var test = new NewType();
+alert(test.getBasicValue());   //true
+```
+
+由上面可以知道，其本质上是重写了原型对象，代之一个新类型的实例。在通过原型链继承的情况下，要访问一个实例属性时，要经过三个步骤： 
+
+1、搜索实例；<br/>
+2、搜索`NewType.prototype`；<br/>
+3、搜索`BasicType.prototype`,此时才找到方法。如果找不到属性或者方法，会一直向上回溯到末端才会停止。<br/>
+
+要想确定实例和原型的关系，可以使用`instanceof`和`isPrototypeof()`测试，只要是原型链中出现过的原型，都可以说是该原型链所派生实例的原型。还有一点需要注意，通过原型链实现继承时，不能使用对象字面量创建原型方法，因为这时会重写原型链，原型链会被截断<br/>
+
+**借用构造函数继承**
+
+```js
+function BasicType(name) {
+     this.name=name;
+     this.color=["red","blue","green"];
+}
+function NewType() {
+     BasicType.call(this,"syf");
+     this.age=23;
+}
+var test = new NewType(); 
+
+alert(text.name); //syf
+alert(text.age);   //23
+```
+
+**组合式继承**
+
+```js
+function BasicType(name) {
+     this.name=name;
+     this.colors=["red","blue","green"];
+}
+BasicType.prototype.sayName=function(){
+     alert(this.name);
+}
+function NewType(name,age) {
+     BasicType.call(this,name);
+     this.age=age;
+}
+NewType.prototype = Object.create(BasicType.prototype);
+var test = new NewType("syf","23");
+test.colors.push("black");
+alert(test.colors);  //"red,blue,green,black"
+alert(test.name);   //"syf"
+alert(test.age);   //23
+
+// 组合式继承避免了原型链和借用构造函数继承方式的缺陷，融合了他们的优点，成为了js中最常用的继承方式。
+```
+
+# 13.`JavaScript`里`arguments`究竟是什么？
+
+`Javascript`中每个函数都会有一个`Arguments`对象实例`arguments`，它引用着函数的实参，可以用数组下标的方式"[]"引用`arguments`的元素。`arguments.length`为函数实参个数，`arguments.callee`引用函数自身。<br/>
+`arguments`虽然有一些数组的性质，但其并非真正的数组，只是一个类数组对象。其并没有数组一些方法，真正的数组那样调用`jion()`、`concat()`、`pop()`等方法
+
+# 14.基本类型转换
+
+```js
+// 请在问号处填写你的答案,使下方等式成立
+let a = ?;
+if(a == 1 && a == 2 && a == 3) {
+  console.log("Hi, I'm Echi");
+}
+```
+```js
+let a = {
+  i: 1,
+  valueOf() {
+    return this.i++;
+  }
+}
+```
+对象在转换基本类型时，会调用`valueOf`和`toString`，并且这两个方法你是可以重写的。<br/>
+调用哪个方法，主要是要看这个对象倾向于转换为什么。如果倾向于转换为`Number`类型的，就优先调用`valueOf`;如果倾向于转换为`String`类型，就只调用`toString`。
+
+```js
+let obj = {
+  toString () {
+    console.log('toString')
+    return 'string'
+  },
+  valueOf () {
+    console.log('valueOf')
+    return 'value'
+  }
+}
+
+alert(obj) // string
+console.log(1 + obj) // 1value
+```
+
+如果重写了`toString`方法，而没有重写`valueOf`方法，则会调用`toString`方法
+
+```js
+var obj = {
+  toString () {
+    return 'string'
+  }
+}
+console.log(1 + obj) // 1string
+```
+调用上述两个方法的时候，需要 `return` 原始类型的值 `(primitive value)`，不能是`object、array`等非原始类型的值，不然的话就会去调用另外一个没有返回非原始类型的方法，如果都没有的话就会报错<br/>
+如果有`Symbol.toPrimitive`属性的话，会优先调用，它的优先级最高<br/>
+
+```js
+let obj = {
+  toString () {
+    console.log('toString')
+    return {}
+  },
+  valueOf () {
+    console.log('valueOf')
+    return {}
+  },
+  [Symbol.toPrimitive] () {
+    console.log('primitive')
+    return 'primi'
+  }
+}
+console.log(1 + obj) // 1primi
+```
+
+# 15.解析 `['1', '2, '3'].map(parseInt)`
+
+```js
+let new_array = arr.map(function callback(currentValue,index,array)
+```
+
+这个 `callback` 一共可以接收三个参数，其中第一个参数代表当前被处理的元素，而第二个参数代表该元素的索引。<br/>
+
+
+而 `parseInt` 则是用来解析字符串的，使字符串成为指定基数的整数。 `parseInt(string, radix)`接收两个参数，第一个表示被处理的值（字符串），第二个表示为解析时的基数。<br/>
+
+
+了解这两个函数后，我们可以模拟一下运行情况 `parseInt(‘1’, 0) //radix` 为 `0` 时，且 `string` 参数不以`“0x”`和`“0”`开头时，按照 `10` 为基数处理。这个时候返回 `1`；<br/>
+`parseInt('2', 1)` // 基数为 `1`（`1` 进制）表示的数中，最大值小于 `2`，所以无法解析，返回 `NaN`；<br/>
+
+
+`parseInt('3', 2)` // 基数为 `2`（`2` 进制）表示的数中，最大值小于 `3`，所以无法解析，返回 `NaN`。<br/>
+
+`map` 函数返回的是一个数组，所以最后结果为 `[1, NaN, NaN]`。
+
+
+# 16. 什么是防抖和节流？有什么区别？如何实现？
+防抖：触发高频事件后 `n` 秒内函数只会执行一次，如果 `n` 秒内高频事件再次被触发，则重新计算时间。<br/>
+
+思路：每次触发事件时都取消之前的延时调用方法
+
+```js
+function debounce(fn) {
+  let timeout =  null;
+  return function() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      fn.apply(null, arguments)
+    },500)
+  }
+}
+```
+示例：
+ 
+```js
+function sayHi() { console.log('防抖成功'); } 
+var inp = document.getElementById('inp'); 
+inp.addEventListener('input', debounce(sayHi)); // 防抖
+```
+
+节流：高频事件触发，但在 `n` 秒内只会执行一次，所以节流会稀释函数的执行频率。<br/>
+
+思路：每次触发事件时都判断当前是否有等待执行的延时函数<br/>
+
+```js
+function throttle(fn) {
+  let canRun = true;
+  return function() {
+    if(!canRun) return;
+    canRun = false;
+    setTimeout(() => {
+      fn.apply(null, arguments);
+      canRun = true;
+    }, 500)
+  }
+}
+```
+示例:
+
+```js
+function sayHi(e) {
+  console.log(e.target.innerWidth, e.target.innerHeight);
+} 
+window.addEventListener('resize', throttle(sayHi));
+```
+
+17. 介绍下 `Set、Map、WeakSet` 和 `WeakMap` 的区别？
+
+`Set`<br/>
+
+成员唯一、无序且不重复；`[value, value]`，键值与键名是一致的（或者说只有键值，没有键名）；可以遍历，方法有：`add、delete、has`。<br/>
+
+`WeakSet`<br/>
+
+成员都是对象； 成员都是弱引用，可以被垃圾回收机制回收，可以用来保存 `DOM`节点，不容易造成内存泄漏； 不能遍历，方法有 `add、delete、has`。<br/>
+
+`Map`<br/>
+
+本质上是键值对的集合，类似集合； 可以遍历，方法很多，可以跟各种数据格式转换。<br/>
+`WeakMap`<br/>
+
+只接受对象为键名（`null` 除外），不接受其他类型的值作为键名； 键名是弱引用，键值可以是任意的，键名所指向的对象可以被垃圾回收，此时键名是无效的； 不能遍历，方法有 `get、set、has、delete`。<br/>
+
+
+# 18. 介绍下深度优先遍历和广度优先遍历
+
+**深度优先遍历`(DFS)`**<br/>
+
+`DFS` 就是从图中的一个节点开始追溯，直到最后一个节点，然后回溯，继续追溯下一条路径，直到到达所有的节点，如此往复，直到没有路径为止。<br/>
+
+```js
+//深度优先遍历的递归写法
+function deepTraversal(node){
+  let nodes=[];
+  if(node!=null){
+      nodes.push[node];
+      let childrens=node.children;
+      for(let i=0;i<childrens.length;i++) {
+        deepTraversal(childrens[i]);
+      }
+  }
+  return nodes;
+}
+```
+
+**广度优先遍历`(BFS)`**<br/>
+
+`BFS`从一个节点开始，尝试访问尽可能靠近它的目标节点。本质上这种遍历在图上是逐层移动的，首先检查最靠近第一个节点的层，再逐渐向下移动到离起始节点最远的层。
+
+```js
+//广度优先遍历的递归写法
+function wideTraversal(node){
+    let nodes=[],i=0;
+    if(node!=null){
+        nodes.push(node);
+        wideTraversal(node.nextElementSibling);
+        node=nodes[i++];
+        wideTraversal(node.firstElementChild);
+    }
+    return nodes;
+}
+```
+
+# 19. 将数组扁平化
+
+并去除其中重复数据，最终得到一个升序且不重复的数组
+```js
+Array.from(new Set(arr.flat(Infinity))).sort((a,b)=>{ return a-b})
+```
+#20. `JS`异步解决方案的发展历程以及优缺点
+**1、回调函数`(callback)`**<br/>
+
+缺点：回调地狱，不能用 `try catch` 捕获错误，不能`return`<br/>
+回调地狱的根本问题在于：<br/>
+缺乏顺序性： 回调地狱导致的调试困难，和大脑的思维方式不符； 嵌套函数存在耦合性，一旦有所改动，就会牵一发而动全身，即（控制反转）； 嵌套函数过多的多话，很难处理错误。
+
+
+**2、`Promise`**<br>
+
+
+`Promise` 就是为了解决 `callback` 的问题而产生的。<br>
+`Promise` 实现了链式调用，也就是说每次`then`后返回的都是一个全新`Promise`，如果我们在`then`中`return`，`return`的结果会被`Promise.resolve()`包装。
+优点：解决了回调地狱的问题。<br>
+缺点：无法取消 Promise ，错误需要通过回调函数来捕获。<br>
+
+
+**3、`Generator`**
+
+
+特点：可以控制函数的执行，可以配合`co`函数库使用。
+
+```js
+function * fetch() {
+    yield ajax('XXX1', () = >{}) 
+    yield ajax('XXX2', () = >{}) 
+    yield ajax('XXX3', () = >{})
+}
+let it = fetch() 
+let result1 = it.next() 
+let result2 = it.next() 
+let result3 = it.next()
+```
+**4、`Async/await`**
+
+
+`async、await` 是异步的终极解决方案。<br>
+
+优点是：代码清晰，不用像 `Promise` 写一大堆 `then` 链，处理了回调地狱的问题；<br>
+缺点：`await` 将异步代码改造成同步代码，如果多个异步操作没有依赖性而使用 `await` 会导致性能上的降低。
+
+```js
+let a = 0;
+let b = async () = >{
+    a = a + await 10;
+    console.log('2', a); // -> '2' 10
+}
+b();
+a++;
+console.log('1', a); // -> '1' 1
+```
+
+首先函数`b`先执行，在执行到`await 10`之前变量`a`还是`0`，因为`await`内部实现了`generator` ，`generator`会保留堆栈中东西，所以这时候`a = 0`被保存了下来；<br>
+
+因为`await`是异步操作，后来的表达式不返回`Promise`的话，就会包装成`Promise.reslove`(返回值)，然后会去执行函数外的同步代码；<br>
+
+同步代码执行完毕后开始执行异步代码，将保存下来的值拿出来使用，这时候 `a = 0 + 10`。<br>
+上述解释中提到了 `await` 内部实现了 `generator`，其实 `await` 就是 `generator` 加上 `Promise`的语法糖，且内部实现了自动执行 `generator`
+
+
+#21. `js`实现继承
+
+```js
+(function(){
+  function Person() {
+    this.name = 'person name'
+  }
+  Person.prototype.move = function() {
+    console.log('person move')
+  }
+  function Man() {
+    Person.call(this);
+    this.name = 'man name'
+  }
+  Man.prototype = Object.create(Person.prototype)
+  // 或者 Man.prototype = new Person()
+  let man = new Man();
+  man.name // man name
+  man.move // person move
+})()
+```
