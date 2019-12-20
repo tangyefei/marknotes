@@ -248,7 +248,8 @@ Set. fromArray = function( a) { s = new Set(); //创建 一个 空 集合 s. add
 这两行代码是JavaScript中创建子类的关键：
 
 ```
-B. prototype = inherit( A. prototype); // 子类 派生 自 父 类 B. prototype. constructor = B; //重载 继承 来的 constructor 属性
+B. prototype = inherit( A. prototype); // 子类 派生 自 父 类 
+B. prototype. constructor = B; //重载 继承 来的 constructor 属性
 ```
 
 ### 构造函数和方法链
@@ -256,7 +257,27 @@ B. prototype = inherit( A. prototype); // 子类 派生 自 父 类 B. prototype
 在子类中调用父类的构造函数和方法：
 
 ```
-/* * NonNullSet 是 Set 的 子类， 它的 成员 不能 是 null 和 undefined */ function NonNullSet() { //仅 链 接到 父 类 //作为 普通 函数 调用 父 类 的 构造 函数 来 初始化 通过 该 构造 函数 调用 创建 的 对象 Set. apply( this, arguments); } // 将 NonNullSet 设置 为 Set 的 子类 NonNullSet. prototype = inherit( Set. prototype); NonNullSet. prototype. constructor = NonNullSet; // 为了 将 null 和 undefined 排除 在外， 只须 重写 add() 方法 NonNullSet. prototype. add = function() { //检查 参数 是不是 null 或 undefined for (var i = 0; i < arguments. length; i++) if (arguments[ i] == null) throw new Error(" Can' t add null or undefined to a NonNullSet"); //调用 父 类 的 add() 方法 以 执行 实际 插入 操作 return Set. prototype. add. apply( this, arguments); };
+/* * NonNullSet 是 Set 的 子类， 它的 成员 不能 是 null 和 undefined */ 
+
+function NonNullSet() { 
+//仅 链 接到 父 类 
+//作为 普通 函数 调用 父 类 的 构造 函数 来 初始化 通过 该 构造 函数 调用 创建 的 对象 
+	Set. apply( this, arguments); 
+} 
+
+// 将 NonNullSet 设置 为 Set 的 子类 
+NonNullSet. prototype = inherit( Set. prototype); 
+NonNullSet. prototype. constructor = NonNullSet; 
+
+// 为了 将 null 和 undefined 排除 在外， 只须 重写 add() 方法 
+NonNullSet. prototype. add = function() { 
+	\//检查 参数 是不是 null 或 undefined 
+	for (var i = 0; i < arguments. length; i++) 
+		if (arguments[ i] == null) 
+			throw new Error(" Can' t add null or undefined to a NonNullSet"); 
+		//调用 父 类 的 add() 方法 以 执行 实际 插入 操作 
+		return Set. prototype. add. apply( this, arguments); 
+};
 ```
 
 ### 组合 vs 子类
