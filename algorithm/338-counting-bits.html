@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /**
+   * @param {number} num
+   * @return {number[]}
+   */
+  var countBits = function(num) {
+    // 5.52% of  100.00%
+    let result = [];
+    while(num >= 0) {
+      result.unshift(num.toString(2).replace(/0/g,'').length);
+      num --;
+    }
+    return result;
+  };
+  console.log(countBits(2).toString()==[0,1,1].toString());
+  console.log(countBits(5).toString()==[0,1,1,2,1,2].toString());
+
+  </script>
+</body>
+</html>

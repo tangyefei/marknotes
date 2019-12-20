@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /**
+   * @param {number} n
+   * @return {boolean}
+   */
+    var isPowerOfTwo = function(n) {
+      // 34.64% 69.23%
+      if(n == 0) return false;
+      let value = 1;
+      while(value < n) {
+        value *= 2;
+      }
+      return value === n;
+      // 扩展的2种解法：
+      // %2==0也是一种解法
+      // 转化我二进制是 10000 的模式，n!=0 && (n&(n-1))===0 //尤其注意要有括号，否则`&` 和 `===`的优先级可能导致错误的结果
+    };
+    console.log(isPowerOfTwo(1)==true)
+    console.log(isPowerOfTwo(16)==true)
+    console.log(isPowerOfTwo(218)==true)
+
+  </script>
+</body>
+</html>
