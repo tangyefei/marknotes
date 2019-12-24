@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    
+      
+  /**
+   * @param {number[]} coins
+   * @param {number} amount
+   * @return {number}
+   */
+  var coinChange = function(coins, amount) {
+
+
+    // 	Time Limit Exceeded
+    // var result = Number.POSITIVE_INFINITY;
+    // var func  = function(coins, amount, count) {
+    //   if(amount == 0) {
+    //     // console.log(count);
+    //     result = Math.min(count, result);
+    //   } else if(coins.length == 0) {
+    //     return;
+    //   }
+    //   for (let i = 0; i < coins.length; i++) {
+    //     for (let j = 1; j <= Math.floor(amount/coins[i]); j++) {
+    //       // console.log(amount - coins[i]*j + ':' + coins)
+    //       func(coins.slice(1), amount - coins[i]*j, count + j)
+    //     }
+    //   }
+    // }
+    // func(coins, amount, 0);
+    // return Number.POSITIVE_INFINITY==result ? -1 : result;
+
+
+    // // 	Time Limit Exceeded
+    // coins = coins.sort((a,b)=>{return b-a});
+
+    // var result = Number.POSITIVE_INFINITY;
+    // var cc = 0;
+    // var func  = function(coins, amount, count) {
+    //   console.log(cc++);
+    //   if(amount == 0) {
+    //     result = Math.min(count, result)
+    //   }
+    //   if(amount == 0 || count >= result || coins.length == 0) return;
+
+    //   for (let i = 0; i < coins.length; i++) {
+    //     for (let j = Math.floor(amount/coins[i]); j >= 0 ; j--) {
+    //       func(coins.slice(1), amount - coins[i]*j, count + j);
+    //     }
+    //   }
+    // }
+    // func(coins, amount, 0);
+    // return result==Number.POSITIVE_INFINITY?-1:result;
+
+    // 93.60%  27.27% 
+    let dp = [0];
+    for (let i = 1; i <= amount; i++) {
+      dp[i] = amount + 1;
+      for (let j = 0; j < coins.length; j++) {
+        if(coins[j] <= i) {
+          dp[i] = Math.min(dp[i], dp[i-coins[j]] + 1);
+        }
+      }
+    }
+    return  dp[amount] == (amount + 1) ? -1 : dp[amount];
+  };
+
+  console.log(coinChange([1], 1) === 1);
+  console.log(coinChange([1, 2, 5], 11) === 3);
+  console.log(coinChange([2], 11, 0) === -1);
+  console.log(coinChange([186,419,83,408], 6249) === 20);
+  console.log(coinChange([ 456,117,5,145 ], 1459) === 23);
+  
+  
+  </script>
+</body>
+</html>
