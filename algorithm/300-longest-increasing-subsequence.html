@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    /**
+     * @param {number[]} nums
+     * @return {number}
+     */
+    var lengthOfLIS = function(nums) {
+      if(nums.length < 2) return nums.length;
+
+      // 8.92%  11.11%
+      let findFirstLargePos = function(list, value) {
+        // use binary search, import from N to logN
+        for (let i = 0; i < list.length; i++) {
+          if(list[i] >= value) return i;
+        } 
+        return -1;
+      }
+
+      
+      let rs = [nums[0]];
+      for (let i = 1; i < nums.length; i++) {
+        // large than the lastest of rs
+        if(nums[i]>rs[rs.length-1]) {
+          rs.push(nums[i]);
+        } 
+        // replace in the rs order
+        else {
+          let index = findFirstLargePos(rs,nums[i],0,rs.length-1);
+          rs.splice(index, 1, nums[i]);
+        }
+        console.log(rs);
+      }
+      return rs.length;
+      
+      // // 61.57% 22.22%
+      // var dp = [], lis = 0;
+      // for (let i = 0; i < nums.length; i++) {
+      //   dp.push(1);
+      //   for (let j = 0; j < i; j++) {
+      //     if(nums[j] < nums[i]) {
+      //       dp[i] = Math.max(dp[j]+1, dp[i])
+      //     }
+      //   }
+      //   lis = Math.max(dp[i], lis);
+      // }
+      // return lis;
+
+
+
+    };
+
+
+
+    // console.log(lengthOfLIS([10,9,2,5,3,7,101,18])==4);
+    // console.log(lengthOfLIS([1,3,6,7,9,4,10,5,6])==6);
+    // console.log(lengthOfLIS([10,9,2,5,3,4])==3);
+    console.log(lengthOfLIS([4,10,4,3,8,9])==3);
+
+
+    
+      
+      
+  </script>
+  
+</body>
+</html>

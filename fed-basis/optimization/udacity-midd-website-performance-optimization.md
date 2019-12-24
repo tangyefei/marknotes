@@ -81,8 +81,28 @@ CSS会阻塞DOM的渲染，也会阻塞JavaScript的执行，因此优化CSS的�
 
 
 
-
+## Lesson 4 JavaScript
   
+
+通过将耗费较多运行时间的JavaScript隔离到Web Worker中，可以达到减少页面卡顿的目的。
+
+当JavaScript运行垃圾收集器的时候，是不会运行别的代码的，这时候就可能出现页面卡顿，可以通过Devtools中检查memory的变化量，当memory出现骤减，通常是垃圾回收在起作用，如果发现内存只升不减，通常是内存出现了泄漏。
+
+本章提供了两个练习，让你学习如何将JavaScript代码来解决运行过程中的卡顿问题，另外还提供了解决问题所会用到的Web Worker和垃圾回收的材料。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
