@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /**
+   * @param {number[][]} triangle
+   * @return {number}
+   */
+  var minimumTotal = function(triangle) {
+      // // 8.42% 100.00%
+      // var len = triangle.length;
+      // var smallest = Number.POSITIVE_INFINITY;
+      // var cache = {};
+      
+      // var findMin =  function(triangle, i, j) {
+      //   if(i == 0 && j == 0) return triangle[i][j];
+
+      //   let k = i+','+j;
+
+      //   if(cache[k] == undefined) {
+      //     if(j == 0) {
+      //       cache[k] = triangle[i][j] + findMin(triangle, i-1, j);
+      //     } else if(j == i) {
+      //       cache[k] = triangle[i][j] + findMin(triangle, i-1, j-1);
+      //     } else {
+      //       cache[k] = triangle[i][j] + Math.min(findMin(triangle, i-1, j), findMin(triangle, i-1, j-1));
+      //     }
+      //   }
+
+      //   return cache[k];
+      // }
+      // var bottomArr = triangle[len-1];
+      // for (let j = 0, l = bottomArr.length; j < l; j++) {
+      //   smallest = Math.min(findMin(triangle, len-1, j), smallest);
+      // }
+      // return smallest;
+
+
+      // 92.91%  100.00%
+      var result = new Array(triangle.length);
+      for (let i = 0; i < result.length; i++) {
+        result[i] = new Array();
+      }
+      result[0][0] = triangle[0][0];
+      let len = triangle.length;
+      for (let i = 1; i < len; i++) {
+        for (let j = i; j >=0 ; j--) {
+          if(j==0) {
+            result[i][j] = triangle[i][j]+result[i-1][j];
+          } else if(j==i) {
+            result[i][j] = triangle[i][j]+result[i-1][j-1];
+          } else {
+            result[i][j] = triangle[i][j]+Math.min(result[i-1][j],result[i-1][j-1])
+          }
+        }
+      }
+
+      let bottoms = result[triangle.length - 1];
+      bottoms = bottoms.sort((a,b) => a-b);
+      return bottoms[0];
+  };
+    
+  var input = [
+      [2],
+      [3,4],
+    [6,5,7],
+    [4,1,8,3],
+  //   [4,1,8,3,5],
+  //   [4,1,8,3,5,6]
+  ];
+  var output = 11;
+  console.log(minimumTotal(input)==output)
+  </script>
+  
+</body>
+</html>

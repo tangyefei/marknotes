@@ -112,6 +112,27 @@ Rail
 
 
 
+## 第四课 样式和布局
+
+
+理论上，`Recaculate Style`的时间和受到影响的元素个数的关系是线性的。
+
+BEM（Block Element M)是一种值得推荐的书写CSS的方式，通常拥有最佳的表现。
+
+提高`Recaculate Style`的时间有两种做法：
+
+（1）减少受影响的DOM的个数
+
+（2）使用高效的CSS选择器
+
+一个典型的练习题，是通过修改父类的class，然后遍历到子元素中偶数位的元素，通过将代码改成JavaScript来给应该受影响的子元素加上class，从而将受影响的元素个数减低了一半，时间减少一半。
+
+
+另外一个[练习题](http://output.jsbin.com/aqavin/2/quiet)则是通过打破了`JavaScript > Style > Layout > Paint > Composite`的顺序，翻覆在Layout完毕后又马上JavaScript从而模拟出了性能问题。
+
+
+当我们访问某些属性时候，会触发强制同步布局，比如元素的scrollY/offsetHeight，因此减少对这些属性的查询能显著提高性能。注：其实就是在操作样式属性的同时，会影响布局和一些属性，这时候再去获取这些属性，会强制同步布局后，再让你查询到想要的属性，无法应用浏览器的batch绘制，从而导致性能问题。
+
 
 
 

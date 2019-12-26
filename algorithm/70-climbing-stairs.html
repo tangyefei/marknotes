@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+   /**
+    * @param {number} n
+    * @return {number}
+    */
+    var climbStairs = function(n) {
+      // 47.02% 64.00%
+      if(n < 3) return n;
+      var cache = {1: 1, 2: 2};
+      var cursor = 2;
+      while(++cursor <= n) {
+        cache[cursor] = cache[cursor - 2] + cache[cursor - 1];
+      }
+      return cache[n]
+    };
+    // console.log(climbStairs(2)==2);
+    console.log(climbStairs(3)==3);
+  </script>
+</body>
+</html>
