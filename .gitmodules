@@ -1,0 +1,3 @@
+[submodule "submodules/algorithm"]
+	path = submodules/algorithm
+	url = git@github.com:tangyefei/algorithm.git
