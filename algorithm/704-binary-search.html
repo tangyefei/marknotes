@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    
+    /**
+     * @param {number[]} nums
+     * @param {number} target
+     * @return {number}
+     */
+      var search = function(nums, target) {
+        // 99.52% 71.43%
+        var binarySearch = function(nums, target, i, j) {        
+          if(i > j) return -1;
+
+          var mid = parseInt((i + j) / 2);
+          if(nums[mid] === target) {
+            return mid;
+          } else if(nums[mid] > target){
+            return binarySearch(nums, target, i, mid - 1);
+          } else {
+            return binarySearch(nums, target, mid + 1, j);
+          }
+        }
+        return binarySearch(nums,target, 0, nums.length -1);
+      };
+
+
+      // var binarySearch = function(nums, target, i, j) {        
+      //     if(i > j) return -1;
+
+      //     var mid = parseInt((i + j) / 2);
+      //     if(nums[mid] === target) {
+      //       return mid;
+      //     } else if(nums[mid] > target){
+      //       return binarySearch(nums, target, i, mid - 1);
+      //     } else {
+      //       return binarySearch(nums, target, mid + 1, j);
+      //     }
+      //   }
+      //   return binarySearch(nums,target, 0, nums.length -1);
+      // };
+
+
+    console.log(search(nums = [-1,0,3,5,9,12], target = 9, 0, nums.length-1)==4);
+    // console.log(search(nums = [-1,0,3,5,9,12], target = 10, 0, nums.length-1)==5);
+    // console.log(search(nums = [4,10], target = 3, 0, nums.length-1)==-1);
+
+    </script>
+  
+</body>
+</html>

@@ -1,0 +1,294 @@
+﻿/* Styles for axPin 
+-----------------------------------------------------------------------------*/
+
+/* Images */
+
+.clearIcon {
+    background: no-repeat right top url("images/clear.png");
+    background-color: #9013FE;
+
+    height: 18px;
+    width: 18px;
+    padding: 0px 0px 9px 9px;
+    cursor: pointer;
+    pointer-events: all;
+
+    position: fixed;
+    right: 9px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .clearIcon {
+        background: no-repeat right top url("images/clear@2x.png");
+        background-color: #9013FE;
+        /*background-size: contain !important;*/
+        background-size: 18px;
+
+        height: 18px;
+        width: 18px;
+        padding: 0px 0px 9px 9px;
+        cursor: pointer;
+        pointer-events: all;
+
+        position: fixed;
+        right: 9px;
+    }
+
+}
+
+
+/* Pin Panels */
+
+#pinPanel {
+    position: absolute;
+    overflow: auto;
+    pointer-events: none;
+}
+
+#existingPinsOverlay {
+    width: 0;
+    height: 0;
+    position: absolute;
+    overflow: visible;
+    /*display: inline-block;*/
+    /*pointer-events: none;*/
+}
+
+
+#addPinPanel {
+    position: absolute;
+    display: inline-block;
+
+    width: 100%;
+    height: 100%;
+}
+
+.pinControlOverlay {
+    position: absolute;
+    display: inline-block;
+    background-color: #000000;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    overflow: hidden;
+}
+
+.pinBorderOverlay {
+    position: absolute;
+    display: inline-block;
+    border: 9px solid #9013FE;
+
+    overflow: auto;
+}
+    .pinBorderOverlay::-webkit-scrollbar-track {
+        border-radius: 1px;
+    }
+    .pinBorderOverlay::-webkit-scrollbar {
+        width: 1px;
+    }
+    .pinBorderOverlay::-webkit-scrollbar-thumb {
+        width: 1px;
+        border-radius: 1px;
+        /*background-color: #8F949A;*/
+        background-color: transparent;
+}
+
+.pinTargetOverlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: inline-block;
+
+    cursor: crosshair;
+
+    overflow: hidden;
+}
+
+
+/* Pin Panel Elements */
+
+#feedbackNewIssuePinCloseBtn {
+    position: absolute;
+    background-color: #9013FE;
+
+    color: #FFFFFF;
+    font-size: 12px;
+    text-align: center;
+
+    display: inline-block;
+    width: 100%;
+    border-radius: 3px;
+    padding: 10px 0;
+    cursor: pointer;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    user-select: none;    
+}
+
+#tempPinMoveDiv {
+    background-color: transparent;
+    position: absolute;
+
+    left: 0;
+    top: 0;
+}
+
+/* Pin Colors, Pin Circle Style, and Pin Color Selection */
+
+.pin {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    line-height: 36px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: #FFFFFF;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    user-select: none;
+
+    pointer-events: auto;
+    /*cursor: default;*/
+    cursor: move;
+
+    opacity: .85;
+}
+    .pin:hover {
+        opacity: 1;
+    }
+
+.pinTailRight { }
+    .expandedPin.pinTailRight:before{
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 6px;
+        border-color: transparent #8F949A transparent transparent;
+        display: block;
+        width: 0px;
+        height: 0px;
+
+        left: 33px;
+        top: 12px;
+
+        /*left: -13px;   
+        top: 166px;
+        top: calc(100% - 23px);
+        top: -moz-calc(100% - 23px);
+        top: -webkit-calc(100% - 23px);*/            
+    }
+    .expandedPin.pinTailRight:after {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 5px;
+        border-color: transparent #FFFFFF transparent transparent;
+        display: block;
+        width: 0;
+
+        left: 36px;
+        top: 13px;
+
+        /*left: -10px;     
+        top: 167px;
+        top: calc(100% - 22px);
+        top: -moz-calc(100% - 22px);
+        top: -webkit-calc(100% - 22px);*/
+    }
+
+.pinTailLeft { }
+    .expandedPin.pinTailLeft:before {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 6px;
+        border-color: transparent transparent transparent #8F949A;
+        display: block;
+        width: 0px;
+        height: 0px;
+
+        left: -13px;
+        top: 12px;
+
+        /*left: -13px;   
+        top: 166px;
+        top: calc(100% - 23px);
+        top: -moz-calc(100% - 23px);
+        top: -webkit-calc(100% - 23px);*/            
+    }
+    .expandedPin.pinTailLeft:after {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 5px;
+        border-color: transparent transparent transparent #FFFFFF;
+        display: block;
+        width: 0;
+
+        left: -14px;
+        top: 13px;
+
+        /*left: -10px;     
+        top: 167px;
+        top: calc(100% - 22px);
+        top: -moz-calc(100% - 22px);
+        top: -webkit-calc(100% - 22px);*/ 
+    }
+
+.expandedPin {
+    opacity: 1;
+}
+
+.resolvedPin {
+    display: none;
+}
+
+.showResolvedPins .resolvedPin {
+    display: block;
+    background-color: #ddd;
+    color: #666;
+}
+
+.pinColor_0 {
+    background-color: #9012FE;
+}
+.pinColor_1 {
+    background-color: #138CDE;   
+}
+.pinColor_2 {
+    background-color: #EDDC00;
+}
+.pinColor_3 {
+    background-color: #D0011B;
+}
+.pinColor_4 {
+    background-color: #2F2F2F;
+}
+
+.pinColorOption {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 3px;
+
+    position: relative;
+    /*top: 2px;*/
+}
+
+.selectedPinColorOption {
+    border: 1px solid #9F9F9F;
+    /*top: 3px;*/
+    top: 1px;
+}

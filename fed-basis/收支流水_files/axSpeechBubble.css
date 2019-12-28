@@ -1,0 +1,421 @@
+﻿/*  */
+div.axSpeechBubble, 
+div.axGreenSpeechBubble, 
+div.axPurpleSpeechBubble, div.axClearMsgBubble, 
+div.axContextSpeechBubble {
+    z-index: 2;
+    position: absolute;
+    text-align: left;
+    padding: 10px;
+
+    background-color: #FFFFFF;
+    border-right: 0.5px solid #F2F2F2;
+    border-left: 0.5px solid #F2F2F2;
+    border-bottom: 0.5px solid #F2F2F2;
+
+    box-shadow: 0 2px 4px 0 #000000;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 2px 4px 0 #000000;
+    -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+div.axSpeechBubble:before, div.axGreenSpeechBubble:before, 
+div.axPurpleSpeechBubble:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -15px;
+    border: 7px solid;
+}
+
+
+/* Context Speech Bubbles w/ Directional Tail */
+div.axContextSpeechBubbleAbove {
+    position: absolute;
+    padding: 0px;
+    background: #FFFFFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: #8F949A solid 1px;
+    text-align: center;
+
+    box-shadow: 0 2px 4px 0 #000000;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 2px 4px 0 #000000;
+    -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+
+    width: 100%;
+}
+    div.axContextSpeechBubbleAbove:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 6px 6px 0;
+        border-color: #8F949A transparent;
+        display: block;
+        width: 0;
+        margin-left: -7px;
+        /*top: 91px;*/
+        /*left: 50%;*/
+    }
+    div.axContextSpeechBubbleAbove:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 5px 5px 0;
+        border-color: #FFFFFF transparent;
+        display: block;
+        width: 0;
+        margin-left: -6px;
+        /*top: 92px;*/
+        /*left: 50%;*/ 
+    }
+
+
+div.axContextSpeechBubbleTop, 
+div.axContextSpeechBubbleBottom, 
+div.axContextSpeechBubbleRightTop, 
+div.axContextSpeechBubbleRightBottom, 
+div.axContextSpeechBubbleLeftTop,
+div.axContextSpeechBubbleLeftBottom {
+    position: absolute;
+    padding: 10px 5px 10px 5px;
+
+    background-color: #FFFFFF;
+    border: #8F949A solid 1px;
+
+    width: 350px;
+    /*height: 180px;*/
+    line-height: normal;
+
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.4);
+} 
+
+div.axContextSpeechBubbleTop { }
+    div.axContextSpeechBubbleTop:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0px 6px 6px;
+        border-color: #8F949A transparent;
+        display: block;
+        width: 0;
+        margin-left: -7px;
+        top: -7px;
+        left: 18px;
+    }
+    div.axContextSpeechBubbleTop:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0px 5px 5px;
+        border-color: #FFFFFF transparent;
+        display: block;
+        width: 0;
+        margin-left: -6px;
+        top: -5px;
+        left: 18px;
+    }
+
+div.axContextSpeechBubbleBottom { }
+    div.axContextSpeechBubbleBottom:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 6px 6px 0px;
+        border-color: #8F949A transparent;
+        display: block;
+        width: 0;
+        margin-left: -7px;
+        top: 200px;
+        left: 18px; 
+    }
+    div.axContextSpeechBubbleBottom:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 5px 5px 0px;
+        border-color: #FFFFFF transparent;
+        display: block;
+        width: 0;
+        margin-left: -6px;
+        top: 199px;
+        left: 18px; 
+    }
+
+div.axContextSpeechBubbleRightTop { }
+    div.axContextSpeechBubbleRightTop:before {
+        content: ' ';
+        position: relative;
+        border-style: solid;
+        border-width: 6px;
+        border-color: transparent transparent transparent #8F949A;
+        display: block;
+        width: 0px;
+
+        margin-top: -12px;
+
+        top: 21px;
+        /*left: 321px;*/  
+        left: 356px;  
+    }
+    div.axContextSpeechBubbleRightTop:after {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 5px;
+        border-color: transparent transparent transparent #FFFFFF;
+        display: block;
+        width: 0;
+            
+        top: 20px;
+        /*left: 320px;*/  
+        left: 360px;  
+    }
+
+div.axContextSpeechBubbleRightBottom { }
+    div.axContextSpeechBubbleRightBottom:before {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 6px;
+        border-color: transparent transparent transparent #8F949A;
+        display: block;
+        width: 0px;
+
+        left: 361px;  
+        /*left: 321px;*/  
+        /*left: 312px;*/  
+        top: 166px;
+        top: calc(100% - 23px);
+        top: -moz-calc(100% - 23px);
+        top: -webkit-calc(100% - 23px);
+    }
+    div.axContextSpeechBubbleRightBottom:after {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 5px;
+        border-color: transparent transparent transparent #FFFFFF;
+        display: block;
+        width: 0;
+
+        margin-top: -12px;
+            
+        left: 360px;  
+        /*left: 320px;*/  
+        top: 179px;
+        top: calc(100% - 10px);
+        top: -moz-calc(100% - 10px);
+        top: -webkit-calc(100% - 10px);
+    }
+
+div.axContextSpeechBubbleLeftTop { }
+    div.axContextSpeechBubbleLeftTop:before {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 6px;
+        border-color: transparent #8F949A transparent transparent;
+        display: block;
+        width: 0px;
+
+        top: 18px;
+        left: -13px;   
+    }
+    div.axContextSpeechBubbleLeftTop:after {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 5px;
+        border-color: transparent #FFFFFF transparent transparent;
+        display: block;
+        width: 0;
+            
+        top: 19px;
+        left: -10px;  
+    }
+
+div.axContextSpeechBubbleLeftBottom { }
+    div.axContextSpeechBubbleLeftBottom:before {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 6px;
+        border-color: transparent #8F949A transparent transparent;
+        display: block;
+        width: 0px;
+
+        left: -13px;   
+        top: 166px;
+        top: calc(100% - 23px);
+        top: -moz-calc(100% - 23px);
+        top: -webkit-calc(100% - 23px);
+    }
+    div.axContextSpeechBubbleLeftBottom:after {
+        content: ' ';
+        position: absolute;
+        border-style: solid;
+        border-width: 5px;
+        border-color: transparent #FFFFFF transparent transparent;
+        display: block;
+        width: 0;
+            
+        left: -10px;     
+        top: 167px;
+        top: calc(100% - 22px);
+        top: -moz-calc(100% - 22px);
+        top: -webkit-calc(100% - 22px);
+    }
+
+
+/*  */
+div.axGreenSpeechBubble {
+    width: 474px;
+    /*height: 90px;*/
+
+    border-top: 3px solid #74bc68;
+}
+    div.axGreenSpeechBubble:before {
+        left: 230px;
+        border-color: transparent transparent #74bc68 transparent;
+    }
+
+div.axPurpleSpeechBubble {
+    width: 285px;
+    /*height: 180px;*/
+
+    border-top: 3px solid #B722B8;
+}
+    div.axPurpleSpeechBubble:before {
+        left: 143px;
+        border-color: transparent transparent #B722B8 transparent;
+    }
+
+div.axClearMsgBubble {
+    max-width: 300px;
+    text-align: center;
+}
+    div.axClearMsgBubble:before {
+        border: none;
+    }
+    div.axClearMsgBubble span {
+        margin: 2px;
+
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap; /* Firefox */    
+        white-space: -pre-wrap;     /* Opera <7 */   
+        white-space: -o-pre-wrap;   /* Opera 7 */    
+        word-wrap: break-word;      /* IE */
+    }
+
+div.axContextSpeechBubble {
+    position: absolute;
+    padding: 0px;
+    background: #FFFFFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: #7F7F7F solid 1px;
+    text-align: center;
+}
+    div.axContextSpeechBubble:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 6px 6px;
+        border-color: #7F7F7F transparent;
+        display: block;
+        width: 0;
+        margin-left: -7px;
+        top: -7px;
+        left: 50%;
+    }
+    div.axContextSpeechBubble:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 5px 5px;
+        border-color: #FFFFFF transparent;
+        display: block;
+        width: 0;
+        margin-left: -6px;
+        top: -5px;
+        left: 50%;
+    }
+    div.axContextSpeechBubble span {
+        font-size: 10px;
+        margin: 5px;
+    }
+
+
+/* */
+div.axContextSpeechBubbleBottomAdaptive {
+    position: absolute;
+    /*padding: 10px;*/
+    padding: 10px 10px 10px 5px;
+
+    background-color: #FFFFFF;
+    border: #8F949A solid 1px;
+
+    width: 350px;
+    height: 180px;
+
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.4);
+}
+    div.axContextSpeechBubbleBottomAdaptive:before {
+        content: "";
+        position: absolute;
+        bottom: -7px;
+        /*left: calc(60% - 3px) ;*/
+        left: 10px;
+        border-style: solid;
+        border-width: 7px 7px 0;
+        border-color: #8F949A transparent;
+        /*display: block;*/
+        width: 0;
+        /*z-index: 0;*/
+    }
+    div.axContextSpeechBubbleBottomAdaptive:after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        /*left: 60%;*/
+        left: 12px;
+        border-style: solid;
+        border-width: 5px 5px 0;
+        border-color: #FFFFFF transparent;
+        /*display: block;*/
+        width: 0;
+        /*z-index: 1;*/
+    }
+
+
+/* This could probably have a better generic name, but mainly used for pins now, where the pin itself has the little notch/tail */
+div.axPinContextSpeechBubble {
+    position: absolute;
+    padding: 10px 5px 10px 5px;
+
+    background-color: #FFFFFF;
+
+    width: 350px;
+    /*height: 180px;*/
+    line-height: normal;
+
+    border: #8F949A solid 1px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.4); 
+}

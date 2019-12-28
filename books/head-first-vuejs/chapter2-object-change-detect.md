@@ -25,7 +25,7 @@ Vue使用的是push，每个状态一变化就会推送，它的粒度很细，�
 
 function defineReactive(data, key, val) {
   let dep = new Dep();
-  Object.defineProperties(data, key, {
+  Object.defineProperty(data, key, {
     get: function(){
       dep.depend();
       return val;
