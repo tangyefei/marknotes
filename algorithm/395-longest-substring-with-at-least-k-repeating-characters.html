@@ -16,8 +16,9 @@
  */
   var longestSubstring = function(s, k) {
     // 72.69%  75.00%
+    // 题意理解不当 + 没有考虑边界条件
     if(s.length < k) return 0;
-    
+
     const countHash = {};
     let longest = 0, from = 0;
 

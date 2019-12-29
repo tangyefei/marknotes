@@ -1,14 +1,21 @@
 # Udacity 网站性能优化
 
-## Lesson 1 Website Performance Optimization
+## 第1课 准备工作
 
 
-简单介绍了下课程，并介绍了如何在电脑上如何连接到移动设备，并想查看自己的网页上来查看在手机上打开的网页
+简单介绍了课程，并介绍了电脑上如何连接到移动设备，并像在自己电脑上查看网页那样来查看移动设备。
 
-## Lesson 2 The Critical Rendering Path
+## 第2课 关键渲染路径
 
+![关键渲染路径](https://blog-1258030304.cos.ap-guangzhou.myqcloud.com/critical-render-path.png)
  
-简单介绍了HTML内容最终显示在浏览器的过程，包括 HTML -> Build DOM -> CSSOM TREE -> Render Tree -> Layout -> Fill。
+上图呈现了HTML内容最终显示在浏览器的过程，后面讲首先介绍如何构建DOM、CSSOM，以及构建Render Tree，然后会介绍JavaScript是如何影响整个过程的。
+
+
+### 探索时间线工具
+
+
+
 
 然后介绍了如何使用Chrome进行页面性能的分析：https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/reference
 
