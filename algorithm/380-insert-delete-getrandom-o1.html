@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    
+    // 25.55%  20.00%
+/**
+ * Initialize your data structure here.
+ */
+var RandomizedSet = function() {
+    this.set = {};//new Set();
+};
+  
+  /**
+   * Inserts a value to the set. Returns true if the set did not already contain the specified element. 
+   * @param {number} val
+   * @return {boolean}
+   */
+  RandomizedSet.prototype.insert = function(val) {
+    if(this.set[val] != undefined) return false;
+      
+    this.set[val] = val;
+    return true;
+  };
+  
+  /**
+   * Removes a value from the set. Returns true if the set contained the specified element. 
+   * @param {number} val
+   * @return {boolean}
+   */
+  RandomizedSet.prototype.remove = function(val) {
+    if(this.set[val] == undefined) return false;
+
+    delete this.set[val]
+    return true;
+  };
+  
+  /**
+   * Get a random element from the set.
+   * @return {number}
+   */
+  RandomizedSet.prototype.getRandom = function() {
+      const keys = Object.keys(this.set)
+      if(keys.length == 0) return;
+
+      const index = Math.floor(Math.random(1) * keys.length)
+      return this.set[keys[index]];
+  };
+  
+  /** 
+   * Your RandomizedSet object will be instantiated and called as such:
+   * var obj = new RandomizedSet()
+   * var param_1 = obj.insert(val)
+   * var param_2 = obj.remove(val)
+   * var param_3 = obj.getRandom()
+   */
+
+  // Init an empty set.
+var randomSet = new RandomizedSet();
+
+// Inserts 1 to the set. Returns true as 1 was inserted successfully.
+console.log(randomSet.insert(1));
+
+// Returns false as 2 does not exist in the set.
+console.log(randomSet.remove(2));
+
+// Inserts 2 to the set, returns true. Set now contains [1,2].
+console.log(randomSet.insert(2));
+
+// getRandom should return either 1 or 2 randomly.
+console.log(randomSet.getRandom());
+
+// Removes 1 from the set, returns true. Set now contains [2].
+console.log(randomSet.remove(1));
+
+// 2 was already in the set, so return false.
+console.log(randomSet.insert(2));
+
+// Since 2 is the only number in the set, getRandom always return 2.
+console.log(randomSet.getRandom());
+  
+  </script>
+  
+</body>
+</html>
