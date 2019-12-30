@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * @param {number[]} nums
+     * @return {number}
+     */
+    var maxProduct = function(nums) {
+      // // 11.34%  100.00% 
+      // let max = Number.NEGATIVE_INFINITY;
+      // var value;
+
+      // for (let i = 0; i < nums.length; i++) {
+      //   value = 1;
+      //   for (let j = i; j < nums.length; j++) {
+      //     value *= nums[j];
+      //     if(value > max) {
+      //       max = value;
+      //     }
+      //   }
+      // }
+      // return max;
+
+
+
+      if(nums.length == 1) return nums[0];
+
+      let max = [nums[0]], minus_max = [nums[0]], result = nums[0];
+
+      for (let i = 1; i < nums.length; i++) {
+        max[i] = Math.max(nums[i]*max[i-1],nums[i]*minus_max[i-1],nums[i]);
+        minus_max[i] = Math.min(nums[i]*max[i-1],nums[i]*minus_max[i-1],nums[i]);
+        result = Math.max(result, max[i]);
+      }
+      return result;
+    };
+
+    console.log(maxProduct([2,3,-2,4])==6);
+    console.log(maxProduct([-2,0,-1])==0);
+    </script>
+  
+</body>
+</html>

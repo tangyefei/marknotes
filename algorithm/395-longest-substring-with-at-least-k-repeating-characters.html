@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    /**
+ * @param {string} s
+ * @param {number} k
+ * @return {number}
+ */
+  var longestSubstring = function(s, k) {
+    // 72.69%  75.00%
+    // 题意理解不当 + 没有考虑边界条件
+    if(s.length < k) return 0;
+
+    const countHash = {};
+    let longest = 0, from = 0;
+
+    for (let i = 0; i < s.length; i++) {
+      countHash[s[i]] = (countHash[s[i]]||0)+1;
+    }
+    for (let i = 0, l = s.length; i < l; i++) {
+      if(countHash[s[i]] >= k) {
+        if(i == l - 1) {
+          if(from == 0) {
+            longest = l;
+          } else {
+            longest = Math.max(longest, longestSubstring(s.substring(from, l),k));  
+          }
+        } 
+      } else {
+        longest = Math.max(longest, longestSubstring(s.substring(from, i),k));  
+        from = i+1;
+      }
+    }
+    return longest
+};
+
+  console.log(longestSubstring(s = "aaabb", k = 3)==3)
+  console.log(longestSubstring(s = "ababbc", k = 2)==5)
+  console.log(longestSubstring(s = "aaabbb", k = 3)==6)
+  console.log(longestSubstring(s = "ababacb", k = 3)==0)
+  
+  </script>
+  
+</body>
+</html>

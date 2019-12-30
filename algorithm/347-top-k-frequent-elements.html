@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    
+    
+  /**
+   * @param {number[]} nums
+   * @param {number} k
+   * @return {number[]}
+   */
+  var topKFrequent = function(nums, k) {
+    // 8.35%  88.24%
+    const countHash = {};
+    for (let i = 0; i < nums.length; i++) {
+      countHash[nums[i]] = (countHash[nums[i]]||0)+1;
+    }
+    const keys = Object.keys(countHash);
+    keys.sort((a,b) => { return countHash[b]-countHash[a]})
+    return keys.slice(0, k);
+  };
+
+  console.log(topKFrequent(nums = [1,1,1,2,2,3], k = 2))
+  console.log(topKFrequent(nums = [1], k = 1))
+  
+  </script>
+  
+</body>
+</html>

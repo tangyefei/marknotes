@@ -7,6 +7,37 @@
   <title>Document</title>
 </head>
 <body>
+<<<<<<< HEAD
+  
+<script>
+  
+/**
+* @param {number[]} nums
+* @return {number}
+*/
+var lengthOfLIS = function(nums) {
+  if(nums.length <= 1) return nums.length;
+  
+   var lenOfLIS = 0;
+
+   for (let i = 0, len = nums.length; i < len-1; i++) {
+     temp = 1;
+     for (let j = i+1; j < nums.length; j++) {
+      temp += nums[j] > nums[j-1] ? 1 : 0;
+     }
+     lenOfLIS = Math.max(lenOfLIS, temp);
+
+   }
+   return lenOfLIS;
+};
+
+console.log(lengthOfLIS([10,9,2,5,3,7,101,18])==4);
+console.log(lengthOfLIS([4,10,4,3,8,9])==3);
+
+</script>
+</body>
+</html>
+=======
   <script>
 
     /**
@@ -73,3 +104,4 @@
   
 </body>
 </html>
+>>>>>>> 8d9690ffcd570a602e3e0dcad512c2b9e26b6e40
