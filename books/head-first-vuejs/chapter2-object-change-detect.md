@@ -15,14 +15,17 @@ Vue使用的是push，每个状态一变化就会推送，它的粒度很细，�
 
 #### 3. 如何收集依赖
 
-把所有用到属性的地方收集起来（在getter中收集），在数据发生变化的时候触发依赖更新时视图（在setter中触发）。
+**在getter中收集，在setter中触发。**
+
+用到属性的地方，必然会触发对象的getter，在getter中，我们可以把使用者作为依赖收集起来。
+
+修改属性必然会触发对象的setter，我们可以对收集的依赖，依次进行通知，由依赖决定如何更新。
 
 #### 4. 依赖收集在哪里
 
-在set中将依赖关系收集到dep中：
+在setter中将依赖关系收集到dep中：
 
 ```
-
 function defineReactive(data, key, val) {
   let dep = new Dep();
   Object.defineProperty(data, key, {
@@ -40,7 +43,7 @@ function defineReactive(data, key, val) {
 }
 ```
 
-将dep的常用操作抽象到一个单独的类当中，先假定window.target被当做临时变量，存放了会使用data.key的结构：
+将依赖的常用操作抽象到一个单独的类Dep当中，在触发getter的时候，我们通过它的depend方法来收集依赖，可以看到它简单地把window.target作为依赖push到了内部的结构中，这是因为在后续的查询属性中，我们会将使用属性的对象挂载window.target中。
 
 ```
 
@@ -67,7 +70,6 @@ export default class Dep {
     const subs = this.subs.slice();
     for (let i = 0; i < subs.length; i++) {
       subs[i].update();
-      
     }
   }
 }
@@ -83,12 +85,11 @@ function remove(arr, item) {
 ```
 #### 5. 依赖是谁
 
-在上一节的代码中，收集的是 window.target，在实际使用中它可能是一个DOM，也可能是一个watch的语法，将这个依赖对象抽象成一个类起名为 Watcher。
+在上一节的代码中，收集的是 window.target，在实际使用中它可能是一个包含界面元素的对象，也可能是任何会使用监听属性的结构。下一节我们将这个依赖对象抽象成一个Watcher类。
 
 #### 6. 什么是Watcher
 
-
-Watcher是一个数据结构，传入要侦听的对象vm和要侦听的属性expOrFn，就可以把自己传递个属性的dep收集起来；当expOrFn属性值变化的时候，会被通知到要做对应的处理（在这里是调用cb函数）。如下代码，constructor给getter赋值后，随即用调用了get方法，会触发将自己添加到dep的逻辑。
+Watcher是一个数据结构，传入要侦听的对象vm 和 要侦听的属性expOrFn。当获取属性的时候，会自己传递给window.target，从而可以被收集到；当属性值变化的时候，会被通知到要做对应的处理（在这里是调用cb函数）。如下代码，constructor给getter赋值后，随即用调用了get方法，会触发将自己添加到dep的逻辑。
 
 ```
 export default class Watcher {
@@ -174,7 +175,6 @@ if(typeof val === 'object') {
 
 ![图解](./chapter2.png)
 
-
 10月24日复习：
 
 1. 理解顺序：先进行get生成依赖，后进行set同步界面
@@ -188,7 +188,7 @@ if(typeof val === 'object') {
 
 
 
-Elon
+
 
 
 

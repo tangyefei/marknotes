@@ -31,15 +31,19 @@ export const arrayMethods = Object.create(arrayProto);
 
 本节在Observer中，将上一节的arrayMethods，赋值给数组对象的 __proto__ 属性，从而直接覆盖对象的原型。
 
+因此调用顺序最终就成了，defineReactive触发new Observer，new Observer则在根据结构决定
+（1）调用 value.__proto__ = arrayMethods，从而侦听到数组的变化
+（2）调用 this.walk 继续递归对属性值（对象）在进行defineReactive
+
 ```
 export default class Observer {
   constructor(value) {
     this.value = value;
-    if(Array.isArray(value)) {
-      value.__proto__ = arrayMethods;      
-    } else {
++    if(Array.isArray(value)) {
++      value.__proto__ = arrayMethods;      
++    } else {
       this.walk(value);
-    }
++    }
   }
   ...
 }
@@ -51,44 +55,44 @@ export default class Observer {
 
 #### 5. 如何收集依赖
 
+数组进行方法调用的时候，必须先拿到数组的引用，比如 object.list.push(1) 必然会先触发 object下list属性的getter，因此收集依赖的位置也是在defineReactive的getter中。
 
-拦截器能在数组发生方法调用时拥有被通知到的能力。对象中属性值不管是什么类型，只要有引用，就必然会触发getter，收集依赖同样是在getter中。复习一下：这里的依赖收集，就是向`Dep`对象（每个`key`中都对应一个`Dep`对象）中`push`对应的依赖（Watcher）。
 
-#### 6. 依赖列表存在哪儿
+#### 6-10. 如何使用依赖
 
-在Observer的构造函数中，增加如下行
+在Observer的构造函数中，增加如下行：
 
 ```
 export default class Observer {
   constructor(value) {
-    this.dep = new Dep();
     ...
++     this.dep = new Dep();
++     value.__ob__ = this;
+    ...
+  }
+  walk(obj) {
+    ...
+    for (let key of keys) {
+      defineReactive(obj, key, obj[key]) 
+    }
   }
   ...
 }
-```
 
-#### 7.收集依赖
-
-
-在defineReactive的首行，修改构造Observer实例的方法，将
-
-```
-function defineReactive(data, key, val) {
-  if(typeof val === 'object') {
-    new Observer(val);
-  } 
-  ...
-}
-```
-
-改造成了
-
-```
 function defineReactive(data, key, val) {
   let childOb = observe(val);
-  ...
+  let dep = new Dep();
+
+  Object.defineProperty(data, key, {
+  	get: function() {
++  		if(childOb) {
++  			childOb.dep.depend();
++  		}
++  		return val;
+  	}
+  }
 }
+
 
 export function observe(value) {
   if(typeof value != 'object') return;
@@ -101,45 +105,20 @@ export function observe(value) {
   }
   return ob;
 }
-```
 
-
-#### 8.　在拦截器中获取Observer实例
-
-在Observer中，我们通过增加将Observer实例挂载在监听对象的 `__ob__` 属性上
-
-```
-export class Observer {
-  constructor(value) {
-    ...
-    def(value, '__ob__', this)
-    ...
-  } 
-}
-```
-
-其中def做的事情就是在使用`Object.defineProperty`在对象`value`上定义一个`__ob__`属性
-
-**在使用`Object.defineProperty`对`arrayMethod`对各个操作数组的方法。自己写的不明白了！！！**
-
-#### 9.　向数组的依赖发送通知
-
-在触发器中就可以获取到对象上挂载的Observer对象，然后再拿到dep对象通知watcher的回调。
-
-```
-const arrayProto = Array.prototype;
-export const arrayMethods = Object.create(arrayProto);
 
 ;['push'].forEach(function(method) {
   const original = arrayProto[method];
   Object.defineProperty(arrayMethods, method, {
     value: function mutator(...args){
-		const result = original.apply(this, args);
-		const ob = this.__ob__;
-		ob.dep.notify();
++      const ob = this.__ob__;
++      ob.dep.notify();
+      console.log('method:' + method + ' call')
+      original.apply(this, args);
     }
   })
 })
+
 ```
 
 #### 10.　侦测数组中元素的变化
