@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+ * @param {string} s
+ * @return {number}
+ */
+var numDecodings = function(s) {
+  if(s.length && s[0] === "0") return 0;
+  if(s.length <= 1) return s.length;
+
+  // 42.36%  85.71% 
+  const dp = [1];//, (s.substr(0,2)>26||s.substr(0,2)%10==0 ? 1 : 2)];
+
+  for (let i = 1; i < s.length; i++) {
+    if(s[i] == 0) {
+      const pre = s[i-1];
+      if(pre == 1 || pre == 2) 
+        dp[i] = dp[i-2] || 1;
+      else 
+        return 0;
+    } else {
+      const num = s.substr(i-1, 2);
+      if(num > 10 && num < 27) {
+        dp[i] = dp[i-1] + (dp[i-2]||1);
+      } else {
+        dp[i] = dp[i-1];
+      }
+    }
+  }
+  return dp[s.length - 1];
+
+  // // 5.68%  14.29%
+  // var count = 0;
+  // var walk = function(s, step) {
+  //   if(step == s.length) return count ++;
+    
+  //   if(s[step] == '0') return;
+
+  //   if(step+1 <= s.length) {
+  //     if(s[step+1]!=='0') walk(s, step+1);
+  //   }
+  //   if(step+2 <= s.length) {
+  //     if(Number(s.substr(step, 2)) <= 26)walk(s, step + 2);
+  //   }
+  // }
+  // walk(s, 0);
+  // return count;
+};
+// console.log(numDecodings('')==0)
+// console.log(numDecodings('1')==1)
+// console.log(numDecodings('12')==2)
+// console.log(numDecodings('28')==1)
+// console.log(numDecodings('226')==3)
+// console.log(numDecodings('110')==1)
+// console.log(numDecodings('888')==1)
+// console.log(numDecodings('2626')==3)
+// console.log(numDecodings('0')==0)
+// console.log(numDecodings('10')==1)
+// console.log(numDecodings('100')==0)
+// console.log(numDecodings('102610')==2)
+// console.log(numDecodings('230')==0)
+// console.log(numDecodings('301')==0)
+console.log(numDecodings('1212')==5)
+
+  
+  </script>
+
+</body>
+</html>
