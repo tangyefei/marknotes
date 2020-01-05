@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    
+    /**
+   * Definition for singly-linked list.
+   * function ListNode(val) {
+   *     this.val = val;
+   *     this.next = null;
+   * }
+   */
+  /**
+   * @param {ListNode} l1
+   * @param {ListNode} l2
+   * @return {ListNode}
+   */
+    function ListNode(val) {
+        this.val = val;
+        this.next = null;
+    }
+  var mergeTwoLists = function(l1, l2) {
+    // 28.19%  28.21%
+    // 70.66%  51.28% while循环中将l1或l2逻辑优化后获得提升
+    if(l1==null && l2==null) return null;
+
+    var l3 = new ListNode();
+    var cr = l3;
+    while(l1 || l2) {
+      if(l1==null) {
+        // cr.next = new ListNode(l2.val)
+        // l2 = l2.next;
+        cr.next = l2;
+        break;
+      } else if(l2==null) {
+        // cr.next = new ListNode(l1.val)
+        // l1 = l1.next;
+        cr.next = l1;
+        break;
+      } else if(l1.val <= l2.val) {
+        cr.next = new ListNode(l1.val)
+        l1 = l1.next;
+      } else {
+        cr.next = new ListNode(l2.val)
+        l2 = l2.next;
+      }
+      cr = cr.next;
+    }
+    return l3.next;
+  };
+
+var root1 = 
+new ListNode(1);
+root1.next = new ListNode(2);
+root1.next.next = new ListNode(4);
+
+var root2 = 
+new ListNode(1);
+root2.next = new ListNode(3);
+root2.next.next = new ListNode(4);
+
+console.log(mergeTwoLists(root1, root2));
+    
+    </script>
+  
+</body>
+</html>
