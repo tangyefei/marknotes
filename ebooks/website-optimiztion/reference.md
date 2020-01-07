@@ -20,9 +20,6 @@
 - [内联和优化“关键 CSS”](https://developers.google.com/speed/pagespeed/service/PrioritizeCriticalCss)
 
 
-
-
-
 另外
 
 - [详细了解资源最小化](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer#minification-preprocessing--context-specific-optimizations)
@@ -58,5 +55,5 @@
 
 - [高难度的TCP慢的附加题](https://classroom.udacity.com/courses/ud884/lessons/1469569174/concepts/15244185740923)
 
-
+- [浏览器预加载程序如何加快页面加载速度](http://andydavies.me/blog/2013/10/22/how-the-browser-pre-loader-makes-pages-load-faster/)
 
