@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    
+    /**
+     * @param {number[]} nums
+     * @return {number}
+     */
+    var missingNumber = function(nums) {
+      // // 17.97%  17.14%
+      // nums.sort((a,b) => a-b)
+      // for (let i = 0; i <= nums.length; i++) {
+      //   if(i!=nums[i]) return i;
+      // }
+
+      // 26.78%  34.29% 
+      var sorted = new Array(nums.length+1);
+      for (let i = 0; i < nums.length; i++) {
+        sorted[nums[i]]=1;
+      }
+      for (let i = 0; i < sorted.length; i++) {
+        if(sorted[i]==undefined) return i;
+      }
+    };
+
+    console.log(missingNumber([3,0,1])==2);
+    console.log(missingNumber([9,6,4,2,3,5,7,0,1])==8);
+  </script>
+  
+</body>
+</html>
