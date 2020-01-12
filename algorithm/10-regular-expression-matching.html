@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+    /**
+     * @param {string} s
+     * @param {string} p
+     * @return {boolean}
+     */
+    var isMatch = function(s, p) {
+        // 54.99%  100.00%
+        var reg = new RegExp(p);
+        let res = s.match(p);
+        return !!(res && res[0] === s);
+    };
+    // console.log(isMatch(s = "aa", p = "a")==false);
+    // console.log(isMatch(s = "aa", p = "a*")==true);
+    // console.log(isMatch(s = "ab", p = ".*")==true);
+    // console.log(isMatch(s = "aab", p = "c*a*b")==true);
+    // console.log(isMatch(s = "mississippi",p = "mis*is*p*.")==false);
+    console.log(isMatch(s = "ab",p = ".*c")==false);
+    </script>
+  
+</body>
+</html>
