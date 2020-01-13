@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+    /**
+ * @param {string[]} tokens
+ * @return {number}
+ */
+var evalRPN = function(tokens) {
+  // 88.48%  100.00%
+  let stack = [];
+  let calc = '+-*/';
+  for (let i = 0; i < tokens.length; i++) {
+    const t = tokens[i];    
+    if(calc.indexOf(t)===-1) {
+      stack.push(Number(t)); 
+      continue;
+    } else {
+      const second = stack.pop();
+      const first = stack.pop();
+      if(t==='+') {
+        stack.push(first+second);
+      } else if(t==='-') {
+        stack.push(first-second);
+      } else if(t==='*') {
+        stack.push(first*second);
+      } else if(t==='/') {
+        stack.push(parseInt(first/second));
+      }
+      // console.log('pop:' + second + ',' + first + ' push:' + stack[stack.length-1]);
+    }
+  }
+  return stack.pop();
+};
+// console.log(evalRPN(["4", "13", "5", "/", "+"])==6);
+console.log(evalRPN(["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"])==22);
+
+</script>
+  
+</body>
+</html>

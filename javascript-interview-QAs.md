@@ -696,3 +696,71 @@ console.log('1', a); // -> '1' 1
   man.move // person move
 })()
 ```
+
+# 22. bind/call/apply的实现
+
+``` 
+Function.prototype.bb = function(){
+	var func = this;
+	var context = Array.prototype.shift.call(arguments);
+	var args = Array.prototype.slice.call(arguments)
+	return function(){
+	  func.apply(context, args)
+	}
+}
+```
+
+```
+Function.prototype.call  = function(context, ...args) {
+  var func = this.bind(context);
+  func(...args);
+}
+
+Function.prototype.apply  = function(context, args) {
+  var func = this.bind(context);
+  func(...args);
+}
+```
+
+个人简单版本的实现，也许不周全，但是能实现基本功能。
+
+
+# 23. filter的实现
+
+```
+Array.prototype.ff = function(fn) {
+	if(typeof fn != 'function') return;
+	
+	var result = [];
+	for(var i = 0; i < this.length; i++) {
+		if(fn.call(null, this[i], i) == true) {
+			    result.push(this[i]);
+		}
+	}
+	return result;
+}
+```
+
+# 24. instanceof的实现
+
+```
+
+function instanceOf(o, Instance) {
+  debugger;
+  if(o == null) return false;
+  var proto = Instance.prototype;
+  while(true) {
+    if(o.__proto__ == null) return false;
+    
+    if(o.__proto__ === proto) {
+      return true;
+    } else {
+      o = o.__proto__;
+    }
+  }
+}
+console.log(instanceOf({}, Object));//true
+console.log(instanceOf(alert, Object));//true
+console.log(instanceOf(alert, Function));//true
+console.log(instanceOf({}, Number));//false
+```
