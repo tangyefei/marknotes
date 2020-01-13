@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+<script>/**
+  * @param {string} s
+  * @param {string} t
+  * @return {character}
+  */
+ var findTheDifference = function(s, t) {
+    // 75.45%  100.00%
+    let hash = {};
+    for (let i = 0; i < t.length; i++) {
+      const cAdd = t[i], cDel = s[i];
+
+      if(hash[cAdd]!=undefined) {
+        hash[cAdd] += 1;
+      } else {
+        hash[cAdd] = 1;
+      }
+
+      if(i==t.length-1) break;
+
+      if(hash[cDel]!=undefined) {
+        hash[cDel] -= 1;
+      } else {
+        hash[cDel] = -1;
+      }
+    }
+    for (let char in hash) {
+      if(hash[char]!=0) {
+        return char;
+      }
+    }
+ };
+ console.log(findTheDifference('abcd','abcde')==='e');
+ console.log(findTheDifference('aa','a')==='a');
+ </script>
+</body>
+</html>
