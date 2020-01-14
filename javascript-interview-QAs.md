@@ -764,3 +764,80 @@ console.log(instanceOf(alert, Object));//true
 console.log(instanceOf(alert, Function));//true
 console.log(instanceOf({}, Number));//false
 ```
+
+#25. 宏任务/微任务执行顺序
+
+```
+
+console.log('begin');
+setTimeout(() => {
+    console.log('setTimeout 1');
+    Promise.resolve()
+        .then(() => {
+            console.log('promise 1');
+            setTimeout(() => {
+                console.log('setTimeout2');
+            });
+        })
+        .then(() => {
+            console.log('promise 2');
+        });
+    new Promise(resolve => {
+        console.log('a');
+        resolve();
+    }).then(() => {
+        console.log('b');
+    });
+}, 0);
+console.log('end');
+```
+
+```
+new Promise((resolve,reject)=>{
+    console.log("promise1")
+    resolve()
+}).then(()=>{
+    console.log("then11")
+    return new Promise((resolve,reject)=>{
+        console.log("promise2")
+        resolve()
+    }).then(()=>{
+        console.log("then21")
+    }).then(()=>{
+        console.log("then23")
+    })
+}).then(()=>{
+    console.log("then12")
+})
+// promise1,then11,promise2,then21,then23,then12
+
+```
+
+
+```
+console.log(1);
+
+setTimeout(() => {
+  console.log(2);
+  new Promise((resolve) => {
+    console.log(6);
+    resolve();
+  }).then(() => {
+    console.log(7);
+  })
+})
+
+setTimeout(() => {
+  console.log(3);
+})
+
+new Promise((resolve)=>{
+  console.log(4);
+  resolve();
+}).then(()=>{
+  console.log(5);
+})
+// 1,4,5,2,6,7,3
+```
+
+
