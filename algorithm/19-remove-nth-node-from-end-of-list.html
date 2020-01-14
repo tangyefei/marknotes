@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function ListNode(val) {
+        this.val = val;
+        this.next = null;
+    }
+    var removeNthFromEnd = function(head, n) {
+      // 83.77%  59.09% 
+      if(n == 0) return head;
+      if(head==null || (head.next==null && n == 1)) return null;
+
+      let cursor = head;
+      let count = 0;
+
+      while(cursor) {
+        count ++;
+        cursor = cursor.next;
+      }
+
+      if(count === n) {
+        return head.next;
+      } else {
+        let pos = 1;
+        let stopPos = count - n;
+  
+        cursor = head;
+
+        while(cursor) {
+          if(pos === stopPos) {
+            cursor.next = cursor.next.next;
+            return head;
+          }
+          cursor = cursor.next;
+          pos ++;
+        }
+      }
+    };
+
+    var head = new ListNode(null);
+    var cursor = head;
+    var values = [1,2,3,4,5];
+    for (let i = 0; i < values.length; i++) {
+      cursor.next = new ListNode(values[i]);
+      cursor = cursor.next;
+    }
+    console.log(removeNthFromEnd(head.next, 2));
+</script>
+  
+</body>
+</html>

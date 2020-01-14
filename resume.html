@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,3 +15,299 @@
   </article>
 </body>
 </html>
+=======
+<style lang="less">
+  .resume-page {
+    width: 1024px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    li {
+      list-style: disc;
+    }
+    header {
+      padding: 24px 24px 0;
+      border-bottom: 1px solid #252525;
+      color: #FFF;
+      height: 150px;
+      background-color: #252525;
+      li {
+        line-height: 28px;
+      }
+      a {
+        color: #FFF;
+      }
+      .emphisis {
+        font-size: 32px;
+        text-align: center;
+        line-height: 120px;
+      }
+    }
+    .avatar {
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 5px solid #FFFF;
+      }
+    }
+    article {
+      color: #333;
+      font-size: 14px;
+      line-height: 24px;
+      h3 {
+        margin-bottom: 6px;
+      }
+      li {
+        text-indent: 20px;
+        .dot {
+          display: inline-block;
+          width: 10px;
+          height:10px;
+          border-radius: 50%;
+          background-color: #e2e2e2;
+          &.solid {
+            background-color: #48c7f2;
+          }
+        }
+        .dot + .dot {
+          margin-left: 6px;
+        }
+      }
+      main {
+        padding: 24px 12px 24px 24px;
+        width: 65%;
+        p {
+          padding: 12px 0;
+        }
+      }
+      
+      section {
+        margin-bottom: 18px;
+        section {
+          margin-bottom: 12px;
+        }
+      }
+      nav {
+        padding: 24px 24px 24px 12px;
+        width: 35%;
+        border-left: 1px solid #ccc;
+      }
+      .tag {
+        padding: 3px 8px;
+        background: #48c7f2;
+        border-radius: 10px;
+        font-size: 12px;
+        color: #FFF;
+      }
+      .tag + .tag {
+        margin-left: 8px;
+      }
+    }
+    
+  }
+</style>
+
+<template>
+  <div class="resume-page">
+    <header class="flex">
+      <div class="flex1 align-center">
+        <span class="emphisis">{{name}}</span>
+      </div>
+      <div class="flex1">
+        <ul>
+          <li>汉族</li>
+          <li>1990/02/24</li>
+          <li>tyfccsu@gmail.com</li>
+          <li>高级前端开发工程师</li>
+        </ul>
+      </div>
+      <div class="flex1">
+        <ul>
+          <li>上海市</li>
+          <li>185-2151-2434</li>
+          <li><a href="https://tangyefei.cn">https://tangyefei.cn</a></li>
+          <li>6年+前端开发经验</li>
+        </ul>
+      </div>
+      <div class="flex1">
+        <div class="avatar">
+          <img :src="avatarUrl">
+        </div>
+      </div>
+    </header>
+    <article class="flex">
+       <main>
+         <section>
+           <h3>个人简介</h3>
+           <ul>
+             <li>全日制本科，软件工程专业，先后供职于民企、外企、互联网初创公司</li>
+             <li>擅长于基于Vue.js进行网站的开发，拥有网站开发的丰富的经验问题</li>
+           </ul>
+         </section>
+
+         <section>
+           <h3>工作经历</h3>
+           <section :key="work.corpName" v-for="work in workExps">
+             <h4>{{work.jobTitle}}</h4>
+             <p>{{work.corpName}}<span class="float-right">{{work.duration}}</span></p>
+             <ul>
+               <li :key="d" v-for="d in work.dutyList">{{d}}</li>
+             </ul>
+           </section>
+         </section>
+
+         <section>
+           <h3>项目经历</h3>
+           <section :key="pro.corpName" v-for="pro in projectExps">
+             <h4>{{pro.title}}</h4>
+             <p>{{pro.desc}}</p>
+             <ul>
+               <li :key="d" v-for="d in pro.dutyList">{{d}}</li>
+             </ul>
+           </section>
+         </section>
+       </main>
+
+       <nav>
+         <section>
+           <h3>教育经历</h3>
+           <div>
+             {{major}}<span class="float-right">{{majorDate}}</span>
+           </div>
+         </section>
+         <section>
+           <h3>专业技能</h3>
+           <ul>
+             <li :key="s.text" v-for="s in skills">
+               {{s.desc}}
+               <span class="float-right">
+                <span class="dot" :key="d" v-for="d in 5" :class="{'solid': s.grade>=d+1}"></span>
+               </span>
+              </li>
+           </ul>
+         </section>
+         <section>
+           <h3>个人爱好</h3>
+           <div>
+             <span :key="h" v-for="h in hobbies" class="tag">{{h}}</span>
+           </div>
+         </section>
+
+       </nav>
+    </article>
+  </div>
+
+</template>
+<script>
+export default {
+  data(){
+    return {
+      name: '唐叶飞',
+      avatarUrl: 'https://s3-eu-west-1.amazonaws.com/avatars-kickresume-com/resume-avatars/854618/f1d979cae5d5f13f53ac1550b53aeccd.jpg',
+      major: '本科 软件工程专业',
+      majorDate: '07/2008 – 07/2012',
+      skills: [
+        {grade: 5, desc: "Vue.js" },
+        {grade: 5, desc: "算法" },
+        {grade: 5, desc: "JavaScript"},
+        {grade: 3, desc: "CSS" },
+        {grade: 5, desc: "Webpack"},
+        {grade: 3, desc: "ES6" },
+        {grade: 2, desc: "ReactJS"},
+        
+      ],
+      hobbies: ['重度阅读爱好', '篮球多年爱好'],
+      workExps: [{
+        corpName: "上海海玺智汽⻋车租赁有限公司",
+        duration: "2019/04 – 至今",
+        jobTitle: "资深前端⼯工程师",
+        dutyList: [
+          "负责运力服务平台、管理后台等超过5个产品的前端搭建",
+          "参与需要概要讨论，并和后端一起讨论方案可行性，并制定开发计划",
+          "协调前端开发资源，包括分配开发任务和协助解决遇到的疑难问题",
+          "参与到业务功能的开发、问题修复，并接手支持小程序、E应用等的开发",
+          "录制项目介绍视频，并随着项目推广到全国十多个城市，出差到现场解决问题"
+        ]
+      },{
+        corpName: "希格斯⽹网络科技有限公司",
+        duration: "2014/06 – 2017/03",
+        jobTitle: "前端开发工程师",
+        dutyList: [
+          "参与Inmind和Automind猎头招聘平台的开发和维护工作",
+          "参与猎萝卜招聘平台的开发，主导负责CW端的开发，参与猎头端、HR端、CRM端的开发",
+          "负责开发招聘平台的IM、通话研发工作，其中IM可以跨多个项目实时聊天，最多支持同时500人群聊",
+          "参与项目通用组件的开发，并参与相关组件库heyui的贡献",
+        ]
+      },{
+        corpName: "普华永道信息技术(上海海)有限公司",
+        duration: "2014/06 – 2016/04",
+        jobTitle: "前端开发工程师",
+        dutyList: [
+          "负责运力服务平台、管理后台等超过5个产品的前端搭建",
+          "参与需要概要讨论，并和后端一起讨论方案可行性，并制定开发计划",
+          "协调前端开发资源，包括分配开发任务和协助解决遇到的疑难问题",
+          "参与到业务功能的开发、问题修复，并接手支持小程序、E应用等的开发",
+          "录制项目介绍视频，并随着项目推广到全国十多个城市，出差到现场解决问题"
+        ]
+      },{
+        corpName: "上海海玺智汽⻋车租赁有限公司",
+        duration: "2019/04 – 至今",
+        jobTitle: "资深前端⼯工程师",
+        dutyList: [
+          "负责和国外客户进行需求沟通",
+          "负责基于需求进行技术调研，并且做出最小的可行性的demo",
+          "进行前后端的技术选型，并参与研发工作",
+          "协调项目组的开发资源，并对SDC部门新入职同事进行前端技术培训",
+        ]
+      }],
+
+
+      projectExps: [{
+        title: "TSP运力服务平台",
+        corpName: "上海海玺智汽⻋车租赁有限公司",
+        desc: "TSP运营平台是为上海海玺智汽⻋车租赁有限公司开发的运营系统，主要连同公司开发的移动端产品将将在\n线下运⾏行行的租赁流程打成闭环。业务功能主要围绕到司机、⻋车辆产⽣生的租赁，具体有包括订单、合同、出⼊入库、保险等⼀一系列列业务: ",
+        dutyList: [
+          "基于Webpack4和Vue搭建项⽬目环境，以及业务过程中催⽣生的各种技术研究和应⽤用",
+          "依据项⽬目需求进⾏行行项⽬目代码的模块化",
+          "管理理调度前端开发资源，保证周期内功能如期交付",
+        ]
+      },{
+        title: "猎萝⼘招聘平台",
+        corpName: "希格斯⽹网络科技有限公司",
+        desc: `猎萝⼘卜是专注于互联⽹网公司⼈人才招聘的平台，产品为招聘过程中涉及的多⽅方⼈人员打造，18年年融资1亿天使轮融资，平台开发的产品包含Web端和移动端，按照角⾊色⼜又分为 猎头端、HR端、CW端(负责平台中的协调调度)。在技术上使⽤用Vue1.0/2.0，Less，ES6，heyui(团队内部组件)等技术开发，在团队内部，对所使⽤用的组件进⾏行行了了⼤大量量的封装，基本实现了了整站的组价的⾃自给⾃自⾜足。 公司崇尚⾃自我驱动，从上到下有着极快的开发速度和迭代节奏，在开发过程中个⼈人需要主动参与到需求的阅读评审和技术⽅方案选择，并在迭代周期内跟踪整个开发过程，直到产品最终成功上线。个⼈人主要负责参与了了CW端的整个站`,
+        dutyList: [
+          "搭建的CW端的产品，主导了了绝⼤大多数多数业务功能的开发，包括业务数据录⼊入、流程管理理、系统 配置 等。",
+          "研发了了项⽬目所需部分组件，对于可复⽤用的代码进⾏行行抽象提⾼高复⽤用率。",
+          "参与了了平台产品的通讯模块的开发，包括电话系统、线上的IM聊天功能。其中IM聊天，负责了了三端的性能 优化，将从⼩小群聊天扩展到可以⽀支持到数百⼈人的群聊。",
+          "负责⽇日常的产品问题反馈和答疑，对于重要的问题和产品协商后进⾏行行修复和上线。",
+        ]
+      },{
+        title: "Inmind/Automind猎头管理系统",
+        corpName: "希格斯⽹网络科技有限公司",
+        desc: "Inmind/Automind是提供给猎头使⽤用的招聘系统，技术架构基于Vue1.0+Webpack，在项⽬目中积累了了⼤大量量 的组件和⼯工具库，包括UI组件、常⽤用的Js的lib。系统在除了了功能上⽀支持猎头的整个招聘流程，还提供了了 系统内部的邮件、电话⽀支持，对于不不同的⻆角⾊色可以看到不不同的菜单，⽐比如团队leader⻆角⾊色可以看到成员 的kpi.公司团队架构扁平，所有⼈人都直接汇报给PM，开发⼈人员单独负责所负责的模块，包括跟产品的需 求对接、后台接⼝口约定、开发实现、交付测试、后期的问题修复，都要求开发⼈人员有⽐比较⾼高的效率和⾃自 我驱动意识。",
+        dutyList: [
+          "参与早起的需求评审和UX讨论",
+          "负责开发候选⼈人、公司、KPI等模块",
+          "负责了一些通⽤用模块的开发，⽐比如js model，表单校验，图⽚片上传，字典选择器器等 ",
+          "完成了了跟Avaya电话系统的集成⼯工作",
+          "上线后提供各种新功能的开发和的问题修复",
+        ]
+      },{
+        title: "Divvy芝加哥自行车通勤监控系统",
+        corpName: "普华永道信息技术(上海海)有限公司",
+        desc: "Divvy是⽤用于对美国芝加哥市⾃自⾏行行⻋车租赁进⾏行行分析的Web应⽤用程序。通过从通⽤用数据平 台上获取数据 包，从 Google Map API请求和存取地理理位置数据，应⽤用程序能够对过去 的任意时刻内的⾃自⾏行行⻋车运⾏行行状 况有直观的认 识。通过地图绘制，使⽤用者能够查看到⾃自⾏行行 ⻋车⾏行行驶的实时数据;通过结合图表，能够知道 在各个时段内的租借统 计数据;通过热度 图可以查看在各个区域的⾃自⾏行行⻋车交通密度。通过对交通和⼈人群 建⽴立起来的分析，能够给 经营 者的带来决策上的帮助。",
+        dutyList: [
+          "基于Google Map API构建了了从街道位置到坐标位置的⼤大量量数据查询和数据库存储 ",
+          "在前台使⽤用Leaflet、Mapbox和D3在前台⻚页⾯面构建了了实时的⾃自⾏行行⻋车⾏行行径绘制",
+          "在前台构建了了部分⾃自⾏行行⻋车数据统计的组件，如曲线图、通知⾯面板等",
+        ]
+      }]
+    }
+  }
+}
+</script>
+>>>>>>> c9e793ec0f192ad1d80632e2329b1c8a2b4a9435

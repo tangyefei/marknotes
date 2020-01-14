@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+    /**
+     * @param {number[][]} matrix
+     * @return {number}
+     */
+    var longestIncreasingPath = function(matrix) {
+
+
+      // if(matrix.length == 0 || matrix[0].length == 0) return 0;
+    
+
+      // let h = matrix.length, w = matrix[0].length;
+      // let cached = [];
+      // var longest = 0;
+    
+      // var walk = function(ox, oy, x, y, dis, pre) {
+        
+      //   if(x < 0 || x >= h || y < 0 || y >= w)return;
+        
+      //   const val = matrix[x][y];
+
+      //   if(val <= pre) return;
+          
+      //   if(cached[x][y]) {
+      //     cached[ox][oy] = dis + cached[x][y];
+      //     longest = Math.max(longest, cached[ox][oy]);
+      //   } 
+      //    else {
+      //       cached[ox][oy] = Math.max(cached[ox][oy], dis);    
+      //       longest = Math.max(longest, cached[ox][oy]);
+      //       walk(ox, oy, x+1, y, dis+1, val);
+      //       walk(ox, oy, x-1, y, dis+1, val);
+      //       walk(ox, oy, x, y+1, dis+1, val);
+      //       walk(ox, oy, x, y-1, dis+1, val);
+      //   }
+      // }
+
+      // for (let i = 0, l = matrix.length; i <l; i++) {
+      //   let ll = matrix[i].length
+      //   cached.push(new Array(ll));
+      // }
+      // for (let i = 0, l = matrix.length; i <l; i++) {
+      //   let ll = matrix[i].length
+      //   for (let j = 0; j < ll; j++) {
+      //     walk(i, j, i, j, 1, Number.NEGATIVE_INFINITY);            
+      //   }
+      // }
+      // return longest;
+
+
+      // 27.00% 100.00% 
+      
+      if(matrix.length == 0 || matrix[0].length == 0) return 0;
+      
+      let h = matrix.length, w = matrix[0].length;
+      let longest = 0;
+      let cached = [];
+      let dirs = [[0,1],[0,-1], [-1,0],[1,0]]
+
+      let isMin = function(i, j){
+        for (let k = 0; k < dirs.length; k++) {
+          let x = i+dirs[k][0], y = j + dirs[k][1];
+          if(x < 0 || x >= h || y < 0 || y >= w ) continue;
+          // i, j is not min
+          if(matrix[x][y] < matrix[i][j]) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      let calcPath = function(i,j) {
+        if(cached[i][j]!=undefined) return cached[i][j];
+        if(i==2 && j==2)debugger;
+        let siblings = [];
+        for (let k = 0; k < dirs.length; k++) {
+          let x = i+dirs[k][0], y = j + dirs[k][1];
+          if(x < 0 || x >= h || y < 0 || y >= w || matrix[x][y] >= matrix[i][j]) continue;
+          siblings.push(calcPath(x,y));
+        }
+        cached[i][j] = 1 + Math.max(...siblings);
+        return cached[i][j];
+      }
+
+      for (let i = 0; i < h; i++) {
+        cached.push(new Array(w)); 
+        for (let j = 0; j < w; j++) {
+          // calc i,j as end point's length
+          if(isMin(i,j)) {
+            cached[i][j] = 1;
+          }
+        }
+      }
+
+      for (let i = 0; i < h; i++) {
+        for (let j = 0; j < w; j++) {
+          calcPath(i, j);
+        }
+      }
+      
+      console.log(cached);
+      return Math.max(...cached.map(d => Math.max(...d)));
+      // // Time Limit Exceeded
+      // var longest = 0;
+      // var walk = function(x, y, dis, pre) {
+        
+      //   if(x < 0 || x >= h || y < 0 || y >= w)return;
+        
+      //   const val = matrix[x][y];
+
+      //   if(val <= pre) return;
+
+      //   if(dis > longest) longest = dis;
+
+      //   walk(x+1, y, dis+1, val);
+      //   walk(x-1, y, dis+1, val);
+      //   walk(x, y+1, dis+1, val);
+      //   walk(x, y-1, dis+1, val);
+      // }
+
+      // for (let i = 0, l = matrix.length; i <l; i++) {
+      //   for (let j = 0, ll = matrix[i].length; j < ll; j++) {
+      //     walk(i, j, 1, Number.NEGATIVE_INFINITY);            
+      //   }
+      // }
+      // return longest;
+    };
+
+    var nums = 
+    [
+      [9,9,4],
+      [6,6,8],
+      [2,1,1]
+    ];
+    console.log(longestIncreasingPath(nums)==4);
+    // [1, 2, 6, 9]
+
+    // var nums = 
+    // [
+    //   [3,4,5],
+    //   [3,2,6],
+    //   [2,2,1]
+    // ] 
+    // console.log(longestIncreasingPath(nums)==4);
+    // [3, 4, 5, 6]
+
+
+    </script>
+  
+</body>
+</html>
