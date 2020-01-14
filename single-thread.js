@@ -82,7 +82,7 @@
 //   })
 // })
 
-// SAMPLE #4 browser
+// SAMPLE #3 browser
 
 // console.log(1);
 
