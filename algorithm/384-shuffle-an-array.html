@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    /**
+       * @param {number[]} nums
+       */
+      var Solution = function(nums) {
+          // 20.22%  16.67%
+          this.origin = nums;
+      };
+
+      /**
+      * Resets the array to its original configuration and return it.
+      * @return {number[]}
+      */
+      Solution.prototype.reset = function() {
+          return this.origin;
+      };
+
+      /**
+      * Returns a random shuffling of the array.
+      * @return {number[]}
+      */
+      Solution.prototype.shuffle = function() {
+          let result = this.origin.slice(0);
+          let l = result.length;
+          for (let i = 0; i < l; i++) {
+            let j = parseInt(Math.random(0,1)*l);
+            let val = result[j];
+            result[j] = result[i];
+            result[i] = val;
+          }
+          return result;
+      };
+      /** 
+       * Your Solution object will be instantiated and called as such:
+       * var obj = new Solution(nums)
+       * var param_1 = obj.reset()
+       * var param_2 = obj.shuffle()
+       */
+      
+      </script>
+  
+</body>
+</html>
