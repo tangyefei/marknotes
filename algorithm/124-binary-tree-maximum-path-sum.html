@@ -30,7 +30,10 @@
      root.right = new TreeNode(3);
 
     var maxPathSum = function(root) {
-      // 题意交代的不是很清楚
+      // 其实就是要理解题意：
+      // For this problem, a path is defined as any sequence of nodes from some starting node to any node in the tree along the parent-child connections. 
+      // 你可以理解为你的结果中，任何一个node和其他的node的关系都是父子辈的，而没有兄弟或者其他的关系
+
       // 89.97% 40.00%
       var max = Number.NEGATIVE_INFINITY;
 
@@ -40,7 +43,8 @@
         let rightSum = Math.max(calcSum(node.right), 0);
         let sum  = node.val + leftSum + rightSum;
         max = Math.max(sum, max);
-        return Math.max(leftSum, rightSum) + node.val;
+        return sum;
+        // return Math.max(leftSum, rightSum) + node.val;
       }
       calcSum(root);
       return max;
