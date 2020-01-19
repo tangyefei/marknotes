@@ -767,8 +767,61 @@ console.log(instanceOf({}, Number));//false
 
 #25. 宏任务/微任务执行顺序
 
+### 例子1 then.then
+
+考察了then.then的执行是有依赖顺序的
+
+```
+new Promise((resolve,reject)=>{
+  console.log("1")
+  resolve()
+}).then(()=>{
+  console.log("2")
+}).then(()=>{
+  console.log("3")
+})
+// 1,2,3
 ```
 
+```
+ new Promise((resolve,reject)=>{
+  console.log("1")
+  resolve()
+}).then(()=>{
+  console.log("2")
+  return new Promise((resolve,reject)=>{
+    console.log("3")
+    resolve()
+  }).then(()=>{
+    console.log("4")
+  }).then(()=>{
+    console.log("5")
+  })
+
+}).then(()=>{
+  console.log("6")
+})
+// 1,2,3,4,5,6
+```
+
+### 例子2 then.then + then
+
+主要考察了then.then会被当做the.then，被插入到micro队列的末尾，从而最后执行：
+
+
+```
+Promise.resolve().then(()=>{
+	console.log(1);
+}).then(()=>{
+	console.log(2);
+});
+Promise.resolve().then(()=>{
+	console.log(3);
+})
+// 1,3,2
+```
+
+```
 console.log('begin');
 setTimeout(() => {
     console.log('setTimeout 1');
@@ -790,29 +843,14 @@ setTimeout(() => {
     });
 }, 0);
 console.log('end');
+
+// begin, end, setTimeout 1, a, promise 1, b, promise 2, setTimeout2,
 ```
 
-```
-new Promise((resolve,reject)=>{
-    console.log("promise1")
-    resolve()
-}).then(()=>{
-    console.log("then11")
-    return new Promise((resolve,reject)=>{
-        console.log("promise2")
-        resolve()
-    }).then(()=>{
-        console.log("then21")
-    }).then(()=>{
-        console.log("then23")
-    })
-}).then(()=>{
-    console.log("then12")
-})
-// promise1,then11,promise2,then21,then23,then12
+### 例子3 macro.micro > macro
 
-```
 
+考察了第一个setTimeout执行时，生成了micro（输出7），这时候可以插队到第二个setTimeout（输出3）前。
 
 ```
 console.log(1);
@@ -840,4 +878,179 @@ new Promise((resolve)=>{
 // 1,4,5,2,6,7,3
 ```
 
+同样一个插队的例子。
 
+```
+console.log(1);
+
+setTimeout(() => {
+  console.log(2);
+})
+
+setTimeout(() => {
+  console.log(3);
+})
+
+new Promise((resolve)=>{
+  console.log(4);
+  resolve();
+}).then(()=>{
+  console.log(5);
+})
+
+// 1 4 5 2 3
+```
+
+各种不讲理插队的例子。
+
+```
+console.log(1);
+
+setTimeout(() => {
+  console.log(2);
+})
+
+setTimeout(() => {
+  console.log(3);
+})
+
+new Promise((resolve)=>{
+  console.log(4);
+  resolve();
+}).then(()=>{
+  console.log(5);
+  new Promise((resolve) => {
+    console.log(6);
+    resolve();
+  }).then(() => {
+    console.log(7);
+  })
+})
+// 1 4 5 6 7 2 3 
+```
+
+变着法插队的例子。
+
+```
+console.log(1);
+setTimeout(() => {
+  console.log(2);
+  new Promise((resolve) => {
+    console.log(6);
+    resolve();
+  }).then(() => {
+    console.log(7);
+  })
+})
+
+setTimeout(() => {
+  console.log(3);
+})
+
+new Promise((resolve)=>{
+  console.log(4);
+  resolve();
+}).then(()=>{
+  console.log(5);
+})
+// 1 4 5 2 6 7 3
+```
+
+### 例子4 node.js下的执行
+
+在浏览器环境应该输出1 2 3 4，实际在node.js下是1 2 4 3，可见micro不插队，要等macro都走一遍。
+
+```
+setTimeout(function() {
+	console.log(1);
+	new Promise(function(resolve) {
+        console.log(2);
+        resolve();
+    }).then(function() {
+        console.log(3)
+    })
+});
+setTimeout(function() {
+	console.log(4);
+});
+// 1 2 4 4 
+```
+
+尽管如此，对于如下为什么5不是在10面前，仍旧是不理解？
+	
+```
+console.log('1');
+
+setTimeout(function() {
+    console.log('2');
+    process.nextTick(function() {
+        console.log('3');
+    })
+    new Promise(function(resolve) {
+        console.log('4');
+        resolve();
+    }).then(function() {
+        console.log('5')
+    })
+})
+process.nextTick(function() {
+    console.log('6');
+})
+new Promise(function(resolve) {
+    console.log('7');
+    resolve();
+}).then(function() {
+    console.log('8')
+})
+
+setTimeout(function() {
+    console.log('9');
+    process.nextTick(function() {
+        console.log('10');
+    })
+    new Promise(function(resolve) {
+        console.log('11');
+        resolve();
+    }).then(function() {
+        console.log('12')
+    })
+})
+
+// 7 6 8 2 4 9 11 3 10 5 12 
+```
+
+#26. 补全代码
+
+补全createIntervalFunc中的代码，可以增加函数，使log能按照1秒1次，输出4次。
+
+```
+function createIntervalFunc(func, times, gap){
+}
+
+var log = createIntervalFunc(console.log, 4, 1000)
+
+log('hello');
+```
+
+如下为Promise+async/await的一种实现
+
+```
+function createIntervalFunc(func, times, gap){
+	return async function(...args){
+		for (let i = 0; i < times; i++) {
+			await wait(gap);
+			func.apply(null, args);
+		}
+	}
+}
+
+async function wait(gap) {
+	return new Promise((resolve)=>{
+		setTimeout(resolve, gap)
+	})
+}
+
+var log = createIntervalFunc(console.log, 4, 1000)
+
+log('hello');
+```

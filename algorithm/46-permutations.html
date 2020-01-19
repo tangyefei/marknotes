@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    /**
+     * @param {number[]} nums
+     * @return {number[][]}
+     */
+    var permute = function(nums) {
+        // 50.10%  8.00%
+        var result = [];
+        var walk = function(preset, leftNums) {
+          if(leftNums.length==0) result.push(preset);
+          for (let i = 0; i < leftNums.length; i++) {
+            var copy = leftNums.slice(0);
+            copy.splice(i, 1);
+            walk([...preset, leftNums[i]], copy)
+          }
+        }
+        walk([], nums);
+        return result;
+    };
+    console.log(permute([1,2,3]));
+
+    </script>
+</body>
+</html>
