@@ -1,19 +1,26 @@
-<style>
-  .wrap {
-      overflow: hidden;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  .container {
+    display: flex; 
+    align-items: center;        /* 垂直居中 */
+    justify-content: center;    /* 水平居中 */
   }
-  p {
-      color: #f55;
-      background: #fcc;
-      width: 200px;
-      line-height: 100px;
-      text-align:center;
-      margin: 100px;
-  }
-</style>
+  .container div {
+    width: 100px;
+    height: 100px;
+    background-color: pink;
+  }  
+ </style>
+</head>
 <body>
-  <p>Haha</p>
-  <div class="wrap">
-      <p>Hehe</p>
+  <div class="container">
+    <div>123</div>
   </div>
 </body>
+</html>
