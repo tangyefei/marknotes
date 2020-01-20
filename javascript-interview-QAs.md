@@ -976,6 +976,7 @@ setTimeout(function() {
 // 1 2 4 4 
 ```
 
+<<<<<<< HEAD
 尽管如此，对于如下为什么5不是在10面前，仍旧是不理解？
 	
 ```
@@ -1051,6 +1052,66 @@ async function wait(gap) {
 }
 
 var log = createIntervalFunc(console.log, 4, 1000)
+=======
+#26. 简述js中this的指向
+
+匿名函数、全局环境下的函数、不处于任何对象中的函数，指向Window。
+
+用new生成对象，它的函数指向新生成的对象；直接定义的对象方法，同样指向该对象。
+
+call、apply、bind方式指定，那么this指向指定的对象。
+
+方法被赋值给对象下面的函数，那么this指向该对象(指向运行时所在对象，而不是创建时所在对象)。 
+
+但箭头函数出现后，this指向定义时所在的环境，而不管执行时。
+
+```
+var func = function(){console.log(this);}
+var afunc = ()=>{console.log(this);}
+
+var o = {func,afunc};
+
+o.func();//{func:f,afunc:f}
+o.afunc();//WIndow
+
+var rfunc = o.func;
+rfunc();//Window
+```
+
+#27. 补全代码
+
+```
+function repeat(func, times, wait) {
+	
+}
+
+const repeatFunc = repeat(alert, 4, 3000);
+
+repeatFunc('hellworld');
+
+repeatFunc('worldhello')
+```	
+
+
+```
+function repeat(func, times, s) {
+  return async function(...args) {
+    for(let i = 0; i < times; i++) {
+      func.apply(null, args);
+      await wait(s);
+    }
+  }
+}
+async function wait(seconds) {
+  return new Promise((resolve,reject) => {
+    setTimeout(resolve, seconds);
+  })
+}
+```
+
+
+
+>>>>>>> 883b6d568e715083dde461c1e4eec74ba488bde1
 
 log('hello');
 ```

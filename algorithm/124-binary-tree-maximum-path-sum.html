@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /**
+    * Definition for a binary tree node.
+    * function TreeNode(val) {
+    *     this.val = val;
+    *     this.left = this.right = null;
+    * }
+    */
+    /**
+    * @param {TreeNode} root
+    * @return {number}
+    */
+
+     function TreeNode(val) {
+         this.val = val;
+         this.left = this.right = null;
+     }
+
+     var root = new TreeNode(-6);
+     root.left = new TreeNode(2);
+     root.right = new TreeNode(3);
+
+    var maxPathSum = function(root) {
+      // 其实就是要理解题意：
+      // For this problem, a path is defined as any sequence of nodes from some starting node to any node in the tree along the parent-child connections. 
+      // 你可以理解为你的结果中，任何一个node和其他的node的关系都是父子辈的，而没有兄弟或者其他的关系
+
+      // 89.97% 40.00%
+      var max = Number.NEGATIVE_INFINITY;
+
+      function calcSum(node) {
+        if(node == null) return 0;
+        let leftSum = Math.max(calcSum(node.left), 0);
+        let rightSum = Math.max(calcSum(node.right), 0);
+        let sum  = node.val + leftSum + rightSum;
+        max = Math.max(sum, max);
+        return sum;
+        // return Math.max(leftSum, rightSum) + node.val;
+      }
+      calcSum(root);
+      return max;
+    };
+
+    console.log(maxPathSum(root)==3);
+
+    </script>
+  
+</body>
+</html>

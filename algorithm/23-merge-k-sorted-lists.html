@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  div
+  <script>
+    function ListNode(val) {
+      this.val = val;
+      this.next = null;
+    }
+
+    var mergeKLists = function(lists) {
+      // 解法1 遍历lists，每次只pick一个最小节点，时间复杂度为 m*n( m=lits.length, n=all nodes count)
+      // 解法2 遍历lists，将所有值存储到数组中，进行sort后，最后在构建linkedlist，时间复杂度为nlogn
+      // 解法3 遍历lists，将值存储在在对应的数组表中，比如5表示为 array[5]=1，还有第二个5，则表示为array[5]=2，时间复杂度为n - 考虑到有负数，实现起来太繁了
+
+      // 解法2：59.27%  18.92% 
+      let array = [];
+      for (let i = 0; i < lists.length; i++) {
+        let node = lists[i];
+        while(node && node.val!==null)  {
+          array.push(node.val);
+          node = node.next;
+        }
+      }
+      let node = pre = new ListNode(null);
+      array.sort((a,b) => a-b);
+      for (let i in array) {
+        node.next = new ListNode(array[i]); 
+        node = node.next;
+      }
+      return pre.next;
+
+      // 解法3 未完成
+      // let array = [], negarray = [];
+      // for (let i = 0; i < lists.length; i++) {
+      //   let node = lists[i];
+      //   while(node && node.val!==null)  {
+      //     if(node.val>=0) {
+      //       array[node.val] = (array[node.val] || 0);
+      //       array[node.val] ++;
+      //       node = node.next;
+      //     } else {
+      //       negarray[-node.val] = (negarray[-node.val] || 0);
+      //       negarray[-node.val] ++;
+      //       node = node.next;
+      //     }
+      //   }
+      // }
+      // let node = pre = new ListNode(null);
+      // negarray = negarray.reverse();
+      // for (let i in negarray) {
+      //   let count = negarray[i];
+      //   while(count-- > 0) {
+      //     node.next = new ListNode(i * (-1)); 
+      //     node = node.next;
+      //   }
+      // }
+      // for (let i in array) {
+      //   let count = array[i];
+      //   while(count-- > 0) {
+      //     node.next = new ListNode(i); 
+      //     node = node.next;
+      //   }
+      // }
+      // return pre.next;
+    };
+
+    var a = new ListNode(1);a.next = new ListNode(4);a.next.next = new ListNode(5);
+    var b = new ListNode(1);b.next = new ListNode(3);b.next.next = new ListNode(4);
+    var c = new ListNode(2);c.next = new ListNode(6);
+    // console.log([a,b,c])
+    let r = mergeKLists([a,b,c]);
+
+
+    var s = '';
+    while(r&&r.val){s+=r.val + '->';r=r.next;};
+    console.log(s);
+    </script>
+
+</body>
+</html>
