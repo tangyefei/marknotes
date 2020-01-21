@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    Function.prototype.myBind = function(context){
+      let func = this;
+      return function(...args) {
+        func.apply(context, args)
+      }
+    }
+
+    Function.prototype.myCall = function(context){
+      context.func = this;
+      
+      let args  = [];
+
+      for (let i = 1; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+
+      var result = eval(`context.func(...args)`);
+
+      delete context.func;
+
+      return result;
+    }
+
+
+    Function.prototype.myApply = function(context){
+      context.func = this;
+      
+      let args  = arguments[1] || [];
+
+      var result = eval(`context.func(...args)`);
+
+      delete context.func;
+
+      return result;
+    }
+
+    // 实际的bind的实现上，其实两个function的参数是被组合，最后给到func.apply的
+    var logThis = function(msg){
+      console.log(this);
+      if(msg) {
+        console.log(msg);
+      }
+    }
+    var person = {name: 'yefei'};
+
+    var newLogThis = logThis.myBind(person);
+    newLogThis();
+
+    logThis.myCall(person, 'hello myCall javascript');
+
+    logThis.myApply(person, ['hello myApply javascript']);
+
+  </script>
+</body>
+</html>
