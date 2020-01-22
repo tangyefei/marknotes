@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    /*模拟实现*/
+    class MyPromise {
+      constructor(handle) {
+        this._status = 'pending';
+        this._value = undefined;
+
+        this.resolveFns = [];
+        this.rejectFns = [];
+
+        handle(this._resolve.bind(this), this._reject.bind(this));
+      }
+
+      _resolve(...args) {
+        this._status = 'fulfilled';
+        this.resolveFns.forEach(fn => {
+          fn(...args);
+        })
+      }
+
+      _reject(...args) {
+        this._status = 'reject';
+        this.rejectFns.forEach(fn => {
+          fn(...args);
+        })
+      }
+
+      then(resolveFn, rejectFn) {
+        this.resolveFns.push(resolveFn);
+        this.rejectFns.push(rejectFn);
+      }
+    }
+
+
+    /*基本用法*/
+    function timeout(ms) {
+      return new MyPromise((resolve)=>{
+        setTimeout(resolve, ms, 'done');
+      })
+    }
+    timeout(1000).then((status)=> {console.log(status)})
+    
+
+    // /*基本用法2*/
+    // function loadImageAsync(url) {
+    //   return new Promise((resolve, reject)=>{
+    //     var image = new Image();
+    //     image.onload = function() {
+    //       resolve(image);
+    //     }
+    //     image.onerror = function(error) {
+    //       reject(error);
+    //     }
+    //     image.src = url;
+    //   })
+    // }
+    // const url = "https://cn.bing.com/th?id=OHR.HighlandsSquirrel_EN-CN4491860790_1920x1080.jpg";
+    // loadImageAsync(url).then((image)=>{
+    //   document.body.append(image);
+    // })
+
+    // /*基本用法3*/
+    // const p1 = new Promise(function (resolve, reject) {
+    //   setTimeout(() => reject(new Error('fail')), 3000)
+    // })
+    // const p2 = new Promise(function (resolve, reject) {
+    //   setTimeout(() => resolve(p1), 1000)
+    // })
+    // p2
+    //   .then(result => console.log(result))
+    //   .catch(error => console.log(error))
+    // // Error: fail
+
+    
+
+  </script>
+  
+</body>
+</html>
