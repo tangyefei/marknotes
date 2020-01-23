@@ -30,11 +30,13 @@ Promise是一种异步编程解决方案，最早由社区提出和实现，ES6�
 
 **它的好处是：**
 
-可以将异步操作用同步的流程表达出来，避免层层嵌套，以及提供的Promise对象提供的统一的API使操作异步操作更容易。
+可以将异步操作用同步的流程表达出来，避免层层嵌套，以及提供的Promise对象提供的统一的API使异步操作更容易。
 
 **它的缺点是：**
 
-一旦新建，它就会立即开始，无法中途取消；如果不设置回调函数Promise内部的错误不会抛出到外部；处于pending状态时无法知道处于哪一状态（刚开始还是将完成）。
+一旦新建，它就会立即开始，无法中途取消；类比ajax是可以取消的。
+如果不设置回调函数Promise内部的错误不会抛出到外部；
+处于pending状态时无法知道处于哪一状态（刚开始还是将完成）。
 
 ## 2. 基本用法
 
@@ -244,7 +246,7 @@ getJSON("/posts.json").then(function(json) {
 
 ### 在then中继续异步操作
 
-如下的例子中，第一个then中又请求了另外一个请求，返回本身就是Promise对象，因此不会像上例中被转化一次，而是仅当 `getJSON(post.commentURL)` 经过resolve后，才走到第二个then输出comments的内容。
+如下的例子中，第一个then中又请求了另外一个请求，返回本身就是Promise对象，仅当 `getJSON(post.commentURL)` 也经过resolve后，才走到第二个then输出comments的内容。
 
 ```
 getJSON("/post/1.json").then(function(post) {
@@ -260,7 +262,7 @@ getJSON("/post/1.json").then(function(post) {
 
 ### 用法示例
 
-Promise.prototype.catch() 是 `.then(null, rejection)`或`.then(undefined, rejection)`的另一种写法，catch的用法更推荐使用，因为它能捕获发生在then中的错误：
+Promise.prototype.catch() 是 `.then(null, rejection)`或`.then(undefined, rejection)`的另一种写法，更推荐catch的用法，因为除了reject的结果，它还能捕获发生在then中的错误：
 
 ```
 getJSON('/posts.json').then(function(posts) {
@@ -467,7 +469,7 @@ Promise.prototype.finally = function (callback) {
 // Promise {<resolved>: undefined}
 Promise.resolve(2).then(() => {}, () => {})
 
-// Promise {<resolved>: 3}
+// Promise {<resolved>: 2}
 Promise.resolve(2).finally(() => {})
 
 // Promise {<reject>: undefined}
@@ -479,11 +481,9 @@ Promise.reject(3).finally(() => {})
 
 （1）finally方法总是会返回原来的值，finally传入的只是callback部分，返回值在`then()`中已经定义好了，是不能修改的。
 
-（2）在形如 `Promise.resolve(2).then(() => {})` 代码中，返回值是第一个回调的返回值，上面都没写，自然就是undefined，`Promise.resolve(2).then((v) => { return v * 2})` 的返回值是 `Promise {<resolved>: 4}`。
+（2）在形如 `Promise.resolve(2).then(() => {})` 代码中，返回值是第一个回调的返回值，里面什么都没写，自然就是undefined，`Promise.resolve(2).then((v) => { return v * 2})` 的返回值是 `Promise {<resolved>: 4}`。
 
 ## 6. Promise.all()
-
-
 
 ### 概念介绍
 
@@ -830,6 +830,9 @@ console.log(2);
 // 1 2 3 4
 ```
 
+上面的描述很粗略，关于执行顺序的更深入的介绍，可以参考这里：[Event Loop、macrotask、micritask的结论和参考.md](https://github.com/tangyefei/marknotes/blob/master/Event%20Loop%E3%80%81macrotask%E3%80%81micritask%E7%9A%84%E7%BB%93%E8%AE%BA%E5%92%8C%E5%8F%82%E8%80%83.md
+)
+
 ### Promise.resolve语法
 
 
@@ -841,9 +844,9 @@ console.log(2);
 
 ### Promise.catch
 
-1.有Error抛出生成的Promise对象的状态是rejected
-2.但是经过catch的处理以后，对象的状态就变成了resolved
-3.使用all对多个各自catch的Promise实例，最终结果也是resolved
+1. 有Error抛出生成的Promise对象的状态是rejected
+2. 但是经过catch的处理以后，对象的状态就变成了resolved
+3. 使用all对多个各自catch的Promise实例，最终结果也是resolved
 
 
 ### Error 
@@ -855,10 +858,85 @@ console.log(2);
 
 ### 常见的问题
 
-- Promise是为了解决什么问题？
+#### Promise是为了解决什么问题？
 
-- Promise的模拟实现?
+答：主要是为了解决回调地域的问题。
 
-- Promise只要其中某一个请求通过就行？
+#### Promise的模拟实现?
+
+答：可以参考 [简单的promise实现](https://github.com/tangyefei/marknotes/blob/master/samples/es6-promise-impl.html)
+	
+#### Promise.race是否代表只要其中某一个请求通过就行？
+
+否，Promise.race的含义是只要有任何一个状态先发生变更，就以它的状态为准，并非只要有一个通过就可以。
 
 
+#### Promise请求中如何知道失败的那一个？
+
+```
+Promise.all([ 
+	Promise.resolve('success'), 
+	Promise.resolve('success'), 
+	Promise.resolve('success') 
+]).then((value) =>{
+  console.log(value);
+  return value;
+}, (error) =>{
+  console.log(error)
+  return error;
+})
+
+// ['success' 'success', 'success']
+// Promise(<resolved>: Array(3))
+```
+
+```
+Promise.all([ 
+	Promise.reject('fail'), 
+	Promise.resolve('success'), 
+	Promise.resolve('success') 
+]).then((value) =>{
+  console.log(value);
+  return value;
+}, (error) =>{
+  console.log(error)
+  return error;
+})
+
+// fail
+// Promise {<resolved>: "fail"}
+```
+
+通过包装一层，可以拿到所有的promise的处理结果，然后便利结果即可知道哪个失败了。
+
+```
+function handlePromiseAll(promiseList) {
+  return promiseList.map(promise => promise.then((res) => res, (err) => err))
+}
+Promise.all(handlePromiseAll([ 
+	Promise.reject('fail'), 
+	Promise.resolve('success'), 
+	Promise.resolve('success') 
+])).then((value) =>{
+  console.log(value);
+  return value;
+}, (error) =>{
+  console.log(error)
+  return error;
+})
+
+// (3) ["fail", "success", "success"]
+// Promise {<resolved>: Array(3)}
+
+```
+
+#### Promise.race实现超时机制
+
+```
+const p = Promise.race([
+  fetch('/api/articles'),
+  new Promise((resolve, reject) => {
+    setTimeout(() => reject(new Error('request timeout')), 5000)
+  })
+]);
+```

@@ -1,7 +1,3 @@
-# JavaScript权威指南-第6版
-
-# 第二部分
-
 # 第13章 Web浏览器端的JavaScript
 
 本章从概述开始，介绍了JavaScript在Web文档/应用中的角色，并介绍了后续章节的内容，还解释了JavaScript代码如何嵌入HTML并执行的，最后还会介绍一兼容性、可访问性、安全性等问题。

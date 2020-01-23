@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+
+// var isValidBST = function(root) {
+//     if(root == null || (root.left == null && root.right == null)) return true;
+    
+//     function flatTree(root) {
+//         if(root == null || root == undefined) return [];
+//         return [...flatTree(root.left),  root.val, ...flatTree(root.right)];
+//     }
+    
+//     let flatedList = flatTree(root);
+    
+//     for(let i = 1; i< flatedList.length; i++) {
+//         if(flatedList[i] <= flatedList[i - 1]) return false;
+//     }
+    
+//     return true;
+// };
+
+    function TreeNode(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+
+    // function testCase(array) {
+    //   if(array.length == 0) return new TreeNode(null);
+      
+    //   let root = new TreeNode(array[0]);
+    //   let cursor = 1;
+    //   let left = null, right = null;
+
+    //   while(cursor < array.length) {
+    //     if(cursor.left = undefined) cursor.left = array[cursor++];  
+    //     if(cursor.right = undefined) cursor.right = array[cursor++];  
+    //     left = 
+    //   }
+      
+
+      
+    // }
+
+    // var root = new TreeNode(2);
+    // root.left = new TreeNode(1);
+    // root.right = new TreeNode(3);
+
+    var root = new TreeNode(5);
+    root.left = new TreeNode(14);
+    root.right = new TreeNode(null);
+    root.left.left = new TreeNode(1);
+
+//     5
+//   14 null
+// 1
+
+    // var root = new TreeNode(10);
+    // root.left = new TreeNode(5);
+    // root.right = new TreeNode(15);
+    // root.left.left = null;
+    // root.left.right = null; 
+    // root.right.left = new TreeNode(6);
+    // root.right.right = new TreeNode(20); 
+
+    // var root = new TreeNode(3);
+    // root.left = null;
+    // root.right = new TreeNode(30);
+    // root.right.left = new TreeNode(10);
+    // root.right.right = null; 
+    // root.right.left.left = null;
+    // root.right.left.right = new TreeNode(15);
+    // root.right.left.right.left = null;
+    // root.right.left.right.right = new TreeNode(15);
+
+
+    // [3,null,30,10,null,null,15,null,45]
+    // [3,null,30,10,null,null,15,null,45]
+    //  3
+
+    // null 30
+
+    //     10 null
+
+    //   null 15
+
+    //       null 15
+        
+
+
+    // [10,5,15,null,null,6,20]
+
+
+var isValidBST = function(root) {
+    let legal = true;
+
+    if(root == null) return legal;
+
+    let find = function(root, method) {
+      let l = root.left, r = root.right;
+      let rM, lM;
+      if((l == null || l == undefined) && (r == null || r == undefined)) {
+        return root.val;
+      } else if(l == null || l == undefined) {
+        return r.val <= root.val ? null : Math[method](root.val, find(r, method));
+      } else if(r == null || r == undefined) {
+        return root.val <= l.val ? null : Math[method](root.val, find(l, method));
+      } else {
+        return Math[method](find(r, method), find(l, method));
+      }
+    }
+
+    if(root.left) {
+      let v = find(root.left, 'max');
+      let leftLegal = (v !== null && v < root.val);
+      if(leftLegal) {
+        legal = legal && leftLegal;
+      } else {
+        return false;
+      }
+    }
+    
+    if(root.right) {
+      let v = find(root.right, 'min');
+      return legal && (v !== null && root.val < v);
+    }
+    return legal;
+};
+    // var isValidBST = function(root) {
+    //   let legal = true;
+
+    //   if(root == null) return legal;
+
+    //   let find = function(root, method) {
+    //     let l = root.left, r = root.right;
+    //     let rM, lM;
+    //     if((l == null || l == undefined) && (r == null || r == undefined)) {
+    //       return root.val;
+    //     } else if(l == null || l == undefined) {
+    //       return r.val <= root.val ? null : rM = find(r, method);
+    //     } else if(r == null || r == undefined) {
+    //       return root.val <= l.val ? null : lM = find(l, method);
+    //     } else {
+    //       return Math[method](lM, rM);
+    //     }
+    //   }
+
+    //   if(root.left) {
+    //     let v = find(root.left, 'max');
+    //     let leftLegal = (v != null && v < root.val);
+    //     if(leftLegal) {
+    //       legal = legal && leftLegal;
+    //     } else {
+    //       return false;
+    //     }
+    //   }
+      
+    //   if(root.right) {
+    //     let v = find(root.right, 'min');
+    //     return legal && (v != null && root.val < v);
+    //   }
+    //   return legal;
+    // };
+
+
+    console.log(isValidBST(root));
+
+// **解法2：递归**
+
+// 每个子树从根节点开始遍历，右子节点比父节点大 并且 有选择地比爷爷节点小、左子节点比父节点小 并且 有选择地比爷爷节点大。所谓有选择，即虽然你是左子，但是你的父可能是右子；反之同理。
+
+// 运行时间优于 10%，使用空间优于 100%。
+
+// 将某个root.val赋值到val后：
+
+// 运行时间优于 99%，使用空间优于 84.6%。
+
+// ```
+// /**
+//  * Definition for a binary tree node.
+//  * function TreeNode(val) {
+//  *     this.val = val;
+//  *     this.left = this.right = null;
+//  * }
+//  */
+// /**
+//  * @param {TreeNode} root
+//  * @return {boolean}
+//  */
+
+
+// var isValidBST = function(root) {
+   
+//   if(root == null) return true;
+
+//   function helper(root, lower, upper) {
+//     if(root == null) return true;
+
+//     if(lower != null && root.val <= lower) return false;
+//     if(upper != null && root.val >= upper) return false; 
+
+//     if(!helper(root.left, lower, root.val)) return false;
+//     if(!helper(root.right, root.val, upper)) return false;
+      
+//     return true;
+//   }
+//   return helper(root, null, null);
+// };
+// ```
+
+// **解法3：**
+
+
+// BFS 广度优先搜索，即我们通常所说的层次遍历
+// DFS 深度优先搜索，有具体分为：前、中、后序遍历
+
+// - 前序遍历：根结点 ---> 左子树 ---> 右子树
+// - 中序遍历：左子树---> 根结点 ---> 右子树
+// - 后序遍历：左子树 ---> 右子树 ---> 根结点
+
+// ![tree](./tree.png)
+
+// 如下为按照前、中、后序遍历，和层次遍历得到的结果
+
+// - 前序遍历：1  2  4  5  7  8  3  6 
+// - 中序遍历：4  2  7  5  8  1  3  6
+// - 后序遍历：4  7  8  5  2  6  3  1
+// - 层次遍历：1  2  3  4  5  6  7  8
+
+// 如下为LeetCode给出的中序遍历的解法，太绕。
+
+// ```
+// class Solution {
+//   public boolean isValidBST(TreeNode root) {
+//     Stack<TreeNode> stack = new Stack();
+//     double inorder = - Double.MAX_VALUE;
+
+//     while (!stack.isEmpty() || root != null) {
+//       while (root != null) {
+//         stack.push(root);
+//         root = root.left;
+//       }
+      
+//       root = stack.pop();
+
+//       if (root.val <= inorder) return false;
+      
+//       inorder = root.val;
+//       root = root.right;
+//     }
+//     return true;
+//   }
+// }
+// ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    /**
+     * @param {character[][]} board
+     * @return {void} Do not return anything, modify board in-place instead.
+     */
+    var solve = function(board) {
+      if(!board || board.length == 0 || board[0] == undefined || board[0].length == 0) return board;
+
+      let w = board.length;
+      let h = board[0].length;
+      let dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+
+      let isLegal = function(i, j) {
+        return i >= 0 && i < w && j >= 0 && j < h;
+      }
+      let isOnBoard = function(i, j) {
+        return (i == 0 || j == 0 || i == w - 1 ||  j == h - 1);
+      }
+
+      let replace = function(from, to) {
+        for (let i = 0; i < w; i++) {
+          for (let j = 0; j < h; j++) {
+            if(board[i][j]==from) {
+              board[i][j]=to;
+            }
+          }
+        }
+      }
+      // 解法1 从边界的0去染色，最后留下所有没有染色的O即可
+      // 57.14%  100.00% 
+
+      var paint = function(i, j) {
+        if(isLegal(i, j) == false || board[i][j] != '?') return;
+        board[i][j] = 'O';//stable
+        dirs.forEach(d => {
+          paint(i + d[0], j + d[1]);
+        })
+      }
+
+      replace('O', '?');
+      console.log(board);
+
+      for (let i = 0; i < w; i++) {
+        for (let j = 0; j < h; j++) {
+          if(board[i][j] === '?' && isOnBoard(i,j)) {
+            paint(i, j);
+          }
+        } 
+      }
+
+      replace('?', 'X');
+
+      return board;
+
+      // 解法2 从中间的0去扩展X，把能延展到边际的回撤为O
+      
+      // let recurseFlapped = function(i,j) {
+      //   if(isBigOAtBorder(i, j)) return false;
+
+      //   if(board[i][j] === 'O') {
+      //     board[i][j] = 'X';
+
+
+
+      //     let flapped1 = recurseFlapped(i+dirs[0][0], j+dirs[0][1]);
+      //     let flapped2 = recurseFlapped(i+dirs[1][0], j+dirs[1][1]);
+      //     let flapped3 = recurseFlapped(i+dirs[2][0], j+dirs[2][1]);
+      //     let flapped4 = recurseFlapped(i+dirs[3][0], j+dirs[3][1]);
+      //     // 问题在于，超各个方向延伸的递归，有的会将O置为X之后，就不在恢复了，只有能延伸到边际的通路才能够回复
+
+      //     let result = (flapped1 && flapped2 && flapped3 && flapped4);
+      //     if(false == result) {
+      //       board[i][j] = 'O';
+      //     }
+      //     return result;
+      //   }
+
+      //   return true;
+      // }
+
+      // for (let i = 0; i < w; i++) {
+      //   for (let j = 0; j < h; j++) {
+      //     console.log(i + ',' + j + ':' + recurseFlapped(i, j));
+      //   } 
+      // }
+      // return board;
+    };
+
+    // var input = [
+    //   ["X","X","X","X"],
+    //   ["X","O","O","X"],
+    //   ["X","X","O","X"],
+    //   ["X","O","X","X"],
+    // ];
+
+
+    var input = [
+      ["O","X","X","O","X"],
+      ["X","O","O","X","O"],
+      ["X","O","X","O","X"],
+      ["O","X","O","O","O"],
+      ["X","X","O","X","O"]
+    ]
+
+    var expected = [
+      ["O","X","X","O","X"],
+      ["X","X","X","X","O"],
+      ["X","X","X","X","X"],
+      ["O","X","O","O","O"],
+      ["X","X","O","X","O"]
+    ]
+
+    var output = [
+      ["O","X","X","O","X"],
+      ["X","X","X","X","O"],
+      ["X","X","X","O","X"],
+      ["O","X","O","O","O"],
+      ["X","X","O","X","O"]
+    ]
+
+    console.log(solve(input));
+    </script>
+    
+  
+</body>
+</html>
