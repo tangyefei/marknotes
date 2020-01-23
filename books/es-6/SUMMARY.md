@@ -1,6 +1,6 @@
 # Summary
 
-* [[《ECMAScript 6 入门》](http://es6.ruanyifeng.com/#docs/)]](README.md)
+* [《ECMAScript 6 入门》](http://es6.ruanyifeng.com/#docs/)](README.md)
 * [1.ECMAScript 6简介](chapter1-babel.md)
 * [2.let 和 const 命令](chapter2-let-and-const.md)
 * [3.变量的解构赋值](chapter3-var-deconstruct.md)
