@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+      /**
+       * @param {string} s
+       * @return {string}
+       */
+      var longestPalindrome = function(s) {
+        // speed > 98.30% memory < 89.13%
+        if(!s || s.length <= 1) return s;
+
+        let len = s.length, result = '';
+
+        // define len+(len-1) position as the mirror position
+
+        for (let i = 0, im = 2 * len - 1; i < im - result.length; i++) {
+          let l = i%2==0 ? i/2 : (i-1)/2;
+          let r = i%2==0 ? i/2 : (i+1)/2;
+          while(l >= 0 &&  r <= len - 1 && s[l] == s[r]) {
+            l=l-1;
+            r=r+1;
+          }
+          if(r-l-1 > result.length) {
+            result = s.substring(l+1, r);
+          }
+        }  
+        return result
+      };
+      console.log(longestPalindrome('abb'));
+      console.log(longestPalindrome('abbcb'));
+      console.log(longestPalindrome('b'));
+      </script>
+  
+</body>
+</html>
