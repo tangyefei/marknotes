@@ -1052,8 +1052,10 @@ async function wait(gap) {
 }
 
 var log = createIntervalFunc(console.log, 4, 1000)
-=======
-#26. 简述js中this的指向
+log('hello');
+```
+
+#27. 简述js中this的指向
 
 匿名函数、全局环境下的函数、不处于任何对象中的函数，指向Window。
 
@@ -1078,7 +1080,7 @@ var rfunc = o.func;
 rfunc();//Window
 ```
 
-#27. 补全代码
+#28. 补全代码
 
 ```
 function repeat(func, times, wait) {
@@ -1109,9 +1111,139 @@ async function wait(seconds) {
 }
 ```
 
+#101. 前端的模块化发展历史
 
 
->>>>>>> 883b6d568e715083dde461c1e4eec74ba488bde1
+模块化主要是用来抽离代码、隔离作用域、避免变量冲突等。
 
-log('hello');
+`IIFE`： Immediately Invoked Function Expression，使用立即执行函数来编写模块化。特点：在一个单独的函数作用域中执行代码，避免变量冲突。
+
+`AMD`： 使用`requireJS` 来编写模块化，特点：依赖必须提前声明好。
+
+`CMD`： 使用`seaJS`来编写模块化，特点：支持动态引入依赖文件。
+
+`CommonJS`： `nodejs`中自带的模块化。
+
+`UMD`：兼容`AMD`，`CommonJS` 模块化语法。
+
+`ES Modules`： `ES6`引入的模块化，支持`import`来引入另一个`js` 。
+
+`Webpack`：它的存在更像是一种支持多种使用方式的构建工具，不只是一个方案。
+
+
+#102. ES6模块与CommonJS规范的区别
+
+## ES6模块
+
+1. 获得的是实时的值，更新能同步到
+2. 对引入模块重新赋值会报错
+
+
 ```
+// time.js
+export var time = (new Date()).getTime();
+
+setTimeout(() => {
+  time = (new Date()).getTime();
+  console.log('new:' + time)
+}, 1000);
+```
+
+```
+//test.js
+import {time} from './time';
+
+console.log('get 1st:' + time);
+setTimeout(() => {
+  console.log('get 2nd:' + time);
+  time = 'try to modify';
+}, 2000);
+
+// get 1st:1579860927353
+// new:1579860929357
+// get 2nd:1579860929357
+// Uncaught ReferenceError: time is not defined
+```
+
+## CommonJS模块
+
+- 获得的是缓存值，不能同步变化
+- 可以对引入模块可以重新赋值
+
+```
+//time.js
+
+var time = (new Date()).getTime();
+
+exports.time = time;
+
+setTimeout(() => {
+  time = (new Date()).getTime();
+  console.log('new:' + time)
+}, 2000);
+
+//get 1st:1579861234613
+//new:1579861236618
+//get 2nd:1579861234613
+//try to modify
+```
+
+
+```
+//test.js
+let {time} = require('./time');
+
+console.log('get 1st:' + time);
+setTimeout(() => {
+  console.log('get 2nd:' + time);
+  time = 'try to modify';
+  console.log(time);
+}, 2000);
+```
+
+
+#103. export default与export的区别
+
+
+
+`export`可以导出多个对象，`export default`只能导出一个对象；<br>
+
+`export` 导出对象需要用`{}`，`export default`不需要`{}`，如：<br>
+
+```js
+export { A, B, C};
+export default A;
+```
+
+在其他文件引用`export default`导出的对象时不一定使用导出时的名字。因为这种方式实际上是将该导出对象设置为默认导出对象，如：
+
+```js
+// 文件A
+export default deObject;
+// 文件B
+import deObject from './A'
+// 或者
+import newDeObject from './A'
+```
+
+另：[ Tangyefei的ES6的Module笔记](http://book.tangyefei.cn/es-6/_book/chapter23-module.html) 有很详细的介绍。
+
+#104. ES6代码转成ES5代码的实现思路是什么
+
+解析：解析代码字符串，生成 `AST`<br>
+转换： 按一定的规则转换、修改`AST`<br>
+生成：将修改后的`AST`转换成普通代码
+
+#105. CommonJS和ES6模块循环引用
+
+该部分的理解不是深，姑且记住一般性的结论，可以参考 [阮一峰的文章](http://www.ruanyifeng.com/blog/2015/11/circular-dependency.html)
+
+## CommonJS
+
+当模块第二次引用时不会去重复加载，而是执行上次缓存的。
+
+一旦出现某个模块被”循环引用”，就只输出已经执行的部分，还未执行的部分不会输出。
+
+## ES6 
+
+ES6中对模块的引用不像CommonJS中那样必须执行`require`进来的模块，而只是保存一个模块的引用而已，因此，即使是循环引用也不会出错。
