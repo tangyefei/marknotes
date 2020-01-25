@@ -8,50 +8,42 @@
 
 ### 将UI组织成组件树的形式
 
+[c02/TabSelector/CommentBox.js](https://codesandbox.io/s/6n20nrzlxz) 的例子介绍了，在React中是如何将界面转化组件树的。
+
+
 ### 理解React组件
 
-外部传递的props + 内部维护的state => view
+> 外部传递的props + 内部维护的state => view
 
-1. React组件一般提供放阿飞，而是某种状态机
+1. React组件一般不提供方法，而是某种状态机
 2. React组件可以理解为一个纯函数
 3. 单向数据绑定
 
-### 创建一个简单的组件 TabSelect
+### 创建一个简单的组件TabSelect
 
 1. 创建静态UI
 2. 考虑组件的状态组成
 3. 考虑组件的交互方式
 
-```
-value
-options
-onChange
+[c02/TabSelector/TabSelector.js](https://codesandbox.io/s/6n20nrzlxz) 的例子介绍了上述理念。w
 
-render函数
-	loop options
-	option.value == value selected
-```
 
-所有状态都来自外部，点中某个按钮的时候，必须要告诉外部发生了变化。
+### 受控组件 vs 非受控组件
 
-外部使用者，传递options和value，并绑定onChange事件。
+受控组件是说值由外部传入，并且发生变化的时候需要通过onChange事件同步给外部。
 
-组件分为 受控组件 vs 非受控组件
+非受控组件则自洽，不需要受到控制 和 跟外部交互。
 
-受控组件来自于外部
-
-非受控组件状态来自内部
-
-初学者可能容易混淆这两个概念
+![受控组件和非受控组件](http://a.b)
 
 ### 如何创建组件
 
 - 单一职责原则，每个组件只做一件事
 - 如果组件变的复杂，应该拆分成小的组件
 
-### 数据状态管理的原则
+### DRY原则
 
-DRY原则（Don't Repeat Yourself）
+数据状态管理的原则：DRY原则（Don't Repeat Yourself）
 
 1. 能计算得到的状态，就不要单独存储
 2. 组件尽量无状态，所需数据通过props获取
