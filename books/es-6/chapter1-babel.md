@@ -1,4 +1,7 @@
-# Babel
+# ECMAScript 6 简介
+
+
+## 6. Babel转码器
 
 将ES6代码转换为ES5代码从而可以在现有环境执行。
 
@@ -31,4 +34,22 @@ babel.transform('code();', options);
 
 Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 API，必须使用`@babel/polyfill` 才能让这些API正常运行。
 
-浏览器环境想要正常运行，可以将浏览器版本插入到网页中。
+
+### 浏览器环境
+
+
+浏览器环境想要正常运行ES6，可以将[@babel/standalone](https://babeljs.io/docs/en/next/babel-standalone.html)模块提供的浏览器版本插入到网页。
+
+网页会实时将ES6转化为ES5，对性能会有影响。
+
+生产环境需要加载已经转码完成的脚本，Babel提供一个[REPL 在线编译器](https://babeljs.io/repl/)，可以在线将 ES6 代码转为 ES5 代码。
+
+
+
+
+
+
+
+
+
+
