@@ -115,6 +115,10 @@
   * [前端框架比较](others/前端框架比较.md)
   * [开发浏览器插件可以高亮评论网页](others/开发浏览器插件可以高亮评论网页.md)
 * React
+  * [官方文档-01-开始使用](react/官方文档-01-开始使用.md)
+  * [官方文档-02-组件&Props](react/官方文档-02-组件&Props.md)
+  * [官方文档-03-State&生命周期](react/官方文档-03-State&生命周期.md)
+  * [官方文档-04-React哲学](react/官方文档-04-React哲学.md)
 * Guide
   * [mkdocs的基本使用](guide/mkdocs的基本使用.md)
   * [使用EC2进行上网配置](guide/使用EC2进行上网配置.md)
