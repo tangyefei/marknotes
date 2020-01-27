@@ -1,4 +1,4 @@
-## 12-webpack核心概念之loaders
+## 12 webpack核心概念之loaders
 
 
 ### 概念介绍

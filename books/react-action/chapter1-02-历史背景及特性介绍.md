@@ -27,7 +27,7 @@ React的做法很简单：
 
 针对这个问题，它提出了Flux的架构
 
-![flux插图](https://blog-1258030304.cos.ap-guangzhou.myqcloud.com/books/react-action/flux-flow.png?q-sign-algorithm=sha1&q-ak=AKID1widSAHJfw6RfgwJva4RQEuDMJ7jEUWO&q-sign-time=1579915380;1579922580&q-key-time=1579915380;1579922580&q-header-list=&q-url-param-list=&q-signature=086c1c79e70046be3ea270bfa3a9c195176155c0)
+![flux插图](https://blog-1258030304.cos.ap-guangzhou.myqcloud.com/books/react-action/flux-flow.png)
 
 
 

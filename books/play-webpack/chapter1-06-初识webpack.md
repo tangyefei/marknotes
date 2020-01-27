@@ -1,4 +1,4 @@
-## 06-初识webpack
+## 06 初识webpack
 
 默认配置文件是`webpack.config.js`。
 

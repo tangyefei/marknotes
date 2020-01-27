@@ -1,4 +1,4 @@
-## 08-webpack初体验：一个最简单的例子
+## 08 webpack初体验：一个最简单的例子
 
 在安装好webpack和webpack-cli后，我们来实现一个最简单的例子。
 

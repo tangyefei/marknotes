@@ -1,4 +1,4 @@
-## 14-webpack核心概念之mode
+## 14 webpack核心概念之mode
 
 ### 概念介绍
 
