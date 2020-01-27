@@ -17,3 +17,4 @@
   * [12-webpack核心概念之loaders](./chapter2-12-webpack核心概念之loaders.md)
   * [13-webpack核心概念之plugins](./chapter2-13-webpack核心概念之plugins.md)
   * [14-webpack核心概念之mode](./chapter2-14-webpack核心概念之mode.md)
+  * [15-解析ECMAScript和React JSX](./chapter2-15-解析ECMAScript和React-JSX.md)
