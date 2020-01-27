@@ -1,4 +1,4 @@
-<!-- #《玩转webpack》 
+#《玩转webpack》 
 
 
 ## 第一章 构建发展历史和wepack的helloworld
@@ -151,4 +151,4 @@ ES6：动态import，在if/else逻辑里面用的时候再引入。目前没有�
 
 最后介绍了如何将定义的js工具publish到npm中，从而可以被项目引用。
 
-## 第四章 编写可维护的Webpack构建配置 -->
+## 第四章 编写可维护的Webpack构建配置
