@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'awesome';
+  src: url("./fontawesome-webfont.woff");
+}
+
+div {
+  font-size: 20px;
+  color: red;
+  font-family: 'awesome';
+}

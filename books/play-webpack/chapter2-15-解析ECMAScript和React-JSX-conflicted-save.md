@@ -44,7 +44,6 @@ npm i react react-dom @babel/preset-react -D
 并在 .babelrc 中增加配置项
 
 ```
-
 {
 	"presets": [
 		"@babel/preset-env",
