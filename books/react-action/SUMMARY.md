@@ -11,3 +11,10 @@
   * [08 理解ContextAPI极其使用场景](./chapter1-08-理解ContextAPI极其使用场景.md)
   * [09 使用脚手架工具创建React项目](./chapter1-09-使用脚手架工具创建React项目.md)
   * [10 打包和部署](./chapter1-10-打包和部署.md)
+* 第2章 React生态圈
+  * [11 前端为何需要状态管理库](./chapter2-11-前端为何需要状态管理库.md)
+  * [12 深入理解Store、Action、Reducer](./chapter2-12-深入理解Store、Action、Reducer.md)
+  * [13 在React中使用Redux](./chapter2-13-在React中使用Redux.md)
+  * [14 理解异步Action、Redux中间件](./chapter2-14-理解异步Action、Redux中间件.md)
+  * [15 如何组织Action和Reducer](./chapter2-15-如何组织Action和Reducer.md)
+  * [16 理解不可变数据](./chapter2-16-理解不可变数据.md)
