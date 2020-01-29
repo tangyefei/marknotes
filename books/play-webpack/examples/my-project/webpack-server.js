@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   middleware(compiler, {
-    output: config.output.publicPath
+    publicPath: config.output.publicPath
   })
 );
 

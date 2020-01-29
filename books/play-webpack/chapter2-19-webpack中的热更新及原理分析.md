@@ -37,6 +37,8 @@ package.json的scripts中增加命令
 
 启动 npm run dev后，修改文件内容可以发现浏览器自动更新了。
 
+**因为例子简单，修改后看似整个浏览器都刷新了，和不刷新浏览器这个说法有所不符合？**
+
 ### 热更新原理（HMR）
 
 
@@ -78,4 +80,4 @@ app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
 访问 http://localhost:3000/index.html，奇怪访问的是 Cannot GET /index.html。
 
-为什么呢？
+**为什么呢？**
