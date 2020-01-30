@@ -22,3 +22,7 @@
   * [17 解析图片和字体文件](./chapter2-17-解析图片和字体文件.md)
   * [18 webpack中的文件监听](./chapter2-18-webpack中的文件监听.md)
   * [19 webpack中的热更新及原理分析](./chapter2-19-webpack中的热更新及原理分析.md)
+  * [20 文件指纹策略：chunkhash、contenthash和hash](./chapter2-20-文件指纹策略：chunkhash、contenthash和hash.md)
+  * [21 HTML、CSS和JavaScript的代码压缩](./chapter2-21-HTML、CSS和JavaScript的代码压缩.md)
+* webpack进阶用法
+  * [22 自动清理构建目录产物.md](./chapter3-22-自动清理构建目录产物.md)
