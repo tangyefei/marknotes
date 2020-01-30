@@ -20,7 +20,7 @@ module.exports = {
 }	
 ```
 
-balbel-loader会去项目文件夹下寻找 .babellrc 文件用于确认使用何种规则来解析ECMAScript
+balbel-loader会去项目文件夹下寻找 .babelrc 文件用于确认使用何种规则来解析ECMAScript
 
 
 ```

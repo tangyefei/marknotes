@@ -57,7 +57,7 @@ IMPORTANT NOTES:
 Assessment failed: Unable to connect to the server
 ```
 
-![cert-fail.png](./cert-fail.png)
+![cert-fail.png](https://blog-1258030304.cos.ap-guangzhou.myqcloud.com/blogs/http/cert-fail.png)
 
 
 索性直接配置nginx再说，不去管它校验，[这篇关于Nginx中配置ssl的文章](https://www.tecmint.com/fix-400-bad-request-in-nginx/) 可能比阮一峰介绍的更详细并且不容易引起误解：
@@ -87,6 +87,12 @@ server {
 **最后令人觉得奇怪的是：**等到自己能按照 http 和 https 访问个人博客以后，再用 [ SSL Labs Server Test ](https://www.ssllabs.com/ssltest/analyze.html) 进行校验，发现居然通过了（如下图）？怀疑是之前443端口没打开的缘故？然而把在腾讯云上把443的出参规则删除掉了，丝毫不影响https方式的访问，不理解了（待解答）。
 
 
-![cert-fail.png](./cert-success.png)
+![cert-fail.png](https://blog-1258030304.cos.ap-guangzhou.myqcloud.com/blogs/http/cert-success.png)
 
 
+
+
+
+/etc/letsencrypt/live/tangyefei.cn-0001/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/tangyefei.cn-0001/privkey.pemjj
