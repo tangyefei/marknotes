@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .board {
+      width: 101px;
+      height: 101px;
+      background-color: #FFF;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      display: flex;
+    }
+    .dot {
+      width: 25px;
+      height: 25px;
+      margin: 4px;
+      background-color: #000;
+      border-radius: 15px;
+    } 
+    #s1 {
+
+    }
+    #s2 {
+      justify-content: center;
+    }
+    #s3 {
+      justify-content: flex-end;
+    }
+    #s4 {
+      align-items: center;
+    }
+    #s5 {
+      justify-content: center;
+      align-items: center;
+    }
+    #s6 {
+      justify-content: center;
+      align-items: flex-end;
+    }
+    #s7 {
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+    #s8 {
+      justify-content: space-between;
+    }
+    #s9 {
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    #s10 {
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #s11 {
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    #s12 .dot:nth-child(2){
+      align-self: center;
+    }
+    #s13 {
+      justify-content: space-between;
+    }
+    #s13 .dot:nth-child(2){
+      align-self: flex-end;
+    }
+    #s14 {
+      justify-content: space-between;
+    }
+    #s14 .dot:nth-child(2){
+      align-self: center;
+    }
+    #s14 .dot:nth-child(3){
+      align-self: flex-end;
+    }
+    #s15 {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-content: space-between;
+    }
+    #s16,#s18 {
+      align-content: space-between;
+      flex-wrap: wrap;
+    }
+    #s16 .sub,#s18 .sub {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #s17 {
+      flex-direction: row;
+      align-content: space-between;
+      flex-wrap: wrap;
+    }
+    #s17 .sub {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #s19 {
+      flex-wrap: wrap;
+    }
+    #s19 .sub {
+      flex-basis: 100%;
+      display: flex;
+    }
+    #s19 .sub:nth-child(2) {
+      justify-content: center;
+    }
+    #s19 .sub:nth-child(3) {
+      justify-content: space-between;
+    }
+    .row {
+      display: flex;
+    }
+    .row div {
+      background: #EEE;
+      border: 1px solid red;;
+    }
+    .row .auto {
+      flex:1;
+    }
+    .row .oneOfTwo {
+      flex-basis: 50%;
+    }
+    .row .oneOfThree {
+      flex-basis: 34%;
+    }
+    .row .oneOfFour {
+      flex-basis: 25%;
+    }
+  </style>
+</head>
+<body>
+
+  
+  
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071301.png"/>
+  <div id="s1" class="board">
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071302.png"/>
+  <div id="s2" class="board">
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071303.png"/>
+  <div id="s3" class="board">
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071304.png"/>
+  <div id="s4" class="board">
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071305.png"/>
+  <div id="s5" class="board">
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071306.png"/>
+  <div id="s6" class="board">
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071307.png"/>
+  <div id="s7" class="board">
+    <div class="dot"></div>
+  </div>
+
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071308.png"/>
+  <div id="s8" class="board">
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071309.png"/>
+  <div id="s9" class="board">
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071310.png"/>
+  <div id="s10" class="board">
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071311.png"/>
+  <div id="s11" class="board">
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071312.png"/>
+  <div id="s12" class="board">
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071313.png"/>
+  <div id="s13" class="board">
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071314.png"/>
+  <div id="s14" class="board">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071315.png"/>
+  <div id="s15" class="board">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  
+  
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071316.png"/>
+  <div id="s16" class="board">
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071317.png"/>
+  <div id="s17" class="board">
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071318.png"/>
+
+  <div id="s18" class="board">
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="sub">
+
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071319.png"/>
+
+  <div id="s19" class="board">
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="sub">
+      <div class="dot"></div>
+    </div>
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071320.png"/>
+  <div id="s20" class="board">
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="sub">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071322.png"/>
+  <div class="row">
+    <div class="oneOfTwo">1/2</div>
+    <div class="auto">auto</div>
+    <div class="auto">auto</div>
+  </div>
+  <div class="row">
+    <div class="auto">auto</div>
+    <div class="oneOfThree">1/3</div>
+  </div>
+  <div class="row">
+    <div class="oneOfFour">1/4</div>
+    <div class="auto">auto</div>
+    <div class="oneOfThree">1/3</div>
+  </div>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071323.png"/>
+
+  <div class="HolyGrail">
+    <header>...</header>
+    <div class="HolyGrail-body">
+      <main class="HolyGrail-content">...</main>
+      <nav class="HolyGrail-nav">...</nav>
+      <aside class="HolyGrail-ads">...</aside>
+    </div>
+    <footer>...</footer>
+  </div>
+
+  <style>
+  
+  .HolyGrail {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    header,
+    footer {
+      flex: 0 0 60px;
+      background: green;
+    }
+
+    .HolyGrail-body {
+      display: flex;
+      flex: 1;
+    }
+
+    .HolyGrail-content {
+      flex: 1;
+      background: yellow;
+    }
+
+    .HolyGrail-nav, .HolyGrail-ads {
+      /* 两个边栏的宽度设为12em */
+      flex: 0 0 12em;
+      background: pink;
+    }
+
+    .HolyGrail-nav {
+      /* 导航放到最左边 */
+      order: -1;
+    }
+</style>
+
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071326.png"/>
+
+      <pre>
+        此处介绍了如何让footer始终在网页底部（哪怕中间内容不够多）：
+
+        1. 高度设置为 min-height: 100vh 撑满
+        2. 内容区域使用掉 flex: 1 
+        3. 那么对应footer使用的高度都是在最底部了
+      
+        .Site {
+          background: #000;
+          display: flex;
+          min-height: 100vh;
+          flex-direction: column;
+          color: #FFF;
+        }
+
+        .Site-content {
+          flex: 1;
+        }
+    </pre>
+
+  <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015071330.png"/>
+
+  <div class="grid">
+    <div class="unit"></div>
+    <div class="unit"></div>
+    <div class="unit"></div>
+    <div class="unit"></div>
+    <div class="unit"></div>
+  </div>
+
+  <style>
+  .grid {
+    width: 200px;
+    background: #000;
+    display: flex;
+    flex-flow: row wrap;
+    height: 200px;
+    align-content: flex-start;
+  }
+  .grid .unit {
+    flex: 0 0 25%;
+    height: 50px;
+    background: #FFF;
+    box-sizing: border-box;
+    border: 1px solid green;
+  }
+  </style>
+
+</body>
+</html>
