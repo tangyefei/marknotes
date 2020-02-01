@@ -2,7 +2,50 @@
 
 ## 1. localStorage和sesisonStorage
 
+### 1.1 介绍和用法
 
+localStorage和sesisonStorage是定义在Window对象下的两个属性，他们代表都是同一类对象Storage对象，它们和普通的JavaScript对象没有区别。如下的方法适用于localStorage和sesisonStorage。
+
+```
+var name = localStorage.username;
+name = localStorage['username'];
+if( !name )  {
+	name = propt("What is your name?")
+	localStorage.username = name;
+}
+
+for(var name in localStorage) {
+	var value = localStorage['name']
+}
+```
+
+尽管如此，它还是提供了一些API用于对存储的数据进行操作（也推荐这么做，具体原因可以参考该节内容）：
+
+- setItem(name, value)
+- getItem(name)
+- clear()
+- key(index) // 枚举第index位置的key
+
+虽然标准指出可以存储对象、数组等数据结构，但是目前仅支持字符串类型的数据，其他类型的数据需要自己进行转码。
+
+### 1.2 两者的区别：有效期和作用域
+
+#### localStorage
+
+- 有效期：数据永久存储，除非刻意删除，否则永不过期
+- 作用域：限定在文档源级别（协议+主机名+端口），相同文档源可以共享数据并且覆盖对方数据
+
+总结：**localStorage只要`协议+主机名+端口`一样，其他页签都可见，关了再开仍旧在**
+
+
+#### sessionStorage
+
+- 有效期：和脚本所在的标签页一样，一旦关闭，存储数据将被删除
+- 作用域：除了文档源级别的限制外，还被限制在当前的浏览器标签页中
+
+总结：**sessionStorage当前的浏览器标签页可用，关闭就没了，到其他标签页也看不到。**
+
+应用：由于刷新浏览器是不会清除掉的，网页播放器用于恢复进度刻意使用它，一些企业系统刷新后希望保留内部页签也可以使用。
 
 ## 2. cookie
 
