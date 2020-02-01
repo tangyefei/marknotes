@@ -18,3 +18,6 @@
   * [14 理解异步Action、Redux中间件](./chapter2-14-理解异步Action、Redux中间件.md)
   * [15 如何组织Action和Reducer](./chapter2-15-如何组织Action和Reducer.md)
   * [16 理解不可变数据](./chapter2-16-理解不可变数据.md)
+  * [17 React-Router(1)：路由不只是页面切换，更是代码组织的方式](./chapter2-17-React-Router-1-路由不只是页面切换，更是代码组织的方式.md)
+  * [18 React-Router(2)：参数定义，嵌套路由的使用场景](./chapter2-18-React-Router-2-参数定义，嵌套路由的使用场景.md)
+  * [19 UI组件库对比和介绍](./chapter2-19-UI组件库对比和介绍.md)
