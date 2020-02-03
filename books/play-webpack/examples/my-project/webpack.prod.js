@@ -58,7 +58,19 @@ module.exports = {
       test: /\.js$/, use: 'babel-loader'
     },
     {
-      test: /\.css$/, use: [MiniCssExtractPlugin.loader,'css-loader']
+      test: /\.css$/, use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        'postcss-loader',
+        {
+          loader: 'px2rem-loader',
+          options: 
+          {
+            remUnit: 16,
+            remPrecision: 8
+          }
+        }
+      ]
     }, 
     {
       test: /\.(png|jpe?g|gif)$/i,

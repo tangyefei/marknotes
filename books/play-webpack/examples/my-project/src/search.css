@@ -7,4 +7,6 @@ div {
   font-size: 22px;
   color: red;
   font-family: 'awesome';
+  position:sticky
 }
+
