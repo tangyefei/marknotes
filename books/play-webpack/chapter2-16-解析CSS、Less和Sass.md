@@ -4,7 +4,7 @@
 
 需要被依赖的两个loader，分别是 css-loader，style-loader
 
-css-loader 用于夹杂.css文件，转化成commonjs对象
+css-loader 用于解析.css文件，转化成commonjs对象
 
 style-loader 将样式通过`<style>`标签插入到head中
 
@@ -20,7 +20,7 @@ npm i css-loader style-loader -D
 }
 ```
 
-注：loader的解析顺序是从右到做，即先使用css-loader读取css文件，在用style-loader插入。
+注：loader的解析顺序是从右到做，即先使用css-loader读取css文件，再用style-loader插入。
 
 ### 解析Less、Sass
 

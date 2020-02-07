@@ -1,6 +1,6 @@
 # Summary
 
-* [即可时间：玩转webpack](README.md)
+* [极客时间：玩转webpack](README.md)
 * webpack与构建发展历史
   * [01 课程介绍](./chapter1-01-课程介绍.md)
   * [02 内容综述](./chapter1-02-内容综述.md)
@@ -28,3 +28,5 @@
   * [22 自动清理构建目录产物.md](./chapter3-22-自动清理构建目录产物.md)
   * [23 PostCSS插件和autoprefixer自动补全CSS3前缀](./chapter3-23-PostCSS插件和autoprefixer自动补全CSS3前缀.md)
   * [24 移动端CSS自动自动转化为rem](./chapter3-24-移动端CSS自动自动转化为rem.md)
+  * [25 多页面应用通用打包方案](./chapter3-25-多页面应用通用打包方案.md)
+  * [26 静态资源内联](./chapter3-26-静态资源内联.md)
