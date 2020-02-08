@@ -30,3 +30,5 @@
   * [24 移动端CSS自动自动转化为rem](./chapter3-24-移动端CSS自动自动转化为rem.md)
   * [25 多页面应用通用打包方案](./chapter3-25-多页面应用通用打包方案.md)
   * [26 静态资源内联](./chapter3-26-静态资源内联.md)
+  * [27 使用sourcemap](./chapter3-27-使用sourcemap.md)
+  * [28 提取页面公共资源](./chapter3-28-提取页面公共资源.md)
