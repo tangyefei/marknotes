@@ -32,3 +32,5 @@
   * [26 静态资源内联](./chapter3-26-静态资源内联.md)
   * [27 使用sourcemap](./chapter3-27-使用sourcemap.md)
   * [28 提取页面公共资源](./chapter3-28-提取页面公共资源.md)
+  * [29 TreeShaking的使用和原理分析](./chapter3-29-TreeShaking的使用和原理分析.md)
+  * [30 Scope-Hoisting使用和原理分析](./chapter3-30-Scope-Hoisting使用和原理分析.md)

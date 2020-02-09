@@ -45,10 +45,12 @@ module.exports = {
   mode: "none",
 	entry,
 	output: {
+    
     path: path.join(__dirname, "dist"),
     filename: "[name]_[chunkhash:8].js"
   },
   optimization: {
+    usedExports: true,
     splitChunks: {
       minSize: 0,
       cacheGroups: {
@@ -61,6 +63,7 @@ module.exports = {
     }
   },
   plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name]_[contenthash:8].css'
     }),

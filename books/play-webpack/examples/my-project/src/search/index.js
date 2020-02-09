@@ -3,15 +3,14 @@ import ReactDOM from 'react-dom';
 import './search.css';
 import logo from './logo.jpg';
 import common from '../../common/index';
+import { a } from './tree-shaking'
 
 class Search extends React.Component {
   render() {
     return <div> 
-      Search Component? 23biubiubiu, it ?
-      {common()}
+      Search Component?
       <img src={logo}/>
-      <span>chunhash</span>
-      </div>
+    </div>
   }
 }
 

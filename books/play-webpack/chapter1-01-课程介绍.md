@@ -1,5 +1,8 @@
 ## 01 课程介绍
 
+
+课件地址：[geektime-webpack-course ppt](https://github.com/geektime-geekbang/geektime-webpack-course/tree/master/ppt)
+
 ### 1. 作者介绍
 
 程柳峰，在腾讯负责约40人的工程效率建设，曾主导团队将FIS3构建切换到Webpack4，该过程涉及
@@ -18,6 +21,8 @@
 - 动态Polyfill
 
 等构建策略，对Webpack的打包速度和体积优化有丰富的经验。
+
+
 
 ### 2. 为什么要掌握Webpack
 
