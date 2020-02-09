@@ -1,0 +1,1 @@
+export default () => <div onClick="alert('user')">User</div> 

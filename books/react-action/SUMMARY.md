@@ -21,3 +21,6 @@
   * [17 React-Router(1)：路由不只是页面切换，更是代码组织的方式](./chapter2-17-React-Router-1-路由不只是页面切换，更是代码组织的方式.md)
   * [18 React-Router(2)：参数定义，嵌套路由的使用场景](./chapter2-18-React-Router-2-参数定义，嵌套路由的使用场景.md)
   * [19 UI组件库对比和介绍](./chapter2-19-UI组件库对比和介绍.md)
+  * [20 使用Next.js创建React同构应用](./chapter2-20-使用Next.js创建React同构应用.md)
+  * [21 使用Jest, Enzyme等工具进行单元测试](./chapter2-21-使用Jest-Enzyme等工具进行单元测试.md)
+  * [22 常用开发调试工具](./chapter2-22-常用开发调试工具.md)
