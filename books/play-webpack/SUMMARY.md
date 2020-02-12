@@ -23,9 +23,9 @@
   * [18 webpack中的文件监听](./chapter2-18-webpack中的文件监听.md)
   * [19 webpack中的热更新及原理分析](./chapter2-19-webpack中的热更新及原理分析.md)
   * [20 文件指纹策略：chunkhash、contenthash和hash](./chapter2-20-文件指纹策略：chunkhash、contenthash和hash.md)
-  * [21 HTML、CSS和JavaScript的代码压缩](./chapter2-21-HTML、CSS和JavaScript的代码压缩.md)
+  * [21 HTML的JS注入、HTML/CSS/JS的代码压缩](./chapter2-21-HTML的JS注入和代码压缩.md)
 * webpack进阶用法
-  * [22 自动清理构建目录产物.md](./chapter3-22-自动清理构建目录产物.md)
+  * [22 自动清理构建目录产物](./chapter3-22-自动清理构建目录产物.md)
   * [23 PostCSS插件和autoprefixer自动补全CSS3前缀](./chapter3-23-PostCSS插件和autoprefixer自动补全CSS3前缀.md)
   * [24 移动端CSS自动自动转化为rem](./chapter3-24-移动端CSS自动自动转化为rem.md)
   * [25 多页面应用通用打包方案](./chapter3-25-多页面应用通用打包方案.md)
@@ -34,3 +34,4 @@
   * [28 提取页面公共资源](./chapter3-28-提取页面公共资源.md)
   * [29 TreeShaking的使用和原理分析](./chapter3-29-TreeShaking的使用和原理分析.md)
   * [30 Scope-Hoisting使用和原理分析](./chapter3-30-Scope-Hoisting使用和原理分析.md)
+  * [31 代码分割和动态import](./chapter3-31-代码分割和动态import.md)

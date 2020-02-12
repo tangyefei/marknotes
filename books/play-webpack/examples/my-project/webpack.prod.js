@@ -23,7 +23,7 @@ function setMPA() {
     htmlWebpackPlugins.push(new HtmlWebpackPlugin({ 
       template: path.join(__dirname, `src/${pageName}/index.html`), 
       filename: `${pageName}.html`, 
-      chunks: ['vendors', pageName], 
+      chunks: ['commons', pageName], 
       inject: true, 
       minify: { 
         html5: true, 
@@ -42,11 +42,10 @@ function setMPA() {
 const {entry, htmlWebpackPlugins} =setMPA();
 
 module.exports = {
-  mode: "none",
-	entry,
-	output: {
-    
-    path: path.join(__dirname, "dist"),
+  mode: "production",
+  entry: entry,
+  output: {
+    path:path.join(__dirname, "dist"),
     filename: "[name]_[chunkhash:8].js"
   },
   optimization: {
@@ -67,7 +66,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name]_[contenthash:8].css'
     }),
-		new OptimizeCSSAssetsPlugin({
+    new OptimizeCSSAssetsPlugin({
 			assetNameRegExp: /\.css$/g,
 			cssProcessor: require('cssnano')
     }),
@@ -126,4 +125,4 @@ module.exports = {
     }
   ]
   }
-}	
+}
