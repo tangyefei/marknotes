@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    /**
+     * @param {number[][]} grid
+     * @return {number}
+     */
+    var maxAreaOfIsland = function(grid) {
+      // 60.88%  84.62%
+
+      if(grid.length == 0) return 0;
+      
+      let w = grid.length, h = grid[0].length;
+      let max = 0;
+      let count = 0;
+      let speed = 0;
+      
+      let walk = function(i, j){
+          if( i < 0 || j < 0 || i == w || j == h || grid[i][j]==0) return;
+          speed++;
+          count ++;
+          grid[i][j] = 0;
+          
+          walk(i+1,j);
+          walk(i-1,j);
+          walk(i,j+1);
+          walk(i,j-1);
+          // 加上这一行，不仅效率减低，而且有逻辑问题
+          // 逻辑问题在于，将rid[i][j]设置为1的行为，不只是在walk上，四个方向walk走完后再重置才是合理，否则走完一个方向就恢复会影响后续几个方向的判断
+          // grid[i][j] = 1;
+      }
+      
+      for(let i = 0; i < w; i++) {
+          for(let j = 0; j < h; j++) {
+              count = 0;
+              walk(i, j);
+              // console.log(i + ',' + j + ':' + count);
+              max = Math.max(max, count);
+          }
+      }
+      // console.log('speed:' + speed)
+      return max;
+    };
+
+</script>
+</body>
+</html>

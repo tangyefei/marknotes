@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+    /**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var spiralOrder = function(matrix) {
+    // 77.38%  100.00% 
+    if(matrix.length==0) return [];
+    if(matrix.length==1) return matrix[0];
+    // console.log(matrix);
+    let result = [], 
+        m = matrix.length, 
+        n = matrix[0].length;
+    let dirs = [[0,1],[1,0],[0,-1],[-1,0]];
+    let pos = [0,0];
+    let dirIndex = 0;
+    // console.log(m + ',' + n);
+    
+    while(result.length < m * n) {
+        let [x, y] = pos;
+        let val = matrix[x][y];
+        result.push(val)
+        // console.log( 'pos:' + pos[0]+',' + pos[1])
+        delete matrix[x][y];
+        let [mx, my] = dirs[dirIndex];
+        if(matrix[x+mx]==undefined || matrix[x+mx][y+my]==undefined) {
+            // console.log('trun direction at:'  + x + ',' + y)
+            dirIndex=(dirIndex+1)%4;
+            [mx,my] = dirs[dirIndex];
+        }
+        pos = [x+mx, y + my];
+    }
+    return result;
+};
+</script>
+  
+</body>
+</html>

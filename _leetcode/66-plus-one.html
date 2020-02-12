@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    /**
+     * @param {number[]} digits
+     * @return {number[]}
+     */
+    var plusOne = function(digits) {
+      // 68.76%  89.36%
+      let cur = digits.length-1;
+      
+      while(cur >= 0) {
+          if(digits[cur]==9) {
+              digits[cur] = 0;
+              cur--;
+          } else {
+              digits[cur] += 1;
+              break;
+          }
+      }
+      if(cur < 0) digits.unshift(1);
+      
+      return digits;
+    };
+</script>
+</head>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <script>
+   
+       /**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} root
+ * @param {number} k
+ * @return {ListNode[]}
+ */
+var splitListToParts = function(root, k) {
+  // 72.00%  20.00% 
+  function getLen(node){
+    let sum = 0;
+    while(node) {
+      sum ++;
+      node = node.next;
+    }
+    return sum;
+  }
+
+  let nodeSum = getLen(root);
+  let [ceilLen, floorLen] = [Math.ceil(nodeSum/k), Math.floor(nodeSum/k)];
+  let countOfMoreShare = nodeSum - floorLen * k;
+  let endPoints = [0];
+
+  for (let i = 0, p = 0; i < nodeSum; p++) {
+    if(p <= countOfMoreShare-1) {
+      i += ceilLen;
+    } else {
+      i += floorLen;
+    }
+    if(i < nodeSum) endPoints.push(i);
+  }
+  console.log(endPoints)
+
+  let result = [], count = 0;
+  let pre = new ListNode();
+
+  while(root) {
+    let next = root.next;
+    if(count == endPoints[0]) {
+      pre.next = null;
+      endPoints.shift();
+      result.push(root);
+    }
+    pre = root;
+    root = next;
+    count = count + 1;
+  }
+
+
+  while(result.length<k) {result.push(null)}
+
+  return result;
+};
+
+    function ListNode(val) {
+      this.val = val;
+      this.next = null;
+    }
+    var head = new ListNode(1);
+    var headBackup = head;
+    head.next =  new ListNode(2);head = head.next;
+    head.next =  new ListNode(3);head = head.next;
+    head.next =  new ListNode(4);head = head.next;
+    // head.next =  new ListNode(5);head = head.next;
+    // head.next =  new ListNode(6);head = head.next;
+    // head.next =  new ListNode(7);head = head.next;
+    console.log(splitListToParts(headBackup,5))
+</script>
+</head>
+<body>
+  
+</body>
+</html>

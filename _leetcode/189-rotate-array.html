@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>/**
+  * @param {number[]} nums
+  * @param {number} k
+  * @return {void} Do not return anything, modify nums in-place instead.
+  */
+ var rotate = function(nums, k) {
+     if(nums.lenght == 0 || k == 0 || k%nums.length == 0) return nums;
+       
+     let sum = nums.length, cutAt = sum - k%sum;
+     let appendix = nums.splice(cutAt);
+     nums.unshift(...appendix);
+     
+     return nums;
+ };
+</script>
+</head>
+</html>

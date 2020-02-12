@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+  /**
+    * @param {number[]} A
+    * @param {number[][]} queries
+    * @return {number[]}
+    */
+    var sumEvenAfterQueries = function(A, queries) {
+        // 97.81%  100.00%
+        let sumRes = [];
+        var sumPrev = A.reduce((sum,ele)=>{return ele%2==0?ele + sum : sum},0);
+        
+        for(var i = 0, l = A.length, ql = queries.length; i < ql; i++) {
+            var query = queries[i];
+            var val = query[0];
+            var pos = query[1] >= 0 ? query[1] : (l + query[1]);
+            
+            if(Math.abs(A[pos]%2)==Math.abs(val%2)) {
+                sumPrev = sumPrev+(val%2==0?val:(val+A[pos]));
+            } else if(A[pos]%2==0&&Math.abs(val%2)==1){
+                sumPrev = sumPrev-A[pos];
+            }
+            A[pos] += val;
+            sumRes.push(sumPrev);
+        }
+        return sumRes;
+    };
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

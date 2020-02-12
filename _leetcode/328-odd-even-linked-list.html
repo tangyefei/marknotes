@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+     function ListNode(val) {
+         this.val = val;
+         this.next = null;
+     }
+     var head = new ListNode(1);
+     var headBackup = head;
+     head.next =  new ListNode(2);head = head.next;
+     head.next =  new ListNode(3);head = head.next;
+     head.next =  new ListNode(4);head = head.next;
+     head.next =  new ListNode(5);head = head.next;
+    /**
+     * Definition for singly-linked list.
+     */
+    /**
+     * @param {ListNode} head
+     * @return {ListNode}
+     */
+    var oddEvenList = function(head) {
+      // 66.87% 100.00%
+      let evenHead = head, evenTail = head, oddHead = head.next;
+       while(head && head.next) {
+         let next = head.next;
+         let nextNext = next.next;
+         head.next = nextNext;
+         evenTail = head = next;
+       }
+       evenTail.next = oddHead;
+       return evenHead;
+    };
+    console.log(oddEvenList(headBackup))
+    </script>
+</head>
+</html>

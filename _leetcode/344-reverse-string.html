@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+   /**
+     * @param {character[]} s
+     * @return {void} Do not return anything, modify s in-place instead.
+     */
+    var reverseString = function(s) {
+      // 37.69%  86.67%
+      if(s.length < 2) return s;
+      let j, t, l = s.length, i = 0;
+      while(i < (l-1)/2) {
+        j = l-i-1; 
+        t = s[i];
+        s[i] = s[j];
+        s[j] = t;
+        i++;
+      }
+      return s;
+    };
+    console.log(reverseString(["h","e","l","l","o"]));
+    console.log(reverseString(["a","b","c","d"]));
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+/**
+  * @param {number[]} nums
+  * @return {void} Do not return anything, modify nums in-place instead.
+  */
+ var moveZeroes = function(nums) {
+     let pos = nums.length - 1;
+     while(pos >= 0) {
+         if(nums[pos]==0) {
+             nums.push(nums.splice(pos,1)[0]);
+         }
+         pos --;
+     }
+     return nums;
+ };
+</script>
+</head>
+</html>
