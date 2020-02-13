@@ -35,3 +35,5 @@
   * [29 TreeShaking的使用和原理分析](./chapter3-29-TreeShaking的使用和原理分析.md)
   * [30 Scope-Hoisting使用和原理分析](./chapter3-30-Scope-Hoisting使用和原理分析.md)
   * [31 代码分割和动态import](./chapter3-31-代码分割和动态import.md)
+  * [32 在webpack中使用ESLint](./chapter3-32-在webpack中使用ESLint.md)
+  * [33 打包组件和基础库](./chapter3-33-打包组件和基础库.md)

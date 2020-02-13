@@ -4,6 +4,7 @@ import './search.css';
 import logo from './logo.jpg';
 import common from '../../common/index';
 import { a } from './tree-shaking'
+import largeNumber from 'large-number-b';
 
 class Search extends React.Component {
   constructor() {
@@ -24,6 +25,7 @@ class Search extends React.Component {
     const {Text} = this.state;
     return <div> 
       Search Component?
+      {largeNumber(999,1)}
       <img src={logo}/>
       <button onClick={this.loadComponent}>加载</button>
       {Text ? Text : null}

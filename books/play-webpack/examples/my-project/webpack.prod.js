@@ -88,7 +88,8 @@ module.exports = {
   ].concat(htmlWebpackPlugins),
   module: {
     rules: [{
-      test: /\.js$/, use: 'babel-loader'
+      // , 'eslint-loader'
+      test: /\.js$/, use: ['babel-loader']
     },
     {
       test: /\.css$/, use: [
