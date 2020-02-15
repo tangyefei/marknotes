@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var preorderTraversal = function(root) {
+  // 60.34%  72.41% 
+    if(root == null || root.val == null) return [];
+    
+    let queue = [root];
+    let result = [];
+    while(queue.length) {
+        let ele = queue.shift();
+        result.push(ele.val);
+        if(ele.right) queue.unshift(ele.right);
+        if(ele.left) queue.unshift(ele.left);
+    }
+    return result;
+};
+</script>
+  
+</body>
+</html>
