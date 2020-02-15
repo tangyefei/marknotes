@@ -119,6 +119,8 @@
   * [官方文档-02-组件&Props](react/官方文档-02-组件&Props.md)
   * [官方文档-03-State&生命周期](react/官方文档-03-State&生命周期.md)
   * [官方文档-04-React哲学](react/官方文档-04-React哲学.md)
+  * [[译]React的生命周期](react/[译]React的生命周期.md)
+  * [React vs Vue](react/react-vs-vue.md)
 * Guide
   * [mkdocs的基本使用](guide/mkdocs的基本使用.md)
   * [使用EC2进行上网配置](guide/使用EC2进行上网配置.md)
