@@ -1,132 +1,3 @@
-# 1.基本数据类型
-
-```
-undefined、null、Boolean、String、Number、Symbol
-```
-
-# 2. JavaScript原型、原型链有什么特点？
-
-## 原型
-每个对象都和另外一个对象关联，这个对象就是原型。可以通过`Object.prototype`或`o.__proto__`获得对原型对象的引用。
-
-每个`Function`对象都会在其内部初始化一个属性，就是`prototype`(原型)，当我们访问一个对象的属性时， 如果这个对象内部不存在这个属性，那么他就会去`prototype`里找这个属性，这个`prototype`又会有自己的`prototype`，于是就这样一直找下去，也就是我们平时所说的原型链的概念。<br/>
-
-特点： `JavaScript`对象是通过引用来传递的，我们创建的每个新对象实体中并没有一份属于自己的原型副本。当我们修改原型时，与之相关的对象也会继承这一改变。
-
-## 原型链
-
-```js
-function Person() {}
-let p = new Person();
-// 原型链关系
-Person.__proto__ === Function.prototype;
-p.__proto__ === Person.prototype;
-
-Person.prototype.__proto__ === Object.prototype
-Object.prototype.__proto__ === null
-
-class A {}
-class B extends A {}
-let a = new A();
-let b = new B();
-// 原型链关系
-a.__proto__ === A.prototype;
-b.__proto__ === B.prototype;
-b.__proto__.__proto__ === A.prototype;
-
-B.__proto__ === A;
-B.prototype.__proto__ === A.prototype;
-
-A.__proto__ === Function.prototype;
-A.prototype.__proto__ === Object.prototype;
-
-```
-# 3.如何实现数组的随机排序？
-
-```js
-let arr = [1,2,3,4,5,6,7,8,9,10]; 
-function randSort1(arr) {
-  for(let i = 0, len = arr.length; i < len; i++) {
-    let rand = parseInt(Math.random() * len);
-    [arr[rand], arr[i]] = [arr[i], arr[rand]];
-  }
-  return arr;
-}
-```
-```js
-// 著名的Fisher–Yates shuffle 洗牌算法
-function shuffle(arr) {
-  let m = arr.length;
-  while(m > 1) {
-    let index = parseInt(Math.random() * m--);
-    [arr[index], arr[m]] = [arr[m], arr[index]]
-  }
-  return arr;
-}
-```
-```js
-let arr = [1,2,3,4,5,6,7,8,9,10];
-arr.sort(() => {
-  return Math.random() - 0.5;
-})
-```
-# 4.数组去重
-```js
-function removeDup(arr) {
-  let result = [];
-  let map = {};
-  for(let i = 0; i < arr.length; i++) {
-    let temp = arr[i];
-    if(!map[temp]) {
-      map[temp] = true;
-      result.push(temp)
-    }
-  }
-  return result;
-}
-// reduce
-function removeDup(arr) {
-  return arr.reduce((res, cur) => {
-    let index = res.findIndex(i => i === cur);
-    if(index == -1) {
-      res.push(cur)
-    }
-    return res
-  }, [])
-}
-```
-```js
-Array.from(new Set(arr))
-```
-```js
-[...new Set(arr)]
-```
-# 5.`typeof`运算符和`instanceof`运算符以及`isPrototypeOf()`方法的区别
-
-`typeof`是一个运算符，用于检测数据的类型，比如基本数据类型`undefined、string、number、boolean`，以及引用数据类型`object、function`，但是对于正则表达式、日期、数组这些引用数据类型，它会全部识别为`object`，无助于了解我们自定义的类的更多信息；<br/>
-
-```
-function Cat(){}
-var cat = new Cat();
-typeof cat //'object'
-typeof Cat //'function'
-```
-
-`instanceof`同样也是一个运算符，它就能很好识别数据具体是哪一种引用类型，但问题是`instanceof`多个父类都会返回为true。它与`isPrototypeOf`的区别就是它是用来检测构造函数的原型是否存在于指定对象的原型链当中；
-
-```
-var d = new Date();
-d instanceof Date; //true
-d instanceof Object; //true
-```
-
-而`isPrototypeOf`是用来检测调用此方法的对象是否存在于指定对象的原型链中，所以本质上就是检测目标不同。
-
-```
-function Cat(){}
-var cat = new Cat();
-Cat.prototype.isPrototypeOf(cat);
-```
 
 <br/>
 
@@ -188,10 +59,6 @@ valueOf([2]) // [2]
 toString([2])  // '2'
 Number('2') // 2
 ```
-
-
-
-
 
 # 8.简述`js`中`this`的指向
 
@@ -552,7 +419,7 @@ function sayHi(e) {
 window.addEventListener('resize', throttle(sayHi));
 ```
 
-17. 介绍下 `Set、Map、WeakSet` 和 `WeakMap` 的区别？
+# 17. `Set、Map、WeakSet、WeakMap` 的区别？
 
 `Set`<br/>
 
