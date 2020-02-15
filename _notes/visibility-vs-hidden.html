@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  .vis {
+    visibility: hidden;
+  }
+  .hidden {
+    display: none;;
+  }
+  .opacity {
+    background: #000;
+    opacity:0.5;
+  }
+
+  .rgba {
+    background-color: rgba(0,0,0, .5);
+    padding: 20px;
+  }
+  .rgba .child{
+    background: red;
+  }
+
+
+
+.triangle-up {
+  width: 0;
+  height: 0;
+  border-bottom: 50px solid #FFF;
+  border-left: 50px solid #FFF;
+  border-right: 50px solid #FFF;
+  border-top: 50px solid red;
+} 
+
+
+  </style>
+</head>
+<body>
+  
+  <div class="triangle-up"></div> 
+  <div class="vis">
+    visiblity parent
+    <div>child</div>
+  </div>
+  <div class="hidden">
+    hidden parent
+    <div>child</div>
+  </div>
+  <div class="opacity">
+    opacity parent
+    <div class="child">child</div>
+  </div>
+  <div style="height:20px"></div>
+  <div class="rgba">
+    rgba  parent
+    <div class="child">
+      child
+    </div>
+  </div>
+</body>
+</html>

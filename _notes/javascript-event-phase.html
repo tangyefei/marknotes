@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div {
+      border: 3px solid red;
+      padding: 15px;
+      width: 500px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+    }
+    h3 {
+      border: 2px solid green;
+    }
+    pre {
+      border: 1px solid gray;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- <button id="testBtn""><i>mockicon</i>&nbsp;Click Me</button>
+  <script>
+  const btn = document.getElementById('testBtn');
+  btn.addEventListener('click', function(e){
+    const evt = e || event;
+    console.log(evt.eventPhase);
+  },true)
+  </script> -->
+  
+  <!-- <div id="div" onclick="handler(event)">
+    <h3 id="h3"> 测试 #1 只在父元素上绑定点击事件</h3>
+    <pre>
+      点击子元素h3 或 pre：
+      DIV clicked, phase = 3
+  
+      点击其他空白区域（等同于直接点击div)：
+      DIV clicked, phase = 2
+    </pre>
+  </div>
+  
+  
+  <script>
+    function handler(event) {
+      console.log(event.currentTarget.nodeName + ' clicked, phase = ' + event.eventPhase);
+    }
+  </script> -->
+<!-- 
+  <div id="div" onclick="handler(event)">
+    <h3 id="h3" onclick="handler(event)">测试 #2 在父、子元素上都绑定点击事件</h3>
+    <pre>
+      点击子元素h3：
+      H3 clicked, phase = 2
+      DIV clicked, phase = 3
+  
+      点击子元素pre
+      DIV clicked, phase = 3
+  
+      点击非子元素的空白区域（等同于直接点击div)：
+      DIV clicked, phase = 2
+    </pre>
+  </div>
+  
+  
+  <script>
+    function handler(event) {
+      console.log(event.currentTarget.nodeName + ' clicked, phase = ' + event.eventPhase);
+    }
+  </script> -->
+<!-- 
+  <div id="div">
+    <h3 id="h3">  测试 #3 捕获方式只在父元素上绑定点击事件</h3>
+    <pre>
+      点击子元素h3：
+      DIV clicked, phase = 1
+  
+      点击非子元素的空白区域：
+      DIV clicked, phase = 2
+    </pre>
+  </div>
+  
+  <script>
+    function handler(event) {
+      console.log(event.currentTarget.nodeName + ' clicked, phase = ' + event.eventPhase);
+    }
+    
+    var div = document.getElementById('div');
+    div.addEventListener('click', handler, true);
+  </script> -->
+
+  <div id="c4">
+    <h3 id="t4"> 测试 #4 捕获方式在父、字元素上都绑定点击事件</h3>
+    <pre>
+      点击子元素h3：
+      DIV clicked, phase = 1
+      H3 clicked, phase = 2
+      
+      点击非子元素的空白区域：
+      DIV clicked, phase = 2
+    </pre>
+  </div>
+  
+  
+  <script>
+    function handler(event) {
+      console.log(event.currentTarget.nodeName + ' clicked, phase = ' + event.eventPhase);
+    }
+  
+    var div = document.getElementById('div');
+    var h3 = document.getElementById('t4');
+    div.addEventListener('click', handler, true);
+    h3.addEventListener('click', handler, true);
+  </script>
+
+</body>
+</html>
