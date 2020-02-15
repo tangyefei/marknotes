@@ -44,7 +44,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     library: 'largeNumber',
-	 libraryTarget: 'esm',
+	 libraryTarget: 'umd',
     libraryExport: 'default'
   },
   optimization: {
