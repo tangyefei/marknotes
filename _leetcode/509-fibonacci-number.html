@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+/**
+ * @param {number} N
+ * @return {number}
+ */
+ var fib = function(N) {
+   if(N<=1) return N;
+
+    // 34.89% 40.91%
+    // return fib(N-1)+fib(N-2);
+
+    // 82.24%  100.00%
+    let a = 0, b = 1, n = 2, t;
+    while(n <= N) {
+        t = a + b;
+        a = b;
+        b = t;
+        n=n+1;
+    }
+    return t;
+};
+
+  </script>
+  
+</body>
+</html>

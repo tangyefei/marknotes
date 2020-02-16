@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val) {
+     *     this.val = val;
+     *     this.left = this.right = null;
+     * }
+     */
+    /**
+     * @param {TreeNode} s
+     * @param {TreeNode} t
+     * @return {boolean}
+     */
+    var isSubtree = function(s, t) {
+      // 54.80% 100.00%
+      if(s==t && t==null) return true;
+      if(s==null || t==null) return false;
+      
+      let isSameTree = function(a, b){
+          if(a==b && a==null) return true;
+          if(a==null || b==null) return false;
+          
+          return a.val==b.val&&isSameTree(a.left, b.left)&&isSameTree(a.right,b.right);
+      }
+      
+      if(s.val==t.val) 
+          return isSameTree(s,t) || isSubtree(s.left, t) || isSubtree(s.right, t);
+      else 
+          return isSubtree(s.left, t) || isSubtree(s.right, t);
+    };
+
+  </script>
+  
+</body>
+</html>
