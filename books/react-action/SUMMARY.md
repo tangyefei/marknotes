@@ -24,3 +24,6 @@
   * [20 使用Next.js创建React同构应用](./chapter2-20-使用Next.js创建React同构应用.md)
   * [21 使用Jest, Enzyme等工具进行单元测试](./chapter2-21-使用Jest-Enzyme等工具进行单元测试.md)
   * [22 常用开发调试工具](./chapter2-22-常用开发调试工具.md)
+* 第3章 构建可维护可扩展的前端应用
+  * [23-26 前端项目的架构和具体实践](./chapter3-23-26-前端项目的理想架构.md)
+  * [27-28 使用Rekit](./chapter3-27-28-Rekit的使用.md)
