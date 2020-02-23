@@ -18,4 +18,7 @@
   * [13 HTTP有哪些特点？](./chapter2-13-HTTP有哪些特点.md)
   * [14 HTTP有哪些优点，又有哪些缺点？](./chapter2-14-HTTP有哪些优点-又有哪些缺点.md)
 * 进阶篇
-
+  * [15 HTTP的实体数据](./chapter3-15-HTTP的实体数据.md)
+  * [17 HTTP的连接管理](./chapter3-17-HTTP的连接管理.md)
+* 安全篇
+  * [23 HTTPS是什么，SSL TLS又是什么？](chapter4-23-HTTPS是什么，SSL-TLS又是什么.md)
