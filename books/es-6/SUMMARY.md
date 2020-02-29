@@ -6,6 +6,7 @@
 * [3.变量的解构赋值](chapter3-var-deconstruct.md)
 * [4.字符串的扩展](chapter4-string-extentions.md)
 * [5.字符串的新增方法](chapter5-string-new-methods.md)
+* [12.Symbol](chapter12-symbol.md)
 * [13.Set 和 Map 数据结构](chapter13-map-and-set-structure.md)
 * [16.Promise 对象](chapter16-promise.md)
 * [17.Iterator 和 for...of 循环](chapter17-iterator.md)
