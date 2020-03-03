@@ -1,10 +1,12 @@
 const fs = require('fs')
-fs.writeFile('data.txt', 
-  'Hello World!', (err) => {
+const path = require('path')
+fs.readFile(path.join(__dirname, 
+  '/data/customers.csv'), 
+  {encoding: 'utf-8'}, (err, data) => {
   if (err) {
     console.error(err)
     process.exit(1)
   } else {
-    console.log('Writing is done.')
+    console.log(data)
   }
 })
