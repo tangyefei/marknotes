@@ -21,4 +21,12 @@
   * [15 HTTP的实体数据](./chapter3-15-HTTP的实体数据.md)
   * [17 HTTP的连接管理](./chapter3-17-HTTP的连接管理.md)
 * 安全篇
-  * [23 HTTPS是什么，SSL TLS又是什么？](chapter4-23-HTTPS是什么，SSL-TLS又是什么.md)
+  * [23 HTTPS是什么，SSL TLS又是什么？](./chapter4-23-HTTPS是什么，SSL-TLS又是什么.md)
+  * [24 对称加密与非对称加密](./chapter4-24-对称加密与非对称加密.md)
+  * [25 数字签名与证书](./chapter4-25-数字签名与证书.md)
+  * [26 TLS1_2连接过程解析](./chapter4-26-TLS1_2连接过程解析.md)
+  * [28 HTTPS太慢怎么优化](./chapter4-28-HTTPS太慢怎么优化.md)
+* 探索篇
+  * [30 HTTP2特性概览](./chapter5-30-HTTP2特性概览.md)
+  * [33 我应该迁移到HTTP2吗](./chapter5-33-我应该迁移到HTTP2吗.md)
+  * [38 WebSocket-沙盒里的TCP](./chapter5-38-WebSocket-沙盒里的TCP.md)
