@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const glob = require('glob');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 function setMPA() {
   const entry = {};
@@ -50,7 +51,8 @@ module.exports = {
     hot: true
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new FriendlyErrorsWebpackPlugin(),
   ].concat(htmlWebpackPlugins),
   module: {
     rules: [{
@@ -78,5 +80,6 @@ module.exports = {
       }]
     }
   ]
-  }
+  },
+  stats: 'errors-only'
 }	

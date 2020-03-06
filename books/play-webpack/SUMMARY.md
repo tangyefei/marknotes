@@ -37,3 +37,6 @@
   * [31 代码分割和动态import](./chapter3-31-代码分割和动态import.md)
   * [32 在webpack中使用ESLint](./chapter3-32-在webpack中使用ESLint.md)
   * [33 打包组件和基础库](./chapter3-33-打包组件和基础库.md)
+  * [34-35 Webpack实现SSR打包](./chapter3-34-35-Webpack实现SSR打包.md)
+  * [36 优化构建命令行的显示日志](./chapter3-36-优化构建命令行的显示日志.md)
+  * [37 构建异常和中断处理](./chaptere-37-构建异常和中断处理.md)

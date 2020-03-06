@@ -21,8 +21,8 @@ class Search extends React.Component {
       })
     })
   }
-  render() {
-    const {Text} = this.state;
+  render() => {
+    const {TextX} = this.state;
     return <div> 
       Search Component?
       {largeNumber(999,1)}

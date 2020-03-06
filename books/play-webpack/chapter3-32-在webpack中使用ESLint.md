@@ -28,7 +28,7 @@ npx install-peerdeps --dev eslint-config-airbnb
 然后安装 eslint-loader  和 eslint-config-airbnb
 
 ```
-npm i eslint-loader eslint-config-airbnb - D
+npm i eslint-loader eslint-config-airbnb -D
 ```
 
 修改webpack.prod.js中对js的解析
@@ -39,7 +39,14 @@ npm i eslint-loader eslint-config-airbnb - D
 },
 ```
 
+还需要安装一个`babel-eslint`
+
+```
+npm i babel-eslint -D
+```
+
 最后在项目根目录增加一个配置文件 .eslintrc.js
+
 
 ```
 module.exports = {

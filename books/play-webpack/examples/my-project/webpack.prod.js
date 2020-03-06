@@ -85,6 +85,15 @@ module.exports = {
     //     }
     //   ]
     // })
+
+    function() {
+      this.hooks.done.tap('done', (stats) => {
+        if(stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('-watch')) {
+          console.log('build error');
+          process.exit(1);
+        }
+      })
+    },
   ].concat(htmlWebpackPlugins),
   module: {
     rules: [{
